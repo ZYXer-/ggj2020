@@ -1,0 +1,41 @@
+body {
+    padding: 0;
+    margin: 0;
+    background: #000;
+}
+
+form, table {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+img {
+    border: 0;
+}
+
+#noscript {
+    display: block;
+    padding: 20px;
+    background: #fff;
+    text-align: center;
+    color: #e00;
+    font-weight: bold;
+}
+
+#game_box {
+    position: relative;
+    width: 900px;
+    height: 600px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#fps {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    color: #000;
+    opacity: 0.3;
+}
