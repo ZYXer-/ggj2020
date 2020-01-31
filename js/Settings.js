@@ -32,7 +32,7 @@ export const Size = {
     ASPECT_RATIO: 16.0 / 9.0,
     FRAME_COLOR: "#000",
 
-    FIXED_SIZE_IN_UNITS: false,
+    FIXED_SIZE_IN_UNITS: true,
     WIDTH_IN_UNITS: 1920,
     HEIGHT_IN_UNITS: 1080
 };
@@ -48,7 +48,7 @@ export const Loading = {
     WEB_FONT_PERCENTAGE: 10,
     FAKE_PERCENTAGE: 40,
 
-    FAKE_LOADING_TIME: 2.0,
+    FAKE_LOADING_TIME: 0.0,
 
     TIME_BEFORE_SOUND_LOADING_FAIL: 5.0
 };

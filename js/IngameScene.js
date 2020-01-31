@@ -5,11 +5,14 @@ import * as Tooltip from "./Tooltip.js";
 import * as BasicTooltipPainter from "./BasicTooltipPainter.js"
 import * as PauseScreen from "./PauseScreen.js";
 import * as Mouse from "./core/input/Mouse.js";
+import * as Entities from "./Entities.js";
+import * as DrawSystem from "./systems/DrawSystem.js";
 
 
 export function show() {
 
     Tooltip.setPainter(BasicTooltipPainter);
+    Entities.generate();
 
     // do stuff before we update and draw this scene for the first time
 
@@ -58,7 +61,9 @@ export function draw() {
     c.fillStyle = "#fff";
     c.fillRect(0, 0, Viewport.width, Viewport.height);
 
-    // draw stuff here
+    for(const entity of Entities.entities) {
+        DrawSystem.apply(entity);
+    }
 
     // draw tooltip
     Tooltip.draw();
