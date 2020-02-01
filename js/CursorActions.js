@@ -2,10 +2,11 @@ import * as Entities from "./Entities.js";
 import * as Mouse from "./core/input/Mouse.js";
 import Vec2 from "./utils/Vec2.js";
 import * as DrawSystem from "./systems/DrawSystem.js";
-import { newTree } from "./components/Tree.js";
-import { newDisplay } from "./components/Display.js";
-import { newFactory } from "./components/Factory.js";
-import Resources from "./utils/Resources.js";
+import {newTree} from "./components/Tree.js";
+import {newDisplay} from "./components/Display.js";
+import {newFactory} from "./components/Factory.js";
+import Resources from "./gamelogic/Resources.js";
+import { addResources, checkResourceAvailability, removeResources } from "./gamelogic/Resources.js";
 
 
 function toTileCoordinates(position) {
@@ -83,29 +84,16 @@ export function CutTree(gameState) {
     }
 }
 
-function checkResourceAvailability(gameState, requiredResources) {
-    for (let [key, value] of Object.entries(requiredResources)) {
-        if (gameState[key] < value) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function removeResources(resourceSupply, resources) {
-    for (let [key, value] of Object.entries(resources)) {
-        resourceSupply[key] -= value;
-    }
-}
-
-function addResources(resourceSupply, resources) {
-    for (let [key, value] of Object.entries(resources)) {
-        resourceSupply[key] += value;
-    }
-}
-
 export function LoadFactory(gameState) {
     const tile = getCursorTile();
+    if (checkResourceAvailability(
+        tile.factory.inputResources,
+        tile.factory.requiredResources,
+        tile.factory.inputResourcesLimit,
+    )) {
+        console.log("Input stock is full");
+        return;
+    }
     if (tile.factory) {
         // Check if resources available
         if (!checkResourceAvailability(gameState, tile.factory.requiredResources)) {

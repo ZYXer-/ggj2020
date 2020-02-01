@@ -16,7 +16,7 @@ import * as TreeSystem from "./systems/TreeSystem.js"
 import * as CursorActions from "./CursorActions.js";
 import * as Keyboard from "./core/input/Keyboard.js";
 import * as UI from "./UI.js"
-import Resources from "./utils/Resources.js";
+import Resources from "./gamelogic/Resources.js";
 
 let oneSecCountdown = 0;
 

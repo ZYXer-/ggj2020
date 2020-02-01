@@ -1,7 +1,7 @@
 import Text from "./utils/Text.js";
 import { NUM_TILES_HEIGHT, NUM_TILES_WIDTH } from "./Entities.js";
 import { TILE_SIZE } from "./systems/DrawSystem.js";
-import Resources from "./utils/Resources.js";
+import Resources from "./gamelogic/Resources.js";
 
 let text = new Text({
             size : 16,
