@@ -1,6 +1,7 @@
 export default {
     PINE_WOOD: 'PineWood',
     PINE_SAPLING: 'PineSapling',
+    PLANTBLE_PINE_SAPLING: 'PlantablePineSapling',
     COMPOST: 'Compost',
 }
 

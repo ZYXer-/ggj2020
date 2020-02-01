@@ -15,6 +15,7 @@ import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js"
 import * as TreeSystem from "./systems/TreeSystem.js"
 import * as FactorySystem from "./systems/FactorySystem.js"
 import * as WaterConsumerSystem from "./systems/WaterConsumerSystem.js"
+import * as ForesterSystem from "./systems/ForesterSystem.js"
 import * as CursorActions from "./CursorActions.js";
 import * as Keyboard from "./core/input/Keyboard.js";
 import * as UI from "./UI.js"
@@ -108,6 +109,7 @@ export function update() {
                 TreeSystem.apply(entity);
                 FactorySystem.apply(entity, 1);
                 WaterConsumerSystem.apply(entity); // must be after WaterFlowSystem
+                ForesterSystem.apply(entity);
             }
         }
 

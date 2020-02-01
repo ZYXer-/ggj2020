@@ -104,12 +104,21 @@ export function CutTree(gameState) {
     }
 }
 
+function factoryCanBeUnloaded(factory) {
+    return factory.producedResource  !== Resources.PLANTBLE_PINE_SAPLING;
+}
+
 export function UnloadFactory(gameState) {
     const tile = getCursorTile();
     if (tile.factory ) {
+        if (!factoryCanBeUnloaded(tile.factory)) {
+            console.log("Factory can't be unloaded");
+            return
+        }
         const resourceDelta = {
             [tile.factory.producedResource]: 1,
         };
+
         if(checkResourceAvailability(tile.factory.outputResources, resourceDelta)){
             removeResources(
                 tile.factory.outputResources,
@@ -158,7 +167,7 @@ export function Demolish(gameState) {
 
 export function PlaceSprinkler(gameState) {
     const tile = getCursorTile();
-    if (!(tile.water || tile.tree || tile.factory || tile.sprinkler)) {
+    if (notOccupied(tile)) {
         if (!checkResourceAvailability(
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
@@ -177,6 +186,23 @@ export function PlaceSprinkler(gameState) {
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
         )
+    }
+}
+
+export function notOccupied(tile) {
+    return !(tile.water || tile.tree || tile.factory || tile.sprinkler || tile.forester)
+}
+export function PlaceForester(gameState) {
+    const tile = getCursorTile();
+    if(notOccupied(tile)) {
+        tile.display = newDisplay(0,0,Color.fromHex('#ef0ee0'));
+        tile.forester = true;
+
+        tile.factory = newFactory();
+        tile.factory.requiredResources[Resources.PINE_SAPLING] = 1;
+        tile.factory.productionTime = 5;
+        tile.factory.inputResourcesLimit = 5;
+        tile.factory.producedResource = Resources.PLANTBLE_PINE_SAPLING;
     }
 }
 
@@ -216,4 +242,5 @@ export const List = [
     PlaceCompostHeap,
     FertelizeTile,
     PlaceSprinkler,
+    PlaceForester,
 ];
