@@ -6,6 +6,7 @@ import * as Tooltip from "../Tooltip.js";
 import * as Img from "../core/Img.js";
 
 export const TILE_SIZE = 48;
+export const SPRITE_SIZE = 48;
 
 
 const COLOR_BLUE = Color.fromHSL(
@@ -29,10 +30,13 @@ export function apply(entity) {
     );
 
     let color;
-    if (entity.tree > 0) {
-        Img.drawSprite('tree', 0, 0, TILE_SIZE, TILE_SIZE, 0, 0);
-    } else if (entity.waterSupply !== undefined) {
-        if (entity.waterSupply > 0) {
+    if (true) {
+        c.save();
+        c.scale(0.5, 0.5);
+        Img.drawSprite('trees', 0, 0, 2* TILE_SIZE, 120, 4, 0);
+        c.restore();
+    } else if (entity.water !== undefined) {
+        if (entity.water.level > 2) {
             color = COLOR_BLUE;
         } else {
             color = COLOR_BROWN;
@@ -58,6 +62,7 @@ export function apply(entity) {
         TILE_SIZE,
         TILE_SIZE,
     )) {
-        Tooltip.set("Pollution: " + entity.pollution);
+        Tooltip.set("Pollution: " + entity.pollution + "\n" +
+            "Waterlevel: " + (entity.water ? entity.water.level : null));
     }
 }

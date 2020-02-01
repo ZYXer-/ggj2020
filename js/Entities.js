@@ -34,10 +34,16 @@ export function generate() {
     entitiesList[6 * NUM_TILES_WIDTH + 27].tree = 1;
 
     // Water Stuff
-    entitiesList[5 * NUM_TILES_WIDTH + 20].well = 1;
-    entitiesList[5 * NUM_TILES_WIDTH + 20].waterSupply = 1;
-    entitiesList[6 * NUM_TILES_WIDTH + 20].waterSupply = 0;
-    entitiesList[7 * NUM_TILES_WIDTH + 20].waterSupply = 0;
+    // TODO: Create class for water component
+    entitiesList[5 * NUM_TILES_WIDTH + 20].water = {
+        source: true,
+        level: 100,
+        delta: 0,
+    };
+    entitiesList[6 * NUM_TILES_WIDTH + 20].water = {
+        level: 0,
+        delta: 0,
+    };
 
     for (const entity of entities) {
         entity.hood1 = getHood(1, entity.position, entitiesList);

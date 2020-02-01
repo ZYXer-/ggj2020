@@ -11,6 +11,8 @@ import * as Viewport from "./core/Viewport.js";
 import { c } from "./core/canvas.js";
 import * as Timer from "./core/Timer.js"
 import Vec2 from "./utils/Vec2.js";
+import * as WaterFlowSystem from "./systems/WaterFlowSystem.js"
+import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js"
 
 let oneSecCountdown = 0;
 
@@ -39,7 +41,15 @@ export function show() {
         DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT,
         () => {
             const tile = Entities.getTileByCoordinates(toTileCoordinates(Mouse.pos));
-            tile.waterSupply = 0;
+            if (tile.water) {
+                delete tile.water;
+            } else {
+                tile.water = {
+                    source: false,
+                    level: 0,
+                    delta: 0,
+                };
+            }
         }
     )
 
@@ -80,14 +90,19 @@ export function update() {
 
         oneSecCountdown += Timer.delta * 5;
 
+        // Deltas
         for(const entity of Entities.entities) {
             if (oneSecCountdown > 1) {
                 PollutionGrowthSystem.apply(entity);
+                WaterFlowSystem.apply(entity);
             }
         }
+
+        // Application
         for(const entity of Entities.entities) {
             if (oneSecCountdown > 1) {
                 PollutionApplicationSystem.apply(entity);
+                WaterApplicationSystem.apply(entity);
             }
         }
 
