@@ -39,7 +39,6 @@ export function PlaceTree(gameState) {
             { [Resources.PINE_SAPLING]: 1},
         )) {
             tile.tree = newTree();
-            tile.display = newDisplay();
             removeResources(
                 gameState,
                 { [Resources.PINE_SAPLING]: 1},
