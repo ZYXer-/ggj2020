@@ -6,7 +6,7 @@ export function apply(entity) {
         entity.pollutionDelta += min(2, neighbour.pollution - entity.pollution);
     }
 
-    const trees = entity.hood3.filter(tile => tile.tree > 0);
+    const trees = entity.hood3.filter(tile => tile.tree);
     if (trees.length > 0) {
         entity.pollutionDelta -= 1;
     }
