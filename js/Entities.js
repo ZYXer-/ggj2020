@@ -8,7 +8,11 @@ export const entities = new Set();
 let entitiesList = [];
 
 export function getTileByCoordinates(coordinates) {
-    return entitiesList[coordinates.y * NUM_TILES_WIDTH + coordinates.x];
+    if(coordinates.x >= 0 && coordinates.x < NUM_TILES_WIDTH
+        && coordinates.y >= 0 && coordinates.y < NUM_TILES_HEIGHT) {
+        return entitiesList[coordinates.y * NUM_TILES_WIDTH + coordinates.x];
+    }
+    return null;
 }
 
 export function generate() {

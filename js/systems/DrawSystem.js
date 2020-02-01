@@ -23,20 +23,16 @@ const COLOR_BROWN = Color.fromHSL(
     0.46,
 );
 
-export function apply(entity) {
-    c.save();
+export function applyGround(entity) {
 
+    c.save();
     c.translate(
         entity.position.x * TILE_SIZE,
         entity.position.y * TILE_SIZE,
     );
 
     let color;
-    let draw;
-    if (entity.tree) {
-        draw = drawTree;
-        color = COLOR_BROWN;
-    } else if (entity.water !== undefined) {
+    if (entity.water !== undefined) {
         if (entity.water.level > 2) {
             color = COLOR_BLUE;
         } else {
@@ -56,11 +52,18 @@ export function apply(entity) {
         c.fillStyle = color.toHex();
         c.fillRect(0,0, TILE_SIZE + 1, TILE_SIZE + 1);
     }
-    if (draw) {
-        draw(entity);
-    }
 
     c.restore();
+}
+
+
+export function applyOverlay(entity) {
+
+    c.save();
+    c.translate(
+        entity.position.x * TILE_SIZE,
+        entity.position.y * TILE_SIZE,
+    );
 
     if (Mouse.isOver(
         entity.position.x * TILE_SIZE,
@@ -68,13 +71,32 @@ export function apply(entity) {
         TILE_SIZE,
         TILE_SIZE,
     )) {
+        c.fillStyle ="#fff";
+        c.fillRect(0, -1, 50, 2);
+        c.fillRect(0, 49, 50, 2);
+        c.fillRect(-1, 0, 2, 50);
+        c.fillRect(49, 0, 2, 50);
+
         Tooltip.set(
             `Pollution: ${entity.pollution}\n` +
             `Waterlevel: ${entity.water ? entity.water.level : null}\n` +
             `Treelevel: ${entity.tree ? entity.tree.level : null}`
         );
     }
+
+
+    let draw;
+    if (entity.tree) {
+        draw = drawTree;
+    }
+
+    if (draw) {
+        draw(entity);
+    }
+
+    c.restore();
 }
+
 
 function drawTree(entity) {
     c.save();
@@ -85,28 +107,28 @@ function drawTree(entity) {
         )
     }
     c.scale(0.5, 0.5);
-    let treeImageId;
+    let treeImageId = entity.tree.type * 5;
     if (entity.tree.level < 20) {
-        treeImageId = 0;
+        treeImageId += 0;
     } else if (entity.tree.level < 40) {
-        treeImageId = 0;
+        treeImageId += 0;
     } else if (entity.tree.level < 60) {
-        treeImageId = 1;
+        treeImageId += 1;
     } else if (entity.tree.level < 80) {
-        treeImageId = 2;
+        treeImageId += 2;
     } else if (entity.tree.level < 100) {
-        treeImageId = 3;
+        treeImageId += 3;
     } else {
-        treeImageId = 4;
+        treeImageId += 4;
     }
     Img.drawSprite(
         'trees',
         0,
-        0,
-        2* TILE_SIZE,
+        -48,
+        2 * TILE_SIZE,
         120,
         treeImageId,
-        0,
+        entity.display.randomSprite,
     );
     c.restore();
 }
