@@ -30,6 +30,13 @@ export function apply(entity) {
 
             entity.water.output = minNeighbor;
 
+            if(entity.water.item !== null
+                && entity.water.output
+                && entity.water.output.water.item === null
+                && entity.water.output.water.itemInput === null) {
+                entity.water.output.water.itemInput = entity.water.item;
+            }
+
         }
 
     }

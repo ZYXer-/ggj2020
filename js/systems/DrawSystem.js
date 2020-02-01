@@ -68,6 +68,10 @@ export function applyGround(entity) {
             c.lineWidth = 4;
             c.stroke();
         }
+        if(entity.water.item) {
+            c.fillStyle ="#f00";
+            c.fillRect(20, 20, 8, 8);
+        }
     }
 
     c.restore();

@@ -10,5 +10,11 @@ export function apply(entity) {
             entity.water.flow = 0;
         }
 
+        if(entity.water.itemInput) {
+            entity.water.item = entity.water.itemInput;
+            entity.water.itemInput = null;
+            entity.water.item.location.water.item = null;
+            entity.water.item.location = entity;
+        }
     }
 }

@@ -41,6 +41,10 @@ export function generate() {
     // Water Stuff
     entitiesList[5 * NUM_TILES_WIDTH + 20].water = newWater(true);
     entitiesList[6 * NUM_TILES_WIDTH + 20].water = newWater(false);
+    entitiesList[6 * NUM_TILES_WIDTH + 20].water.item = {
+        bla : true,
+        location: entitiesList[6 * NUM_TILES_WIDTH + 20],
+    };
 
     for (const entity of entities) {
         entity.hood1 = getHood(1, entity.position, entitiesList);
