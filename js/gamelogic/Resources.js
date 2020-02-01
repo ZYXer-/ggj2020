@@ -3,9 +3,9 @@ export default {
     PINE_SAPLING: 'PineSapling',
 }
 
-export function checkResourceAvailability(gameState, requiredResources, multiplier = 1) {
+export function checkResourceAvailability(resourceSupply, requiredResources, multiplier = 1) {
     for (let [key, value] of Object.entries(requiredResources)) {
-        if (gameState[key] < value * multiplier) {
+        if (!(resourceSupply[key] >= value * multiplier)) {
             return false;
         }
     }
@@ -14,12 +14,12 @@ export function checkResourceAvailability(gameState, requiredResources, multipli
 
 export function removeResources(resourceSupply, resources) {
     for (let [key, value] of Object.entries(resources)) {
-        resourceSupply[key] -= value;
+        resourceSupply[key] = (resourceSupply[key] || 0) - value;
     }
 }
 
 export function addResources(resourceSupply, resources) {
     for (let [key, value] of Object.entries(resources)) {
-        resourceSupply[key] += value;
+        resourceSupply[key] = (resourceSupply[key] || 0) + value;
     }
 }

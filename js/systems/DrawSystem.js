@@ -4,6 +4,7 @@ import { clamp } from "../utils/Utils.js";
 import * as Mouse from "../core/input/Mouse.js";
 import * as Tooltip from "../Tooltip.js";
 import * as Img from "../core/Img.js";
+import Resources from "../gamelogic/Resources.js";
 
 export const TILE_SIZE = 48;
 export const SPRITE_SIZE = 48;
@@ -71,7 +72,9 @@ export function apply(entity) {
         Tooltip.set(
             `Pollution: ${entity.pollution}\n` +
             `Waterlevel: ${entity.water ? entity.water.level : null}\n` +
-            `Treelevel: ${entity.tree ? entity.tree.level : null}`
+            `Treelevel: ${entity.tree ? entity.tree.level : null}\n` +
+            `Factory Supply: ${entity.factor ? entity.factor.inputResources[Resources.PINE_WOOD] : null}` +
+            ``
         );
     }
 }

@@ -48,8 +48,9 @@ export function PlaceTreeNursery() {
     if (!tile.water && !tile.tree && !tile.factory) {
        tile.factory = newFactory(); // TODO: Add parameter
        tile.factory.requiredResources[Resources.PINE_WOOD] = 1;
-       tile.factory.productionTime = 10;
-       tile.factory.outputResources[Resources.PINE_SAPLING] = 1;
+       tile.factory.productionTime = 5;
+        tile.factory.inputResourcesLimit = 5;
+       tile.factory.producedResource = Resources.PINE_SAPLING;
     }
 }
 
@@ -86,15 +87,16 @@ export function CutTree(gameState) {
 
 export function LoadFactory(gameState) {
     const tile = getCursorTile();
-    if (checkResourceAvailability(
-        tile.factory.inputResources,
-        tile.factory.requiredResources,
-        tile.factory.inputResourcesLimit,
-    )) {
-        console.log("Input stock is full");
-        return;
-    }
     if (tile.factory) {
+        if (checkResourceAvailability(
+            tile.factory.inputResources,
+            tile.factory.requiredResources,
+            tile.factory.inputResourcesLimit,
+        )) {
+            console.log("Input stock is full");
+            return;
+        }
+        console.log(tile.factory.inputResources);
         // Check if resources available
         if (!checkResourceAvailability(gameState, tile.factory.requiredResources)) {
             console.log("Not enough resources");
