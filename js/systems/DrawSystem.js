@@ -30,8 +30,10 @@ export function apply(entity) {
     );
 
     let color;
+    let draw;
     if (entity.tree) {
-        drawTree(entity);
+        draw = drawTree;
+        color = COLOR_BROWN;
     } else if (entity.water !== undefined) {
         if (entity.water.level > 2) {
             color = COLOR_BLUE;
@@ -49,6 +51,9 @@ export function apply(entity) {
     if (color !== undefined) {
         c.fillStyle = color.toHex();
         c.fillRect(0,0, TILE_SIZE + 1, TILE_SIZE + 1);
+    }
+    if (draw) {
+        draw(entity);
     }
 
     c.restore();
@@ -69,6 +74,12 @@ export function apply(entity) {
 
 function drawTree(entity) {
     c.save();
+    if (entity.display) {
+        c.translate(
+            entity.display.offsetX,
+            entity.display.offsetY,
+        )
+    }
     c.scale(0.5, 0.5);
     let treeImageId;
     if (entity.tree.level < 20) {
@@ -84,6 +95,14 @@ function drawTree(entity) {
     } else {
         treeImageId = 4;
     }
-    Img.drawSprite('trees', 0, 0, 2* TILE_SIZE, 120, treeImageId, 0);
+    Img.drawSprite(
+        'trees',
+        0,
+        0,
+        2* TILE_SIZE,
+        120,
+        treeImageId,
+        0,
+    );
     c.restore();
 }

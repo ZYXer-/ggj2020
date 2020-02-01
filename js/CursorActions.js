@@ -3,6 +3,7 @@ import * as Mouse from "./core/input/Mouse.js";
 import Vec2 from "./utils/Vec2.js";
 import * as DrawSystem from "./systems/DrawSystem.js";
 import { newTree } from "./components/Tree.js";
+import { newDisplay } from "./components/Display.js";
 
 function toTileCoordinates(position) {
     return new Vec2(
@@ -31,5 +32,8 @@ export function placeWater() {
 
 export function placeTree() {
     const tile = getCursorTile();
-    tile.tree = newTree();
+    if (!tile.water) {
+        tile.tree = newTree();
+        tile.display = newDisplay();
+    }
 }
