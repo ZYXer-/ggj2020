@@ -10,24 +10,22 @@ import * as Tooltip from "./Tooltip.js";
 import * as Viewport from "./core/Viewport.js";
 import { c } from "./core/canvas.js";
 import * as Timer from "./core/Timer.js"
-import Vec2 from "./utils/Vec2.js";
 import * as WaterFlowSystem from "./systems/WaterFlowSystem.js"
 import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js"
+import * as TreeSystem from "./systems/TreeSystem.js"
+import * as CursorActions from "./CursorActions.js";
 
 let oneSecCountdown = 0;
 
+const GameState = {
+    cursorAction: CursorActions.placeTree,
+};
 
 function reset() {
     Entities.generate();
     oneSecCountdown = 0;
 }
 
-function toTileCoordinates(position) {
-    return new Vec2(
-        Math.floor(Mouse.pos.x / DrawSystem.TILE_SIZE),
-        Math.floor(Mouse.pos.y / DrawSystem.TILE_SIZE),
-    );
-}
 
 export function show() {
 
@@ -39,18 +37,7 @@ export function show() {
         0,
         DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH,
         DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT,
-        () => {
-            const tile = Entities.getTileByCoordinates(toTileCoordinates(Mouse.pos));
-            if (tile.water) {
-                delete tile.water;
-            } else {
-                tile.water = {
-                    source: false,
-                    level: 0,
-                    delta: 0,
-                };
-            }
-        }
+        () => GameState.cursorAction()
     )
 
     // do stuff before we update and draw this scene for the first time
@@ -95,6 +82,7 @@ export function update() {
             if (oneSecCountdown > 1) {
                 PollutionGrowthSystem.apply(entity);
                 WaterFlowSystem.apply(entity);
+                TreeSystem.apply(entity);
             }
         }
 

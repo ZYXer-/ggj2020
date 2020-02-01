@@ -30,11 +30,8 @@ export function apply(entity) {
     );
 
     let color;
-    if (true) {
-        c.save();
-        c.scale(0.5, 0.5);
-        Img.drawSprite('trees', 0, 0, 2* TILE_SIZE, 120, 4, 0);
-        c.restore();
+    if (entity.tree) {
+        drawTree(entity);
     } else if (entity.water !== undefined) {
         if (entity.water.level > 2) {
             color = COLOR_BLUE;
@@ -62,7 +59,31 @@ export function apply(entity) {
         TILE_SIZE,
         TILE_SIZE,
     )) {
-        Tooltip.set("Pollution: " + entity.pollution + "\n" +
-            "Waterlevel: " + (entity.water ? entity.water.level : null));
+        Tooltip.set(
+            `Pollution: ${entity.pollution}\n` +
+            `Waterlevel: ${entity.water ? entity.water.level : null}\n` +
+            `Treelevel: ${entity.tree ? entity.tree.level : null}`
+        );
     }
+}
+
+function drawTree(entity) {
+    c.save();
+    c.scale(0.5, 0.5);
+    let treeImageId;
+    if (entity.tree.level < 20) {
+        treeImageId = 0;
+    } else if (entity.tree.level < 40) {
+        treeImageId = 0;
+    } else if (entity.tree.level < 60) {
+        treeImageId = 1;
+    } else if (entity.tree.level < 80) {
+        treeImageId = 2;
+    } else if (entity.tree.level < 100) {
+        treeImageId = 3;
+    } else {
+        treeImageId = 4;
+    }
+    Img.drawSprite('trees', 0, 0, 2* TILE_SIZE, 120, treeImageId, 0);
+    c.restore();
 }

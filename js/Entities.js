@@ -29,9 +29,6 @@ export function generate() {
     entitiesList = [...entities];
 
     entitiesList[20 * NUM_TILES_WIDTH + 20].pollution = 100;
-    entitiesList[20 * NUM_TILES_WIDTH + 15].tree = 1;
-    entitiesList[6 * NUM_TILES_WIDTH + 25].tree = 1;
-    entitiesList[6 * NUM_TILES_WIDTH + 27].tree = 1;
 
     // Water Stuff
     // TODO: Create class for water component
