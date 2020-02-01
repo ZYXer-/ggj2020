@@ -81,6 +81,25 @@ export function CutTree(gameState) {
     }
 }
 
+export function UnloadFactory(gameState) {
+    const tile = getCursorTile();
+    if (tile.factory ) {
+        const resourceDelta = {
+            [tile.factory.producedResource]: 1,
+        };
+        if(checkResourceAvailability(tile.factory.outputResources, resourceDelta)){
+            removeResources(
+                tile.factory.outputResources,
+                resourceDelta
+                );
+            addResources(
+                gameState,
+                resourceDelta,
+            );
+        }
+    }
+}
+
 export function LoadFactory(gameState) {
     const tile = getCursorTile();
     if (tile.factory) {
@@ -127,4 +146,5 @@ export const List = [
     PlaceTreeNursery,
     LoadFactory,
     Demolish,
+    UnloadFactory,
 ];

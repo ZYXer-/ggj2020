@@ -104,7 +104,7 @@ export function update() {
                 PollutionGrowthSystem.apply(entity);
                 WaterFlowSystem.apply(entity);
                 TreeSystem.apply(entity);
-                FactorySystem.apply(entity, Timer.delta);
+                FactorySystem.apply(entity, 1);
             }
         }
 
