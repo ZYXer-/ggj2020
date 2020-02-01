@@ -33,7 +33,7 @@ export function applyGround(entity) {
 
     let color;
     if (entity.water !== undefined) {
-        if (entity.water.level > 2) {
+        if (entity.water.level > 0) {
             color = COLOR_BLUE;
         } else {
             color = COLOR_GREY;
@@ -51,6 +51,18 @@ export function applyGround(entity) {
     if (color !== undefined) {
         c.fillStyle = color.toHex();
         c.fillRect(0,0, TILE_SIZE + 1, TILE_SIZE + 1);
+    }
+
+    if (entity.water !== undefined) {
+        if(entity.water.output) {
+            const direction = entity.water.output.position.subtract(entity.position);
+            c.beginPath();
+            c.moveTo(24, 24);
+            c.lineTo(24 + direction.x * 30, 24 + direction.y * 30);
+            c.strokeStyle = "#00f";
+            c.lineWidth = 4;
+            c.stroke();
+        }
     }
 
     c.restore();

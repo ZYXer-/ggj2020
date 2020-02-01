@@ -20,6 +20,9 @@ export function generate() {
     const size = NUM_TILES_HEIGHT * NUM_TILES_WIDTH;
 
     for (const i of Array(size).keys()) {
+
+        const x =
+
         entities.add({
             id: i,
             position: new Vec2(
@@ -39,11 +42,13 @@ export function generate() {
     entitiesList[5 * NUM_TILES_WIDTH + 20].water = {
         source: true,
         level: 100,
-        delta: 0,
+        flow: 100,
+        output: entitiesList[6 * NUM_TILES_WIDTH + 20],
     };
     entitiesList[6 * NUM_TILES_WIDTH + 20].water = {
         level: 0,
-        delta: 0,
+        flow: 0,
+        output: null,
     };
 
     for (const entity of entities) {

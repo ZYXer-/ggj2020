@@ -1,17 +1,14 @@
-import { clamp } from "../utils/Utils.js";
-const MAX_WATER_LEVEL = 100;
+import { clamp, max } from "../utils/Utils.js";
+import { MAX_WATER_LEVEL } from "./WaterFlowSystem.js";
 
-const EVAPORATION_FIX = 2.0;
+
 export function apply(entity) {
+
     if (entity.water) {
-        if (entity.water.delta <= 0) {
-            entity.water.delta -= EVAPORATION_FIX;
+        if(!entity.water.source) {
+            entity.water.level = clamp(entity.water.flow, 0, MAX_WATER_LEVEL);
+            entity.water.flow = 0;
         }
-        if (entity.water.source) {
-            entity.water.level = MAX_WATER_LEVEL;
-        } else {
-            entity.water.level = clamp(entity.water.level + entity.water.delta, 0, MAX_WATER_LEVEL)
-        }
-        entity.water.delta = 0;
+
     }
 }

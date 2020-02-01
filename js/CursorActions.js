@@ -26,7 +26,8 @@ export function PlaceWater() {
         tile.water = {
             source: false,
             level: 0,
-            delta: 0,
+            flow: 0,
+            output: null,
         };
     }
 }
