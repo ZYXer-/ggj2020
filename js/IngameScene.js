@@ -114,8 +114,8 @@ export function update() {
             }
         }
 
-        if(Mouse.left.down && GameState.cursorAction === CursorActions.PlaceWater) {
-            //let MouseHover
+        if(Mouse.left.down) {
+            CursorActions.mouseDown(GameState);
         }
 
         // update stuff except when paused
