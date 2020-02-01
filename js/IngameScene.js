@@ -116,6 +116,10 @@ export function update() {
             }
         }
 
+        if(Mouse.left.down) {
+            CursorActions.mouseDown(GameState);
+        }
+
         // update stuff except when paused
 
         oneSecCountdown -= oneSecCountdown > 1 ? 1 : 0;
@@ -130,7 +134,10 @@ export function draw() {
     c.fillRect(0, 0, Viewport.width, Viewport.height);
 
     for(const entity of Entities.entities) {
-        DrawSystem.apply(entity);
+        DrawSystem.applyGround(entity);
+    }
+    for(const entity of Entities.entities) {
+        DrawSystem.applyOverlay(entity);
     }
 
     // draw tooltip

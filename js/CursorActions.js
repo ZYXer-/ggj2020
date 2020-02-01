@@ -22,22 +22,18 @@ function getCursorTile() {
 
 export function PlaceWater() {
     const tile = getCursorTile();
-    if (!tile.tree) {
-        if (tile.water) {
-            delete tile.water;
-        } else {
-            tile.water = {
-                source: false,
-                level: 0,
-                delta: 0,
-            };
-        }
+    if (!tile.water && !tile.tree && !tile.factory) {
+        tile.water = {
+            source: false,
+            level: 0,
+            delta: 0,
+        };
     }
 }
 
 export function PlaceTree() {
     const tile = getCursorTile();
-    if (!tile.water && !tile.tree) {
+    if (!tile.water && !tile.tree && !tile.factory) {
         tile.tree = newTree();
         tile.display = newDisplay();
     }
@@ -111,10 +107,24 @@ export function LoadFactory(gameState) {
     }
 }
 
+export function Demolish(gameState) {
+    const tile = getCursorTile();
+    if (tile.water) {
+        delete tile.water;
+    }
+}
+
+export function mouseDown(gameState) {
+    if(gameState.cursorAction === PlaceWater) {
+        PlaceWater();
+    }
+}
+
 export const List = [
     PlaceTree,
     PlaceWater,
     CutTree,
     PlaceTreeNursery,
     LoadFactory,
-]
+    Demolish,
+];
