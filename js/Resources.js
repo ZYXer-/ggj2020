@@ -5,6 +5,7 @@ import { objectToMap } from "./utils/Utils.js";
 
 export const images = objectToMap({
     loading : "img/loading.png",
+    tree : "img/tree.png",
 });
 
 
