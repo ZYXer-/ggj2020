@@ -13,7 +13,8 @@ export function apply(entity) {
 
 function applyTreeGrowth(entity) {
     const waterEntities = entity.hood1.filter(e => e.water && e.water.level > TREE_GROWTH_WATER_THRESHOLD);
-    if (waterEntities.length > 0) {
+    const sprinklerEntities = entity.hood2.filter(e => e.sprinkler && e.waterConsumer.supplied);
+    if (waterEntities.length > 0 || sprinklerEntities.length > 0) {
         if (!entity.compost || entity.compost === 0) {
             entity.tree.level = clamp(entity.tree.level + 1,
                 0,

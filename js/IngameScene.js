@@ -14,6 +14,7 @@ import * as WaterFlowSystem from "./systems/WaterFlowSystem.js"
 import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js"
 import * as TreeSystem from "./systems/TreeSystem.js"
 import * as FactorySystem from "./systems/FactorySystem.js"
+import * as WaterConsumerSystem from "./systems/WaterConsumerSystem.js"
 import * as CursorActions from "./CursorActions.js";
 import * as Keyboard from "./core/input/Keyboard.js";
 import * as UI from "./UI.js"
@@ -24,7 +25,7 @@ let oneSecCountdown = 0;
 const GameState = {
     cursorActionIndex: 0,
     cursorAction: CursorActions.List[0],
-    [Resources.PINE_WOOD]: 10,
+    [Resources.PINE_WOOD]: 1000,
     [Resources.PINE_SAPLING]: 5,
     [Resources.COMPOST]: 5,
     beechWood: 0,
@@ -106,6 +107,7 @@ export function update() {
                 WaterFlowSystem.apply(entity);
                 TreeSystem.apply(entity);
                 FactorySystem.apply(entity, 1);
+                WaterConsumerSystem.apply(entity);
             }
         }
 

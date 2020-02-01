@@ -8,7 +8,8 @@ import {newFactory} from "./components/Factory.js";
 import Resources from "./gamelogic/Resources.js";
 import { addResources, checkResourceAvailability, removeResources } from "./gamelogic/Resources.js";
 import Color from "./utils/Color.js";
-import { COMPOST_COST } from "./gamelogic/MechanicParameters.js";
+import { COMPOST_COST, SPRINKLER_COST, SPRINKLER_WATER_CONSUMPTION } from "./gamelogic/MechanicParameters.js";
+import { newWaterConsumer } from "./components/WaterConsumer.js";
 
 
 function toTileCoordinates(position) {
@@ -158,6 +159,30 @@ export function Demolish(gameState) {
     }
 }
 
+export function PlaceSprinkler(gameState) {
+    const tile = getCursorTile();
+    if (!(tile.water || tile.tree || tile.factory || tile.sprinkler)) {
+        if (!checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_WOOD]: SPRINKLER_COST },
+        )) {
+            console.log("Not enough resources for sprinkler.");
+        }
+        tile.waterConsumer = newWaterConsumer();
+        tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
+        tile.sprinkler = true;
+        tile.display = newDisplay(
+            0,
+            0,
+            Color.fromHex('#702265'),
+        );
+        removeResources(
+            gameState,
+            { [Resources.PINE_WOOD]: SPRINKLER_COST },
+        )
+    }
+}
+
 export function FertelizeTile(gameState) {
     const tile = getCursorTile();
     if (true) { // What can be fertelized?
@@ -193,4 +218,5 @@ export const List = [
     UnloadFactory,
     PlaceCompostHeap,
     FertelizeTile,
+    PlaceSprinkler,
 ];
