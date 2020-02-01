@@ -5,6 +5,7 @@ import * as Mouse from "../core/input/Mouse.js";
 import * as Tooltip from "../Tooltip.js";
 import * as Img from "../core/Img.js";
 import Resources from "../gamelogic/Resources.js";
+import Vec2 from "../utils/Vec2.js";
 
 
 export const TILE_SIZE = 48;
@@ -25,7 +26,7 @@ const COLOR_BROWN = Color.fromHSL(
     0.46,
 );
 
-export function applyGround(entity) {
+export function applyGround(entity, animationProgress) {
 
     c.save();
     c.translate(
@@ -58,7 +59,7 @@ export function applyGround(entity) {
         c.fillRect(0,0, TILE_SIZE + 1, TILE_SIZE + 1);
     }
 
-    if (entity.water !== undefined) {
+    if (entity.water) {
         if(entity.water.output) {
             const direction = entity.water.output.position.subtract(entity.position);
             c.beginPath();
@@ -68,23 +69,36 @@ export function applyGround(entity) {
             c.lineWidth = 4;
             c.stroke();
         }
-        if(entity.water.item) {
-            c.fillStyle ="#f00";
-            c.fillRect(20, 20, 8, 8);
-        }
+
     }
 
     c.restore();
 }
 
 
-export function applyOverlay(entity) {
+export function applyOverlay(entity, animationProgress) {
 
     c.save();
     c.translate(
         entity.position.x * TILE_SIZE,
         entity.position.y * TILE_SIZE,
     );
+
+    if(entity.item) {
+        if (entity.water) {
+            let itemFlow = new Vec2(0, 0);
+            if(entity.water.output) {
+                itemFlow = entity.water.output.position.subtract(entity.position);
+                itemFlow = itemFlow.multiply(TILE_SIZE * animationProgress);
+            }
+            c.fillStyle ="#f00";
+            c.fillRect(20 + itemFlow.x, 20 + itemFlow.y, 8, 8);
+        } else {
+            c.fillStyle ="#f00";
+            c.fillRect(20, 20, 8, 8);
+        }
+    }
+
 
     if (Mouse.isOver(
         entity.position.x * TILE_SIZE,

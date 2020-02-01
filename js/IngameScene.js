@@ -20,7 +20,7 @@ import * as Keyboard from "./core/input/Keyboard.js";
 import * as UI from "./UI.js"
 import Resources from "./gamelogic/Resources.js";
 
-let oneSecCountdown = 0;
+let oneSecCountUp = 0;
 
 const GameState = {
     cursorActionIndex: 0,
@@ -34,7 +34,7 @@ const GameState = {
 
 function reset() {
     Entities.generate();
-    oneSecCountdown = 0;
+    oneSecCountUp = 0;
 }
 
 function iterateCursorAction(gameState, cursorActions) {
@@ -98,11 +98,11 @@ export function update() {
 
     if(!Game.paused) {
 
-        oneSecCountdown += Timer.delta * 5;
+        oneSecCountUp += Timer.delta * 5;
 
         // Deltas
         for(const entity of Entities.entities) {
-            if (oneSecCountdown > 1) {
+            if (oneSecCountUp > 1) {
                 PollutionGrowthSystem.apply(entity);
                 WaterFlowSystem.apply(entity);
                 TreeSystem.apply(entity);
@@ -113,7 +113,7 @@ export function update() {
 
         // Application
         for(const entity of Entities.entities) {
-            if (oneSecCountdown > 1) {
+            if (oneSecCountUp > 1) {
                 PollutionApplicationSystem.apply(entity);
                 WaterApplicationSystem.apply(entity);
             }
@@ -125,7 +125,7 @@ export function update() {
 
         // update stuff except when paused
 
-        oneSecCountdown -= oneSecCountdown > 1 ? 1 : 0;
+        oneSecCountUp -= oneSecCountUp > 1 ? 1 : 0;
     }
 }
 
@@ -137,10 +137,10 @@ export function draw() {
     c.fillRect(0, 0, Viewport.width, Viewport.height);
 
     for(const entity of Entities.entities) {
-        DrawSystem.applyGround(entity);
+        DrawSystem.applyGround(entity, oneSecCountUp);
     }
     for(const entity of Entities.entities) {
-        DrawSystem.applyOverlay(entity);
+        DrawSystem.applyOverlay(entity, oneSecCountUp);
     }
 
     // draw tooltip

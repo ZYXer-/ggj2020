@@ -11,10 +11,10 @@ export function apply(entity) {
         }
 
         if(entity.water.itemInput) {
-            entity.water.item = entity.water.itemInput;
+            entity.item = entity.water.itemInput;
             entity.water.itemInput = null;
-            entity.water.item.location.water.item = null;
-            entity.water.item.location = entity;
+            entity.item.location.item = null;
+            entity.item.location = entity;
         }
     }
 }
