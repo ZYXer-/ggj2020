@@ -1,6 +1,7 @@
 export default {
     PINE_WOOD: 'PineWood',
     PINE_SAPLING: 'PineSapling',
+    COMPOST: 'Compost',
 }
 
 export function checkResourceAvailability(resourceSupply, requiredResources, multiplier = 1) {

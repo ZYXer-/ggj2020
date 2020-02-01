@@ -1,5 +1,5 @@
 import { clamp } from "../utils/Utils.js";
-import { MAX_POLLUTION_VALUE, POLLUTION_DAMAGE_FACTOR, TREE_RECOVERY_RATE } from "../gamelogic/MechanicParameters.js";
+import { COMPOST_USAGE_RATE, COMPOST_GROWTH_BOOST, MAX_POLLUTION_VALUE, POLLUTION_DAMAGE_FACTOR, TREE_RECOVERY_RATE } from "../gamelogic/MechanicParameters.js";
 
 const MAX_TREE_LEVEL = 100;
 const TREE_GROWTH_WATER_THRESHOLD = 10;
@@ -12,9 +12,21 @@ export function apply(entity) {
 }
 
 function applyTreeGrowth(entity) {
-    const waterEntities = entity.hood1.filter(e => e.water && e.water.level > TREE_GROWTH_WATER_THRESHOLD)
+    const waterEntities = entity.hood1.filter(e => e.water && e.water.level > TREE_GROWTH_WATER_THRESHOLD);
     if (waterEntities.length > 0) {
-        entity.tree.level = clamp(entity.tree.level + 1, 0, MAX_TREE_LEVEL);
+        if (!entity.compost || entity.compost === 0) {
+            entity.tree.level = clamp(entity.tree.level + 1,
+                0,
+                MAX_TREE_LEVEL,
+                );
+        } else {
+            entity.tree.level = clamp(
+                entity.tree.level + 1 * COMPOST_GROWTH_BOOST,
+                0,
+                MAX_TREE_LEVEL,
+            );
+            entity.compost -= COMPOST_USAGE_RATE;
+        }
     }
 }
 

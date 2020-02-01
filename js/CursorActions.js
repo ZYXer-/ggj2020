@@ -7,6 +7,8 @@ import {newDisplay} from "./components/Display.js";
 import {newFactory} from "./components/Factory.js";
 import Resources from "./gamelogic/Resources.js";
 import { addResources, checkResourceAvailability, removeResources } from "./gamelogic/Resources.js";
+import Color from "./utils/Color.js";
+import { COMPOST_COST } from "./gamelogic/MechanicParameters.js";
 
 
 function toTileCoordinates(position) {
@@ -53,11 +55,23 @@ export function PlaceTree(gameState) {
 export function PlaceTreeNursery() {
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
-       tile.factory = newFactory(); // TODO: Add parameter
+       tile.factory = newFactory();
        tile.factory.requiredResources[Resources.PINE_WOOD] = 1;
        tile.factory.productionTime = 5;
-        tile.factory.inputResourcesLimit = 5;
+       tile.factory.inputResourcesLimit = 5;
        tile.factory.producedResource = Resources.PINE_SAPLING;
+    }
+}
+
+export function PlaceCompostHeap() {
+    const tile = getCursorTile();
+    if (!tile.water && !tile.tree && !tile.factory) {
+        tile.factory = newFactory();
+        tile.factory.requiredResources[Resources.PINE_WOOD] = COMPOST_COST;
+        tile.factory.productionTime = 5;
+        tile.factory.inputResourcesLimit = 5;
+        tile.factory.producedResource = Resources.COMPOST;
+        tile.display = newDisplay(0,0,Color.fromHex('#b53803'))
     }
 }
 
@@ -144,6 +158,25 @@ export function Demolish(gameState) {
     }
 }
 
+export function FertelizeTile(gameState) {
+    const tile = getCursorTile();
+    if (true) { // What can be fertelized?
+        if (!checkResourceAvailability(gameState, { [Resources.COMPOST]: 1})) {
+            console.log("No Compost available");
+            return;
+        }
+        if (tile.compost && tile.compost > 0) {
+            console.log("Already Fertelized");
+            return;
+        }
+        tile.compost = 1;
+        removeResources(
+            gameState,
+            { [Resources.COMPOST]: 1},
+        );
+    }
+}
+
 export function mouseDown(gameState) {
     if(gameState.cursorAction === PlaceWater) {
         PlaceWater();
@@ -158,4 +191,6 @@ export const List = [
     LoadFactory,
     Demolish,
     UnloadFactory,
+    PlaceCompostHeap,
+    FertelizeTile,
 ];

@@ -26,6 +26,7 @@ const GameState = {
     cursorAction: CursorActions.List[0],
     [Resources.PINE_WOOD]: 10,
     [Resources.PINE_SAPLING]: 5,
+    [Resources.COMPOST]: 5,
     beechWood: 0,
     oakWood: 0,
 };

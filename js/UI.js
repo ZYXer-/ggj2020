@@ -45,14 +45,13 @@ export function update(gameState) {
 }
 
 function getText(gameState) {
-    return `\
-        Action:  ${gameState.cursorAction.name}\n\
-        Pine Wood: ${gameState[Resources.PINE_WOOD]}\n\
-        Pine Sapling: ${gameState[Resources.PINE_SAPLING]}\n\
-        Beech Wood: ${gameState.beechWood}\n\
-        Oak Wood: ${gameState.oakWood}\n\
-    `
+    let text = '';
+    for (let [key, value] of Object.entries(gameState)) {
+        text += `${key}: ${value.name ? value.name : value}\n`;
+    }
+    return text;
 }
+
 export function draw(gameState) {
     text.drawPosText(
         TILE_SIZE * NUM_TILES_WIDTH + 20,

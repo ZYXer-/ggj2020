@@ -6,6 +6,7 @@ import * as Tooltip from "../Tooltip.js";
 import * as Img from "../core/Img.js";
 import Resources from "../gamelogic/Resources.js";
 
+
 export const TILE_SIZE = 48;
 export const SPRITE_SIZE = 48;
 
@@ -48,8 +49,11 @@ export function applyGround(entity) {
             0.37,
         );
     }
+    if (entity.display && entity.display.color) {
+        color = entity.display.color;
+    }
 
-    if (color !== undefined) {
+    if (color !== undefined ) {
         c.fillStyle = color.toHex();
         c.fillRect(0,0, TILE_SIZE + 1, TILE_SIZE + 1);
     }
