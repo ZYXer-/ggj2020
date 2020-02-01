@@ -14,11 +14,17 @@ import * as WaterFlowSystem from "./systems/WaterFlowSystem.js"
 import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js"
 import * as TreeSystem from "./systems/TreeSystem.js"
 import * as CursorActions from "./CursorActions.js";
+import * as Keyboard from "./core/input/Keyboard.js";
+import * as UI from "./UI.js"
 
 let oneSecCountdown = 0;
 
 const GameState = {
-    cursorAction: CursorActions.placeTree,
+    cursorActionIndex: 0,
+    cursorAction: CursorActions.List[0],
+    pineWood: 0,
+    beechWood: 0,
+    oakWood: 0,
 };
 
 function reset() {
@@ -26,18 +32,30 @@ function reset() {
     oneSecCountdown = 0;
 }
 
+function iterateCursorAction(gameState, cursorActions) {
+   gameState.cursorActionIndex = (gameState.cursorActionIndex + 1) % cursorActions.length;
+   gameState.cursorAction = cursorActions[gameState.cursorActionIndex];
+}
+
 
 export function show() {
 
     Tooltip.setPainter(BasicTooltipPainter);
     reset();
+
+    Keyboard.registerKeyUpHandler(Keyboard.D, function() {
+        debugger;
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.W, function() {
+        iterateCursorAction(GameState, CursorActions.List);
+    });
     Mouse.left.registerUpArea(
         'map',
         0,
         0,
         DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH,
         DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT,
-        () => GameState.cursorAction()
+        () => GameState.cursorAction(GameState)
     )
 
     // do stuff before we update and draw this scene for the first time
@@ -112,6 +130,7 @@ export function draw() {
     }
 
     // draw tooltip
+    UI.draw(GameState);
     Tooltip.draw();
 
     // draw pause screen when paused

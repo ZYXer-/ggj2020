@@ -9,6 +9,8 @@ export const TILE_SIZE = 48;
 export const SPRITE_SIZE = 48;
 
 
+const COLOR_YELLOW = Color.fromHex('#efdb02');
+const COLOR_GREY = Color.fromHex('#898989');
 const COLOR_BLUE = Color.fromHSL(
             0.53,
             0.51,
@@ -38,8 +40,10 @@ export function apply(entity) {
         if (entity.water.level > 2) {
             color = COLOR_BLUE;
         } else {
-            color = COLOR_BROWN;
+            color = COLOR_GREY;
         }
+    } else if (entity.factory !== undefined) {
+        color = COLOR_YELLOW;
     } else {
        color = Color.fromHSL(
             0.45,
