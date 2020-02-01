@@ -82,6 +82,7 @@ export function applyOverlay(entity) {
             `Pollution: ${entity.pollution}\n` +
             `Waterlevel: ${entity.water ? entity.water.level : null}\n` +
             `Treelevel: ${entity.tree ? entity.tree.level : null}\n` +
+            `TreeHealth: ${entity.tree ? entity.tree.health : null}\n` +
             `Factory Supply: ${entity.factor ? entity.factor.inputResources[Resources.PINE_WOOD] : null}` +
             ``
         );
