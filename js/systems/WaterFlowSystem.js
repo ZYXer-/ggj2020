@@ -1,7 +1,8 @@
-import { max, clamp } from "../utils/Utils.js";
+import { max } from "../utils/Utils.js";
+import { MAX_WATER_LEVEL } from "../components/Water.js";
 
 
-export const MAX_WATER_LEVEL = 100;
+
 const EVAPORATION = 1;
 
 

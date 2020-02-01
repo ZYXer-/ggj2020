@@ -1,5 +1,6 @@
 import Vec2 from "./utils/Vec2.js";
 import { rand } from "./utils/Utils.js";
+import { newWater } from "./components/Water.js";
 
 export const NUM_TILES_WIDTH = 30;
 export const NUM_TILES_HEIGHT = 22;
@@ -38,18 +39,8 @@ export function generate() {
     entitiesList[20 * NUM_TILES_WIDTH + 20].pollution = 100;
 
     // Water Stuff
-    // TODO: Create class for water component
-    entitiesList[5 * NUM_TILES_WIDTH + 20].water = {
-        source: true,
-        level: 100,
-        flow: 100,
-        output: entitiesList[6 * NUM_TILES_WIDTH + 20],
-    };
-    entitiesList[6 * NUM_TILES_WIDTH + 20].water = {
-        level: 0,
-        flow: 0,
-        output: null,
-    };
+    entitiesList[5 * NUM_TILES_WIDTH + 20].water = newWater(true);
+    entitiesList[6 * NUM_TILES_WIDTH + 20].water = newWater(false);
 
     for (const entity of entities) {
         entity.hood1 = getHood(1, entity.position, entitiesList);

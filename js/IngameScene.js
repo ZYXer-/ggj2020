@@ -107,7 +107,7 @@ export function update() {
                 WaterFlowSystem.apply(entity);
                 TreeSystem.apply(entity);
                 FactorySystem.apply(entity, 1);
-                WaterConsumerSystem.apply(entity);
+                WaterConsumerSystem.apply(entity); // must be after WaterFlowSystem
             }
         }
 

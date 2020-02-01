@@ -10,6 +10,7 @@ import { addResources, checkResourceAvailability, removeResources } from "./game
 import Color from "./utils/Color.js";
 import { COMPOST_COST, SPRINKLER_COST, SPRINKLER_WATER_CONSUMPTION } from "./gamelogic/MechanicParameters.js";
 import { newWaterConsumer } from "./components/WaterConsumer.js";
+import { newWater } from "./components/Water.js";
 
 
 function toTileCoordinates(position) {
@@ -26,12 +27,7 @@ function getCursorTile() {
 export function PlaceWater() {
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
-        tile.water = {
-            source: false,
-            level: 0,
-            flow: 0,
-            output: null,
-        };
+        tile.water = newWater(false);
     }
 }
 
