@@ -28,14 +28,14 @@ export function apply(entity) {
 
             entity.water.flow += maxNeighborLevel - EVAPORATION;
 
-            entity.water.output = minNeighbor;
-
-            if(entity.water.item !== null
+            if(entity.item !== null
                 && entity.water.output
-                && entity.water.output.water.item === null
+                && entity.water.output.item === null
                 && entity.water.output.water.itemInput === null) {
-                entity.water.output.water.itemInput = entity.water.item;
+                entity.water.output.water.itemInput = entity.item;
             }
+
+            entity.water.output = minNeighbor; // has to be after item transfer
 
         }
 

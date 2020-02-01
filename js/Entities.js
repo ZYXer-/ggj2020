@@ -1,6 +1,7 @@
 import Vec2 from "./utils/Vec2.js";
 import { rand } from "./utils/Utils.js";
 import { newWater } from "./components/Water.js";
+import { newDisplay } from "./components/Display.js";
 
 export const NUM_TILES_WIDTH = 30;
 export const NUM_TILES_HEIGHT = 22;
@@ -32,6 +33,8 @@ export function generate() {
             ),
             pollution: (i % NUM_TILES_WIDTH)  < 3 ? rand(0, 100) : 0,
             pollutionDelta: 0,
+            item: null,
+            display: newDisplay()
         });
     }
     entitiesList = [...entities];
@@ -41,7 +44,7 @@ export function generate() {
     // Water Stuff
     entitiesList[5 * NUM_TILES_WIDTH + 20].water = newWater(true);
     entitiesList[6 * NUM_TILES_WIDTH + 20].water = newWater(false);
-    entitiesList[6 * NUM_TILES_WIDTH + 20].water.item = {
+    entitiesList[6 * NUM_TILES_WIDTH + 20].item = {
         bla : true,
         location: entitiesList[6 * NUM_TILES_WIDTH + 20],
     };
