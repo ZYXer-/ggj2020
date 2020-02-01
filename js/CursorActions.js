@@ -31,11 +31,22 @@ export function PlaceWater() {
     }
 }
 
-export function PlaceTree() {
+export function PlaceTree(gameState) {
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
-        tile.tree = newTree();
-        tile.display = newDisplay();
+        if (checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_SAPLING]: 1},
+        )) {
+            tile.tree = newTree();
+            tile.display = newDisplay();
+            removeResources(
+                gameState,
+                { [Resources.PINE_SAPLING]: 1},
+            );
+        } else {
+            console.log("No saplings available")
+        }
     }
 }
 
