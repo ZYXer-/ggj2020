@@ -16,13 +16,15 @@ import * as TreeSystem from "./systems/TreeSystem.js"
 import * as CursorActions from "./CursorActions.js";
 import * as Keyboard from "./core/input/Keyboard.js";
 import * as UI from "./UI.js"
+import Resources from "./utils/Resources.js";
 
 let oneSecCountdown = 0;
 
 const GameState = {
     cursorActionIndex: 0,
     cursorAction: CursorActions.List[0],
-    pineWood: 0,
+    [Resources.PINE_WOOD]: 0,
+    [Resources.PINE_SAPLING]: 0,
     beechWood: 0,
     oakWood: 0,
 };

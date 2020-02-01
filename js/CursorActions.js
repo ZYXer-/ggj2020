@@ -59,9 +59,9 @@ export function CutTree(gameState) {
         switch (tile.tree.type) {
             case 0:
                 if (tile.tree.level === 100) {
-                    gameState.pineWood += 15;
+                    gameState[Resources.PINE_WOOD] += 15;
                 } else {
-                    gameState.pineWood += Math.floor(tile.tree.level / 10);
+                    gameState[Resources.PINE_WOOD] += Math.floor(tile.tree.level / 10);
                 }
                 break;
             case 1:
@@ -83,9 +83,48 @@ export function CutTree(gameState) {
     }
 }
 
+function checkResourceAvailability(gameState, requiredResources) {
+    for (let [key, value] of Object.entries(requiredResources)) {
+        if (gameState[key] < value) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function removeResources(resourceSupply, resources) {
+    for (let [key, value] of Object.entries(resources)) {
+        resourceSupply[key] -= value;
+    }
+}
+
+function addResources(resourceSupply, resources) {
+    for (let [key, value] of Object.entries(resources)) {
+        resourceSupply[key] += value;
+    }
+}
+
+export function LoadFactory(gameState) {
+    const tile = getCursorTile();
+    if (tile.factory) {
+        // Check if resources available
+        if (!checkResourceAvailability(gameState, tile.factory.requiredResources)) {
+            console.log("Not enough resources");
+            return;
+        }
+        removeResources(gameState, tile.factory.requiredResources);
+        addResources(
+            tile.factory.inputResources,
+            tile.factory.requiredResources,
+        );
+        console.log("Factory Loaded");
+    }
+}
+
 export const List = [
     PlaceTree,
     PlaceWater,
     CutTree,
     PlaceTreeNursery,
+    LoadFactory,
 ]

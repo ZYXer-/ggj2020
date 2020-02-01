@@ -1,7 +1,7 @@
 export function newFactory() {
     return {
-        inStock: {},
-        inStockLimit: 1,
+        inputResources: {},
+        // inStockLimit: 1,
         outStock: {},
         outStockLimit: 1,
         requiredResources: {},
