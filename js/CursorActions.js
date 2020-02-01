@@ -2,10 +2,11 @@ import * as Entities from "./Entities.js";
 import * as Mouse from "./core/input/Mouse.js";
 import Vec2 from "./utils/Vec2.js";
 import * as DrawSystem from "./systems/DrawSystem.js";
-import { newTree } from "./components/Tree.js";
-import { newDisplay } from "./components/Display.js";
-import { newFactory } from "./components/Factory.js";
-import Resources from "./utils/Resources.js";
+import {newTree} from "./components/Tree.js";
+import {newDisplay} from "./components/Display.js";
+import {newFactory} from "./components/Factory.js";
+import Resources from "./gamelogic/Resources.js";
+import { addResources, checkResourceAvailability, removeResources } from "./gamelogic/Resources.js";
 
 
 function toTileCoordinates(position) {
@@ -59,9 +60,9 @@ export function CutTree(gameState) {
         switch (tile.tree.type) {
             case 0:
                 if (tile.tree.level === 100) {
-                    gameState.pineWood += 15;
+                    gameState[Resources.PINE_WOOD] += 15;
                 } else {
-                    gameState.pineWood += Math.floor(tile.tree.level / 10);
+                    gameState[Resources.PINE_WOOD] += Math.floor(tile.tree.level / 10);
                 }
                 break;
             case 1:
@@ -83,9 +84,35 @@ export function CutTree(gameState) {
     }
 }
 
+export function LoadFactory(gameState) {
+    const tile = getCursorTile();
+    if (checkResourceAvailability(
+        tile.factory.inputResources,
+        tile.factory.requiredResources,
+        tile.factory.inputResourcesLimit,
+    )) {
+        console.log("Input stock is full");
+        return;
+    }
+    if (tile.factory) {
+        // Check if resources available
+        if (!checkResourceAvailability(gameState, tile.factory.requiredResources)) {
+            console.log("Not enough resources");
+            return;
+        }
+        removeResources(gameState, tile.factory.requiredResources);
+        addResources(
+            tile.factory.inputResources,
+            tile.factory.requiredResources,
+        );
+        console.log("Factory Loaded");
+    }
+}
+
 export const List = [
     PlaceTree,
     PlaceWater,
     CutTree,
     PlaceTreeNursery,
+    LoadFactory,
 ]
