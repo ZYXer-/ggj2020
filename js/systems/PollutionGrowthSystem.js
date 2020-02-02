@@ -7,7 +7,7 @@ export function apply(entity) {
         entity.pollutionDelta += min(1, neighbour.pollution - entity.pollution);
     }
 
-    const treeLevelSum = entity.hood3.filter(tile => tile.tree)
+    const treeLevelSum = entity.hood3.filter(tile => tile.tree && tile.tree.health > 0)
         .map(tile => tile.tree.level)
         .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     if (treeLevelSum > 0) {

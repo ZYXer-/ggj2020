@@ -5,7 +5,7 @@ const MAX_TREE_LEVEL = 100;
 const TREE_GROWTH_WATER_THRESHOLD = 10;
 
 export function apply(entity) {
-    if (entity.tree) {
+    if (entity.tree && entity.tree.health > 0) {
         applyTreeGrowth(entity);
         applyTreeHealth(entity);
     }
@@ -14,12 +14,12 @@ export function apply(entity) {
 function applyTreeGrowth(entity) {
     const waterEntities = entity.hood1.filter(e => e.water && e.water.level > TREE_GROWTH_WATER_THRESHOLD);
     const sprinklerEntities = entity.hood2.filter(e => e.sprinkler && e.waterConsumer.supplied);
-    if (waterEntities.length > 0 || sprinklerEntities.length > 0) {
-        if (!entity.compost || entity.compost === 0) {
+    if(waterEntities.length > 0 || sprinklerEntities.length > 0) {
+        if(!entity.compost || entity.compost === 0) {
             entity.tree.level = clamp(entity.tree.level + 1,
                 0,
                 MAX_TREE_LEVEL,
-                );
+            );
         } else {
             entity.tree.level = clamp(
                 entity.tree.level + 1 * COMPOST_GROWTH_BOOST,
@@ -40,7 +40,6 @@ function applyTreeHealth(entity) {
     }
 
     if (entity.tree.health < 0) {
-        delete entity.tree;
-        console.log("Tree died!")
+        entity.tree.health = 0;
     }
 }
