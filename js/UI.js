@@ -204,7 +204,7 @@ let buildings = [
         icon: 0,
         label: "Pick up",
         click() {
-            console.log("pick up");
+            GameState.cursorMode = CURSOR_MODES.PICK;
         },
         isActive() {
             return false;
@@ -215,7 +215,7 @@ let buildings = [
         icon: 0,
         label: "Demolish",
         click() {
-            console.log("demolish");
+            GameState.cursorMode = CURSOR_MODES.DESTROY;
         },
         isActive() {
             return false;

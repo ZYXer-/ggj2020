@@ -163,6 +163,22 @@ export function Demolish(gameState) {
     if (tile.water) {
         delete tile.water;
     }
+    if (tile.factory) {
+        addResources(
+            gameState,
+            tile.factory.inputResources,
+        );
+        addResources(
+            gameState,
+            tile.factory.outputResources,
+        );
+        delete tile.factory;
+    }
+    delete tile.forester;
+    delete tile.sprinkler;
+    delete tile.waterConsumer;
+    delete tile.compost;
+    delete tile.display;
 }
 
 export function PlaceSprinkler(gameState) {
@@ -207,6 +223,16 @@ export function PlaceForester(gameState) {
     }
 }
 
+export function PickResourceFromGround(gameState) {
+    const tile = getCursorTile();
+    if (tile.item) {
+        addResources(
+            gameState,
+            { [tile.item.type]: 1},
+        );
+        delete tile.item;
+    }
+}
 export function DropResourceToGround(gameState, resourceType) {
     const tile = getCursorTile();
     if (checkResourceAvailability(gameState, { [resourceType]: 1})) {

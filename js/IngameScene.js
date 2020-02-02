@@ -52,6 +52,7 @@ export const BUILDING_TYPES = {
 function handleClick(gameState) {
     switch (gameState.cursorMode) {
         case CURSOR_MODES.PICK:
+            handlePickUpAction(gameState);
             break;
         case CURSOR_MODES.DROP:
             handleDropAction(gameState);
@@ -60,17 +61,27 @@ function handleClick(gameState) {
             handleBuildAction(gameState);
             break;
         case CURSOR_MODES.DESTROY:
-            CursorActions.PlaceTreeNursery(gameState);
+            handleDestroyAction(gameState);
             break;
     }
 }
 
-function handleDropAction(gameState) {
+function handlePickUpAction(gameState) {
+    const tile = CursorActions.getCursorTile();
+    if (tile.factory) {
+        CursorActions.UnloadFactory(gameState);
+    } else if (tile.item) {
+        CursorActions.PickResourceFromGround(gameState);
+    } else {
+        console.warn("Nothing to pick.");
+    }
+}
 
+function handleDropAction(gameState) {
     const tile = CursorActions.getCursorTile();
     if (tile.factory) {
         CursorActions.LoadFactory(gameState, gameState.selectedResource)
-    } else if (CursorActions.notOccupied(tile) || tile.water)  {
+    } else if (CursorActions.notOccupied(tile) || tile.water || !tile.item)  {
         CursorActions.DropResourceToGround(gameState, gameState.selectedResource);
 
     } else {
@@ -108,6 +119,15 @@ function handleBuildAction(gameState) {
         case BUILDING_TYPES.COMPOST_HEAP:
             CursorActions.PlaceCompostHeap(gameState);
             break;
+    }
+}
+
+function handleDestroyAction(gameState) {
+    const tile = CursorActions.getCursorTile();
+    if (tile.tree) {
+        CursorActions.CutTree(gameState);
+    } else {
+        CursorActions.Demolish(gameState);
     }
 }
 
