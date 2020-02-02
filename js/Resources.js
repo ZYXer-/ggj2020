@@ -7,6 +7,7 @@ export const images = objectToMap({
     loading: "img/loading.png",
     trees: "img/trees.png",
     panel: "img/panel.png",
+    items: "img/items.png",
 });
 
 
