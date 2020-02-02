@@ -5,6 +5,8 @@ import Button from "./utils/Button.js";
 import {c} from "./core/canvas.js";
 import Color from "./utils/Color.js";
 import * as TotalPollutionCounterSystem from "./systems/TotalPollutionCounterSystem.js";
+import Resources from "./gamelogic/Resources.js";
+
 
 let progressNumber = new Text({
     x: 165,
@@ -32,6 +34,140 @@ let progressPercent = new Text({
 });
 
 
+let labelText = new Text({
+    size : 16,
+    font : "norwester",
+    color : "#ccc"
+});
+
+let numberText = new Text({
+    x: 165,
+    y: 170,
+    size : 16,
+    font : "norwester",
+    align : "right",
+    color : "#ccc",
+    monospaced: 8
+});
+
+let centerText = new Text({
+    size : 16,
+    font : "norwester",
+    align : "center",
+    color : "#ccc"
+});
+
+let highlightedText = new Text({
+    size : 16,
+    font : "norwester",
+    align : "center",
+    color : "#fff"
+});
+
+let selectedText = new Text({
+    size : 16,
+    font : "norwester",
+    align : "center",
+    color : "#222"
+});
+
+let items = [
+    {
+        offset: 0,
+        item: 3,
+        label: "Pine Sapling",
+        value: Resources.PINE_SAPLING,
+    },
+    {
+        offset: 0,
+        item: 4,
+        label: "Beech Sapling",
+        value: Resources.BEECH_SAPLING,
+    },
+    {
+        offset: 0,
+        item: 5,
+        label: "Oak Sapling",
+        value: Resources.OAK_SAPLING,
+    },
+    {
+        offset: 8,
+        item: 0,
+        label: "Pine Wood",
+        value: Resources.PINE_WOOD,
+    },
+    {
+        offset: 8,
+        item: 1,
+        label: "Beech Wood",
+        value: Resources.BEECH_WOOD,
+    },
+    {
+        offset: 8,
+        item: 2,
+        label: "Oak Wood",
+        value: Resources.OAK_WOOD,
+    },
+    {
+        offset: 16,
+        item: 6,
+        label: "Fertilizer",
+        value: Resources.COMPOST,
+    },
+];
+
+for(let itemIndex in items) {
+    const item = items[itemIndex];
+    item.dispenseButton = new Button({
+        x : 1596 + 182,
+        y : 318 + (28 * itemIndex) + item.offset,
+        w : 68,
+        h : 20,
+        click() {
+            console.log("DISPENSE=" + item.value);
+        },
+        draw(x, y, w, h, isOver, down) {
+            c.fillStyle = "#ccc";
+            if(isOver) {
+                c.fillStyle = "#fff";
+                if(down) {
+                    y += 2;
+                }
+            }
+            if(false /* TODO: if selected */) {
+                c.fillStyle = "#58b001";
+            }
+            c.fillRect(x, y, w, h);
+            selectedText.drawPosText(x + 0.5 * w, y + 16, "dispense");
+        }
+    });
+    if(itemIndex < 3) {
+        item.plantButton = new Button({
+            x : 1596 + 254,
+            y : 318 + (28 * itemIndex) + item.offset,
+            w : 48,
+            h : 20,
+            click() {
+                console.log("PLANT=" + item.value);
+            },
+            draw(x, y, w, h, isOver, down) {
+                c.fillStyle = "#ccc";
+                if(isOver) {
+                    c.fillStyle = "#fff";
+                    if(down) {
+                        y += 2;
+                    }
+                }
+                if(false /* TODO: if selected */) {
+                    c.fillStyle = "#58b001";
+                }
+                c.fillRect(x, y, w, h);
+                selectedText.drawPosText(x + 0.5 * w, y + 16, "plant");
+            }
+        });
+    }
+}
+
 let text = new Text({
     size : 14,
     font : "norwester",
@@ -45,27 +181,6 @@ let text = new Text({
     // letterSpacing : 3,
     // appearCharPerSec : 10,
     // monospaced : 25,
-});
-
-let backButton = new Button({
-    x: 20,
-    y: 20,
-    w: 150,
-    h: 40,
-    click() {
-        console.log("TEST");
-    },
-    draw(x, y, w, h, isOver, down) {
-        c.fillStyle = "#9cf";
-        if(isOver) {
-            c.fillStyle = "#bdf";
-            if(down) {
-                y += 2;
-            }
-        }
-        c.fillRect(x, y, w, h);
-        Text.draw(x + (w / 2), y + 25, 16, "opensans", "center", "#000", "< back to menu");
-    }
 });
 
 export function update(gameState) {
@@ -104,8 +219,32 @@ export function draw(gameState) {
     progressPercent.drawText("%");
     progressNumber.drawText(Math.round(progress * 100).toString());
 
-    text.drawPosText(40, 340, getText(gameState));
+    for(let itemIndex in items) {
+        const item = items[itemIndex];
+        c.save();
+        c.translate(20, 320 + (28 * itemIndex) + item.offset);
+
+        c.save();
+        c.scale(0.5, 0.5);
+        Img.drawSprite("items", 0, 0, 32, 32, item.item, 0);
+        c.restore();
+
+        labelText.drawPosText(24, 14, item.label);
+        labelText.drawPosText(132, 14, "123");
+
+        c.restore();
+    }
+
+    text.drawPosText(40, 640, getText(gameState));
     //backButton.draw();
 
     c.restore();
+
+    for(let itemIndex in items) {
+        const item = items[itemIndex];
+        item.dispenseButton.draw();
+        if(itemIndex < 3) {
+            item.plantButton.draw();
+        }
+    }
 }

@@ -1,6 +1,10 @@
 export default {
     PINE_WOOD: 'PineWood',
+    BEECH_WOOD: 'BeechWood',
+    OAK_WOOD: 'OakWood',
     PINE_SAPLING: 'PineSapling',
+    BEECH_SAPLING: 'BeechSapling',
+    OAK_SAPLING: 'OakSapling',
     PLANTBLE_PINE_SAPLING: 'PlantablePineSapling',
     COMPOST: 'Compost',
     TREE_CUT_ACTION: 'TreeCutAction',
