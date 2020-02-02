@@ -147,7 +147,7 @@ for(let itemIndex in items) {
     const item = items[itemIndex];
     item.dispenseButton = new Button({
         x : 1596 + 182,
-        y : 318 + (28 * itemIndex) + item.offset,
+        y : 314 + (28 * itemIndex) + item.offset,
         w : 68,
         h : 20,
         click() {
@@ -172,7 +172,7 @@ for(let itemIndex in items) {
     if(itemIndex < 3) {
         item.plantButton = new Button({
             x : 1596 + 254,
-            y : 318 + (28 * itemIndex) + item.offset,
+            y : 314 + (28 * itemIndex) + item.offset,
             w : 48,
             h : 20,
             click() {
@@ -198,24 +198,143 @@ for(let itemIndex in items) {
     }
 }
 
-let text = new Text({
-    size : 14,
-    font : "norwester",
-    // align : "right",
-    color : "#ccc",
-    // borderWidth : 5,
-    // borderColor : "#000",
-    // maxWidth : 250,
-    // lineHeight : 50,
-    verticalAlign : "top",
-    // letterSpacing : 3,
-    // appearCharPerSec : 10,
-    // monospaced : 25,
-});
+
+let buildings = [
+    {
+        offset: 0,
+        icon: 0,
+        label: "Pick up",
+        click() {
+            console.log("pick up");
+        },
+        isActive() {
+            return false;
+        },
+    },
+    {
+        offset: 0,
+        icon: 0,
+        label: "Demolish",
+        click() {
+            console.log("demolish");
+        },
+        isActive() {
+            return false;
+        },
+    },
+    {
+        offset: 22,
+        buildingSprite: 5,
+        label: "Pulley Crane",
+        click() {
+            console.log("pulley crane");
+        },
+        isActive() {
+            return false;
+        },
+    },
+    {
+        offset: 22,
+        label: "Canal",
+        click() {
+            console.log("canal");
+        },
+        isActive() {
+            return false;
+        },
+    },
+    {
+        offset: 22,
+        buildingSprite: 0,
+        label: "Tree Nursery",
+        click() {
+            console.log("tree nursery");
+        },
+        isActive() {
+            return false;
+        },
+    },
+    {
+        offset: 22,
+        buildingSprite: 1,
+        label: "Forester",
+        click() {
+            console.log("forester");
+        },
+        isActive() {
+            return false;
+        },
+    },
+    {
+        offset: 22,
+        buildingSprite: 2,
+        label: "Log Cabin",
+        click() {
+            console.log("log cabin");
+        },
+        isActive() {
+            return false;
+        },
+    },
+    {
+        offset: 22,
+        buildingSprite: 3,
+        label: "Sprinkler",
+        click() {
+            console.log("sprinkler");
+        },
+        isActive() {
+            return false;
+        },
+
+    },
+    {
+        offset: 22,
+        buildingSprite: 4,
+        label: "Compost Heap",
+        click() {
+            console.log("compost heap");
+        },
+        isActive() {
+            return false;
+        },
+    },
+];
+
+for(let buildingIndex in buildings) {
+    const building = buildings[buildingIndex];
+    building.buildButton = new Button({
+        x : 1596 + (buildingIndex % 2 === 0 ? 20 : 165),
+        y : 552 + (98 * Math.floor(buildingIndex * 0.5)) + building.offset,
+        w : 137,
+        h : 90,
+        click() {
+            building.click();
+        },
+        draw(x, y, w, h, isOver, down) {
+            c.fillStyle = "#ccc";
+            if(isOver) {
+                c.fillStyle = "#fff";
+                if(down) {
+                    y += 2;
+                }
+            }
+            if(building.isActive()) {
+                c.fillStyle = "#58b001";
+            }
+            c.fillRect(x, y, w, h);
+            c.fillStyle = "#222";
+            c.fillRect(x + 2, y + 2, w - 4, h - 4);
+            centerText.drawPosText(x + 0.5 * w, y + 80, building.label);
+        }
+    });
+}
+
 
 export function update(gameState) {
 
 }
+
 
 function getText(gameState) {
     let text = '';
@@ -252,7 +371,7 @@ export function draw(gameState) {
     for(let itemIndex in items) {
         const item = items[itemIndex];
         c.save();
-        c.translate(20, 320 + (28 * itemIndex) + item.offset);
+        c.translate(20, 316 + (28 * itemIndex) + item.offset);
 
         c.save();
         c.scale(0.5, 0.5);
@@ -265,9 +384,6 @@ export function draw(gameState) {
         c.restore();
     }
 
-    text.drawPosText(40, 640, getText(gameState));
-    //backButton.draw();
-
     c.restore();
 
     for(let itemIndex in items) {
@@ -276,5 +392,10 @@ export function draw(gameState) {
         if(itemIndex < 3) {
             item.plantButton.draw();
         }
+    }
+
+    for(let buildingIndex in buildings) {
+        const building = buildings[buildingIndex];
+        building.buildButton.draw();
     }
 }
