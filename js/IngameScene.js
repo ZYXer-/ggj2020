@@ -102,7 +102,7 @@ export function update() {
 
     if(!Game.paused) {
 
-        oneSecCountUp += Timer.delta * 5;
+        oneSecCountUp += Timer.delta * 30;
 
         // Deltas
         if (oneSecCountUp > 1) {
