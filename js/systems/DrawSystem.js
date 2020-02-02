@@ -74,10 +74,22 @@ export function applyGround(entity, animationProgress) {
             const direction = entity.water.output.position.subtract(entity.position);
             c.beginPath();
             c.moveTo(24, 24);
-            c.lineTo(24 + direction.x * 30, 24 + direction.y * 30);
+            c.lineTo(24 + direction.x * 20, 24 + direction.y * 20);
             c.strokeStyle = "#00f";
             c.lineWidth = 4;
             c.stroke();
+            let rotation = direction.angle();
+            c.save();
+            c.translate(24, 24);
+            c.rotate(-rotation);
+            c.fillStyle = "#00f";
+            c.beginPath();
+            c.moveTo(0, 24);
+            c.lineTo(10, 14);
+            c.lineTo(-10, 14);
+            c.closePath();
+            c.fill();
+            c.restore();
         }
 
     }
@@ -97,7 +109,7 @@ export function applyOverlay(entity, animationProgress) {
     if(entity.item) {
         if (entity.water) {
             let itemFlow = new Vec2(0, 0);
-            if(entity.water.output) {
+            if(entity.water.output && entity.water.output.item === null) {
                 itemFlow = entity.water.output.position.subtract(entity.position);
                 itemFlow = itemFlow.multiply(TILE_SIZE * animationProgress);
             }

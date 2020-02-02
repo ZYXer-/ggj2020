@@ -1,6 +1,6 @@
-export function newItem(type, tile) {
+export function newItem(type, location) {
     return {
         type: type,
-        tile: tile,
+        location: location,
     }
 }

@@ -22,6 +22,7 @@ import * as CursorActions from "./CursorActions.js";
 import * as Keyboard from "./core/input/Keyboard.js";
 import * as UI from "./UI.js"
 import Resources from "./gamelogic/Resources.js";
+import {PlaceWater} from "./CursorActions.js";
 
 let oneSecCountUp = 0;
 
@@ -111,8 +112,6 @@ function handleBuildAction(gameState) {
 }
 
 export const GameState = {
-    cursorActionIndex: 0,
-    cursorAction: CursorActions.List[0],
     cursorMode: CURSOR_MODES.DESTROY,
     selectedBuildingType: BUILDING_TYPES.OAK,
 
@@ -183,7 +182,7 @@ export function update() {
 
     if(!Game.paused) {
 
-        oneSecCountUp += Timer.delta * 30;
+        oneSecCountUp += Timer.delta * 5;
 
         // Deltas
         if (oneSecCountUp > 1) {
@@ -209,7 +208,9 @@ export function update() {
         }
 
         if(Mouse.left.down) {
-            CursorActions.mouseDown(GameState);
+            if(GameState.cursorMode === CURSOR_MODES.BUILD && GameState.selectedBuildingType === BUILDING_TYPES.WATER) {
+                PlaceWater(GameState);
+            }
         }
 
         // update stuff except when paused

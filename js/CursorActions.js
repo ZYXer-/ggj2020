@@ -258,11 +258,6 @@ export function FertilizeTile(gameState) {
     }
 }
 
-export function mouseDown(gameState) {
-    if(gameState.cursorAction === PlaceWater) {
-        PlaceWater(gameState);
-    }
-}
 
 export const List = [
     PlaceLogCabin,
