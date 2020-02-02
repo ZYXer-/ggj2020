@@ -10,5 +10,7 @@ export const COMPOST_USAGE_RATE = 0.1;
 export const COMPOST_COST = 10;
 export const SPRINKLER_COST = 100;
 export const SPRINKLER_WATER_CONSUMPTION = 1;
+export const LUMBER_HUT_COOL_DOWN = 5;
 
 export const MAX_POLLUTION_VALUE = 100;
+export const MAX_TREE_LEVEL = 100;

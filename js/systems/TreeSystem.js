@@ -1,7 +1,13 @@
-import { clamp } from "../utils/Utils.js";
-import { COMPOST_USAGE_RATE, COMPOST_GROWTH_BOOST, MAX_POLLUTION_VALUE, POLLUTION_DAMAGE_FACTOR, TREE_RECOVERY_RATE } from "../gamelogic/MechanicParameters.js";
+import {clamp} from "../utils/Utils.js";
+import {
+    COMPOST_GROWTH_BOOST,
+    COMPOST_USAGE_RATE,
+    MAX_POLLUTION_VALUE,
+    POLLUTION_DAMAGE_FACTOR,
+    TREE_RECOVERY_RATE
+} from "../gamelogic/MechanicParameters.js";
+import {MAX_TREE_LEVEL} from "../gamelogic/MechanicParameters.js";
 
-const MAX_TREE_LEVEL = 100;
 const TREE_GROWTH_WATER_THRESHOLD = 10;
 
 export function apply(entity) {

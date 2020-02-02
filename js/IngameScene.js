@@ -16,6 +16,7 @@ import * as TreeSystem from "./systems/TreeSystem.js";
 import * as FactorySystem from "./systems/FactorySystem.js";
 import * as WaterConsumerSystem from "./systems/WaterConsumerSystem.js";
 import * as ForesterSystem from "./systems/ForesterSystem.js";
+import * as LumberHutSystem from "./systems/LumberHutSystem.js";
 import * as TotalPollutionCounterSystem from "./systems/TotalPollutionCounterSystem.js";
 import * as CursorActions from "./CursorActions.js";
 import * as Keyboard from "./core/input/Keyboard.js";
@@ -113,7 +114,7 @@ export function update() {
                 FactorySystem.apply(entity, 1);
                 WaterConsumerSystem.apply(entity); // must be after WaterFlowSystem
                 ForesterSystem.apply(entity);
-
+                LumberHutSystem.apply(entity, GameState);
             }
         }
 

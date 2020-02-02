@@ -3,11 +3,13 @@ export default {
     PINE_SAPLING: 'PineSapling',
     PLANTBLE_PINE_SAPLING: 'PlantablePineSapling',
     COMPOST: 'Compost',
+    TREE_CUT_ACTION: 'TreeCutAction',
 }
 
 export function checkResourceAvailability(resourceSupply, requiredResources, multiplier = 1) {
     for (let [key, value] of Object.entries(requiredResources)) {
-        if (!(resourceSupply[key] >= value * multiplier)) {
+
+        if (!(resourceSupply[key] >= value * multiplier) && value !== 0) { //value === 0 used to fake factories that don't need any resources
             return false;
         }
     }

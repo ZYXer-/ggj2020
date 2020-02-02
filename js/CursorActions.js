@@ -5,12 +5,17 @@ import * as DrawSystem from "./systems/DrawSystem.js";
 import {newTree} from "./components/Tree.js";
 import {newDisplay} from "./components/Display.js";
 import {newFactory} from "./components/Factory.js";
-import Resources from "./gamelogic/Resources.js";
-import { addResources, checkResourceAvailability, removeResources } from "./gamelogic/Resources.js";
+import Resources, {addResources, checkResourceAvailability, removeResources} from "./gamelogic/Resources.js";
 import Color from "./utils/Color.js";
-import { COMPOST_COST, SPRINKLER_COST, SPRINKLER_WATER_CONSUMPTION } from "./gamelogic/MechanicParameters.js";
-import { newWaterConsumer } from "./components/WaterConsumer.js";
-import { newWater } from "./components/Water.js";
+import {
+    COMPOST_COST,
+    LUMBER_HUT_COOL_DOWN,
+    SPRINKLER_COST,
+    SPRINKLER_WATER_CONSUMPTION
+} from "./gamelogic/MechanicParameters.js";
+import {newWaterConsumer} from "./components/WaterConsumer.js";
+import {newWater} from "./components/Water.js";
+import * as Actions from "./gamelogic/Actions.js";
 
 
 function toTileCoordinates(position) {
@@ -76,30 +81,7 @@ export function CutTree(gameState) {
     const tile = getCursorTile();
 
     if (tile.tree) {
-        switch (tile.tree.type) {
-            case 0:
-                if (tile.tree.level === 100) {
-                    gameState[Resources.PINE_WOOD] += 15;
-                } else {
-                    gameState[Resources.PINE_WOOD] += Math.floor(tile.tree.level / 10);
-                }
-                break;
-            case 1:
-                if (tile.tree.level === 100) {
-                    gameState.beechWood += 15;
-                } else {
-                    gameState.beechWood += Math.floor(tile.tree.level / 10);
-                }
-                break;
-            case 2:
-                if (tile.tree.level === 100) {
-                    gameState.oakWood += 15;
-                } else {
-                    gameState.oakWood += Math.floor(tile.tree.level / 10);
-                }
-                break;
-        }
-        delete tile.tree;
+        Actions.CutTree(tile, gameState);
     }
 }
 
@@ -189,7 +171,7 @@ export function PlaceSprinkler(gameState) {
 }
 
 export function notOccupied(tile) {
-    return !(tile.water || tile.tree || tile.factory || tile.sprinkler || tile.forester)
+    return !(tile.water || tile.tree || tile.factory || tile.sprinkler || tile.forester || tile.lumberHut)
 }
 export function PlaceForester(gameState) {
     const tile = getCursorTile();
@@ -205,7 +187,23 @@ export function PlaceForester(gameState) {
     }
 }
 
-export function FertelizeTile(gameState) {
+export function PlaceLumberHut(gameState) {
+    const tile = getCursorTile();
+    if(notOccupied(tile)) {
+        tile.display = newDisplay(0,0,Color.fromHex('#441700'));
+        tile.forester = true;
+
+        tile.factory = newFactory();
+        tile.factory.requiredResources[Resources.PINE_SAPLING] = 0; // Indicate that nothing is required
+        tile.factory.productionTime = LUMBER_HUT_COOL_DOWN;
+        tile.factory.productionTime = 1;
+        tile.factory.inputResourcesLimit = 1;
+        tile.factory.producedResource = Resources.TREE_CUT_ACTION;
+        tile.lumberHut = true;
+    }
+}
+
+export function FertilizeTile(gameState) {
     const tile = getCursorTile();
     if (true) { // What can be fertelized?
         if (!checkResourceAvailability(gameState, { [Resources.COMPOST]: 1})) {
@@ -231,6 +229,7 @@ export function mouseDown(gameState) {
 }
 
 export const List = [
+    PlaceLumberHut,
     PlaceTree,
     PlaceWater,
     CutTree,
@@ -239,7 +238,7 @@ export const List = [
     Demolish,
     UnloadFactory,
     PlaceCompostHeap,
-    FertelizeTile,
+    FertilizeTile,
     PlaceSprinkler,
     PlaceForester,
 ];
