@@ -56,6 +56,7 @@ export function generate() {
     );
 
     getTileByCoordinates(center).water = newWater(true);
+    getTileByCoordinates(center).source = true;
 
     for (const entity of entities) {
         const distance = entity.position.subtract(center).norm();

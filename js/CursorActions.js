@@ -160,6 +160,10 @@ export function LoadFactory(gameState, resourceType) {
 
 export function Demolish(gameState) {
     const tile = getCursorTile();
+    if (tile.source) {
+        console.debug("Can't delete source");
+        return;
+    }
     if (tile.water) {
         delete tile.water;
     }
