@@ -101,11 +101,9 @@ export function applyOverlay(entity, animationProgress) {
                 itemFlow = entity.water.output.position.subtract(entity.position);
                 itemFlow = itemFlow.multiply(TILE_SIZE * animationProgress);
             }
-            c.fillStyle ="#f00";
-            c.fillRect(20 + itemFlow.x, 20 + itemFlow.y, 8, 8);
+            drawItem(entity.item, 24 + itemFlow.x, 24 + itemFlow.y);
         } else {
-            c.fillStyle ="#f00";
-            c.fillRect(20, 20, 8, 8);
+            drawItem(entity.item, 24, 24);
         }
     }
 
@@ -196,5 +194,30 @@ function drawTree(entity) {
         );
     }
 
+    c.restore();
+}
+
+
+function drawItem(item, x, y) {
+    c.save();
+    c.translate(x, y);
+    c.scale(0.5, 0.5);
+    let spriteX = 0;
+    if(item.type === "PineWood") {
+        spriteX = 0;
+    } else if(item.type === "BeechWood") {
+        spriteX = 1;
+    } else if(item.type === "OakWood") {
+        spriteX = 2;
+    } else if(item.type === "PineSapling") {
+        spriteX = 3;
+    } else if(item.type === "BeechSapling") {
+        spriteX = 4;
+    } else if(item.type === "OakSapling") {
+        spriteX = 5;
+    } else if(item.type === "Compost") {
+        spriteX = 6;
+    }
+    Img.drawSprite("items", -16, -16, 32, 32, spriteX, 0);
     c.restore();
 }
