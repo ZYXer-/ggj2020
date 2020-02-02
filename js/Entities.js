@@ -66,14 +66,6 @@ export function generate() {
 
         entity.pollution = clamp(Math.round(((5 * distance) - 5) * randFloat(0.5, 1.0)), 0, MAX_POLLUTION_VALUE);
     }
-
-    // Debug Water Stuff
-    entitiesList[5 * NUM_TILES_WIDTH + 25].water = newWater(true);
-    entitiesList[6 * NUM_TILES_WIDTH + 25].water = newWater(false);
-    entitiesList[6 * NUM_TILES_WIDTH + 25].item = {
-        bla : true,
-        location: entitiesList[6 * NUM_TILES_WIDTH + 25],
-    };
 }
 
 function getHood(range, position, entitiesList) {

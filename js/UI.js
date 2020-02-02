@@ -162,7 +162,7 @@ for(let itemIndex in items) {
                     y += 2;
                 }
             }
-            if(false /* TODO: if selected */) {
+            if(GameState.cursorMode === CURSOR_MODES.DROP && GameState.selectedResource === item.value) {
                 c.fillStyle = "#58b001";
             }
             c.fillRect(x, y, w, h);
@@ -178,7 +178,6 @@ for(let itemIndex in items) {
             click() {
                 GameState.cursorMode = CURSOR_MODES.BUILD;
                 GameState.selectedBuildingType = resourceTypeToBuildingType(item.value);
-                console.log("PLANT=" + item.value);
             },
             draw(x, y, w, h, isOver, down) {
                 c.fillStyle = "#ccc";
