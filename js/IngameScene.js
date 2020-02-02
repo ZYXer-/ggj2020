@@ -25,9 +25,56 @@ import Resources from "./gamelogic/Resources.js";
 
 let oneSecCountUp = 0;
 
-const GameState = {
+export const CURSOR_MODES = {
+    PICK: 0,
+    DROP: 1,
+    BUILD: 2,
+    DESTROY: 4,
+};
+
+export const BUILDING_TYPES = {
+    PINE: 10,
+    BEECH: 11,
+    OAK: 12,
+
+    TREE_NURSERY: 20,
+    COMPOST_HEAP: 21,
+
+    SPRINKLER: 30,
+    FORESTRY: 31,
+    LUMBER_HUT: 32,
+};
+
+
+function handleClick(gameState) {
+    switch (gameState.cursorMode) {
+        case CURSOR_MODES.PICK:
+            break;
+        case CURSOR_MODES.DROP:
+            break;
+        case CURSOR_MODES.BUILD:
+            handleBuildAction(gameState);
+            break;
+        case CURSOR_MODES.DESTROY:
+            break;
+    }
+}
+
+function handleBuildAction(gameState) {
+    switch (gameState.selectedBuildingType) {
+        case BUILDING_TYPES.PINE:
+            CursorActions.PlaceTree(gameState);
+            break;
+    }
+}
+
+export const GameState = {
     cursorActionIndex: 0,
     cursorAction: CursorActions.List[0],
+    cursorMode: CURSOR_MODES.BUILD,
+    selectedBuildingType: BUILDING_TYPES.OAK,
+
+    // Resources
     [Resources.PINE_WOOD]: 1000,
     [Resources.BEECH_WOOD]: 0,
     [Resources.OAK_WOOD]: 0,
@@ -35,19 +82,12 @@ const GameState = {
     [Resources.BEECH_SAPLING]: 5,
     [Resources.OAK_SAPLING]: 5,
     [Resources.COMPOST]: 5,
-
 };
 
 function reset() {
     Entities.generate();
     oneSecCountUp = 0;
 }
-
-function iterateCursorAction(gameState, cursorActions) {
-   gameState.cursorActionIndex = (gameState.cursorActionIndex + 1) % cursorActions.length;
-   gameState.cursorAction = cursorActions[gameState.cursorActionIndex];
-}
-
 
 export function show() {
 
@@ -57,16 +97,13 @@ export function show() {
     Keyboard.registerKeyUpHandler(Keyboard.D, function() {
         debugger;
     });
-    Keyboard.registerKeyUpHandler(Keyboard.W, function() {
-        iterateCursorAction(GameState, CursorActions.List);
-    });
     Mouse.left.registerUpArea(
         'map',
         0,
         0,
         DrawSystem.OFFSET_X + (DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH),
         DrawSystem.OFFSET_Y + (DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT),
-        () => GameState.cursorAction(GameState)
+        () => handleClick(GameState)
     )
 
     // do stuff before we update and draw this scene for the first time
@@ -109,7 +146,6 @@ export function update() {
         // Deltas
         if (oneSecCountUp > 1) {
             for(const entity of Entities.entities) {
-
                 PollutionGrowthSystem.apply(entity);
                 WaterFlowSystem.apply(entity);
                 TreeSystem.apply(entity);
