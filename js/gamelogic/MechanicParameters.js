@@ -4,7 +4,11 @@
 
 import Resources from "./Resources.js";
 
-export const TREE_POLLUTION_REDUCTION_FACTOR = 0.005;
+export const TREE_POLLUTION_REDUCTION_FACTOR = 0.012; // Tree's pollution reduction relative to the level of the tree
+export const TREE_POLLUTION_REDUCTION_DISTANCE_FACTOR = 0.30; // Tree's pollution reduction relative to the tree's distance to a polluted tile
+export const TREE_POLLUTION_REDUCTION_CHANCE = 0.45; // Chance that a tree decreases the pollution of a field
+export const MIN_POLLUTION_GROWTH = 0.3; // Minimum value a tiles pollution grows, when a growth happens
+
 export const TREE_RECOVERY_RATE = 1;
 export const POLLUTION_DAMAGE_FACTOR = 0.25;
 export const COMPOST_GROWTH_BOOST = 2;

@@ -11,10 +11,9 @@ import {
     COMPOST_COST,
     LUMBER_HUT_COOL_DOWN,
     SPRINKLER_COST,
-    SPRINKLER_WATER_CONSUMPTION
+    SPRINKLER_WATER_CONSUMPTION,
 } from "./gamelogic/MechanicParameters.js";
 import {newWaterConsumer} from "./components/WaterConsumer.js";
-import {newWater} from "./components/Water.js";
 import * as Actions from "./gamelogic/Actions.js";
 
 
