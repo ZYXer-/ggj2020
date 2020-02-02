@@ -67,9 +67,10 @@ export function PlaceTree(gameState, saplingResource) { // saplingResource is a 
     }
 }
 
-export function PlaceTreeNursery() {
+export function PlaceTreeNursery(gameState) {
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
+       console.warn("TODO: remove resources!");
        tile.factory = newFactory();
        tile.factory.requiredResources[Resources.PINE_WOOD] = 1;
        tile.factory.productionTime = 5;
@@ -81,6 +82,7 @@ export function PlaceTreeNursery() {
 export function PlaceCompostHeap() {
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
+        console.warn("TODO: remove resources!");
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_WOOD] = COMPOST_COST;
         tile.factory.productionTime = 5;
@@ -193,6 +195,7 @@ export function notOccupied(tile) {
 export function PlaceForester(gameState) {
     const tile = getCursorTile();
     if(notOccupied(tile)) {
+        console.warn("TODO: remove resources!");
         tile.display = newDisplay(0,0,Color.fromHex('#ef0ee0'));
         tile.forester = true;
 
@@ -219,9 +222,10 @@ export function DropResourceToGround(gameState, resourceType) {
     }
 }
 
-export function PlaceLumberHut(gameState) {
+export function PlaceLogCabin(gameState) {
     const tile = getCursorTile();
     if(notOccupied(tile)) {
+        console.warn("TODO: remove resources!");
         tile.display = newDisplay(0,0,Color.fromHex('#441700'));
         tile.forester = true;
 
@@ -261,7 +265,7 @@ export function mouseDown(gameState) {
 }
 
 export const List = [
-    PlaceLumberHut,
+    PlaceLogCabin,
     PlaceTree,
     PlaceWater,
     CutTree,
