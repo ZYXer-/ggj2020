@@ -230,7 +230,7 @@ export function draw(gameState) {
         c.restore();
 
         labelText.drawPosText(24, 14, item.label);
-        labelText.drawPosText(132, 14, "123");
+        numberText.drawPosText(152, 14, Math.round(gameState[item.value]).toString(10));
 
         c.restore();
     }
