@@ -6,6 +6,7 @@ import {c} from "./core/canvas.js";
 import Color from "./utils/Color.js";
 import * as TotalPollutionCounterSystem from "./systems/TotalPollutionCounterSystem.js";
 import Resources from "./gamelogic/Resources.js";
+import { GameState, BUILDING_TYPES, CURSOR_MODES } from "./IngameScene.js";
 
 
 let progressNumber = new Text({
@@ -116,6 +117,32 @@ let items = [
     },
 ];
 
+function resourceTypeToBuildingType(resourceType) {
+    switch (resourceType) {
+        case(Resources.PINE_SAPLING):
+            return BUILDING_TYPES.PINE;
+        case(Resources.BEECH_SAPLING):
+            return BUILDING_TYPES.BEECH;
+        case(Resources.OAK_SAPLING):
+            return BUILDING_TYPES.OAK;
+        default:
+            console.error("Not Supported!");
+    }
+}
+
+function buildingTypeToResourceType(buildingType) {
+    switch (buildingType) {
+        case(BUILDING_TYPES.PINE):
+            return Resources.PINE_SAPLING;
+        case(BUILDING_TYPES.BEECH):
+            return Resources.BEECH_SAPLING;
+        case(BUILDING_TYPES.OAK):
+            return Resources.OAK_SAPLING;
+        default:
+            console.error("Not Supported!");
+    }
+}
+
 for(let itemIndex in items) {
     const item = items[itemIndex];
     item.dispenseButton = new Button({
@@ -148,6 +175,8 @@ for(let itemIndex in items) {
             w : 48,
             h : 20,
             click() {
+                GameState.cursorMode = CURSOR_MODES.BUILD;
+                GameState.selectedBuildingType = resourceTypeToBuildingType(item.value);
                 console.log("PLANT=" + item.value);
             },
             draw(x, y, w, h, isOver, down) {
@@ -158,7 +187,7 @@ for(let itemIndex in items) {
                         y += 2;
                     }
                 }
-                if(false /* TODO: if selected */) {
+                if(GameState.cursorMode === CURSOR_MODES.BUILD && item.value === buildingTypeToResourceType(GameState.selectedBuildingType)) {
                     c.fillStyle = "#58b001";
                 }
                 c.fillRect(x, y, w, h);
