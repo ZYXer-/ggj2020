@@ -154,19 +154,26 @@ function drawTree(entity) {
         )
     }
     c.scale(0.5, 0.5);
-    let treeImageId = entity.tree.type * 5;
+    let spriteX = entity.tree.type * 5;
     if (entity.tree.level < 20) {
-        treeImageId += 0;
+        spriteX += 0;
     } else if (entity.tree.level < 40) {
-        treeImageId += 0;
+        spriteX += 0;
     } else if (entity.tree.level < 60) {
-        treeImageId += 1;
+        spriteX += 1;
     } else if (entity.tree.level < 80) {
-        treeImageId += 2;
+        spriteX += 2;
     } else if (entity.tree.level < 100) {
-        treeImageId += 3;
+        spriteX += 3;
     } else {
-        treeImageId += 4;
+        spriteX += 4;
+    }
+    let spriteY = entity.display.randomSprite;
+    if(entity.tree.type === 2) {
+        spriteY = 0;
+    }
+    if(entity.tree.health === 0) {
+        spriteY += 4;
     }
     Img.drawSprite(
         'trees',
@@ -174,8 +181,8 @@ function drawTree(entity) {
         -48,
         2 * TILE_SIZE,
         120,
-        treeImageId,
-        entity.display.randomSprite,
+        spriteX,
+        spriteY,
     );
     c.restore();
 }
