@@ -29,10 +29,10 @@ function getCursorTile() {
     return Entities.getTileByCoordinates(toTileCoordinates(Mouse.pos));
 }
 
-export function PlaceWater() {
+export function PlaceWater(gameState) {
     const tile = getCursorTile();
-    if (!tile.water && !tile.tree && !tile.factory) {
-        tile.water = newWater(false);
+    if (notOccupied(tile)) {
+        Actions.PlaceWater(tile, gameState);
     }
 }
 
@@ -224,7 +224,7 @@ export function FertilizeTile(gameState) {
 
 export function mouseDown(gameState) {
     if(gameState.cursorAction === PlaceWater) {
-        PlaceWater();
+        PlaceWater(gameState);
     }
 }
 

@@ -1,4 +1,7 @@
 import Resources from "./Resources.js";
+import { newWater } from "../components/Water.js";
+import {checkResourceAvailability, removeResources} from "./Resources.js";
+import { WATER_COST } from "./MechanicParameters.js";
 
 export function CutTree(entity, gameState) {
     switch (entity.tree.type) {
@@ -25,4 +28,17 @@ export function CutTree(entity, gameState) {
             break;
     }
     delete entity.tree;
+}
+
+export function PlaceWater(tile, gameState) {
+    if(checkResourceAvailability(
+        gameState,
+        WATER_COST,
+    )) {
+        removeResources(
+            gameState,
+            WATER_COST,
+        );
+        tile.water = newWater(false);
+    }
 }
