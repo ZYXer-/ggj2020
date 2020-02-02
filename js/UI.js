@@ -139,7 +139,7 @@ function buildingTypeToResourceType(buildingType) {
         case(BUILDING_TYPES.OAK):
             return Resources.OAK_SAPLING;
         default:
-            console.error("Not Supported!");
+            return null;
     }
 }
 
@@ -237,7 +237,8 @@ let buildings = [
         offset: 22,
         label: "Canal",
         click() {
-            console.log("canal");
+            GameState.cursorMode = CURSOR_MODES.BUILD;
+            GameState.selectedBuildingType = BUILDING_TYPES.WATER;
         },
         isActive() {
             return false;
@@ -248,7 +249,8 @@ let buildings = [
         buildingSprite: 0,
         label: "Tree Nursery",
         click() {
-            console.log("tree nursery");
+            GameState.cursorMode = CURSOR_MODES.BUILD;
+            GameState.selectedBuildingType = BUILDING_TYPES.TREE_NURSERY;
         },
         isActive() {
             return false;
@@ -259,7 +261,8 @@ let buildings = [
         buildingSprite: 1,
         label: "Forester",
         click() {
-            console.log("forester");
+            GameState.cursorMode = CURSOR_MODES.BUILD;
+            GameState.selectedBuildingType = BUILDING_TYPES.FORESTER;
         },
         isActive() {
             return false;
@@ -270,7 +273,8 @@ let buildings = [
         buildingSprite: 2,
         label: "Log Cabin",
         click() {
-            console.log("log cabin");
+            GameState.cursorMode = CURSOR_MODES.BUILD;
+            GameState.selectedBuildingType = BUILDING_TYPES.LOG_CABIN;
         },
         isActive() {
             return false;
@@ -281,7 +285,8 @@ let buildings = [
         buildingSprite: 3,
         label: "Sprinkler",
         click() {
-            console.log("sprinkler");
+            GameState.cursorMode = CURSOR_MODES.BUILD;
+            GameState.selectedBuildingType = BUILDING_TYPES.SPRINKLER;
         },
         isActive() {
             return false;
@@ -293,7 +298,8 @@ let buildings = [
         buildingSprite: 4,
         label: "Compost Heap",
         click() {
-            console.log("compost heap");
+            GameState.cursorMode = CURSOR_MODES.BUILD;
+            GameState.selectedBuildingType = BUILDING_TYPES.COMPOST_HEAP;
         },
         isActive() {
             return false;

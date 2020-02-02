@@ -33,6 +33,8 @@ export const CURSOR_MODES = {
 };
 
 export const BUILDING_TYPES = {
+    WATER: 1,
+
     PINE: 10,
     BEECH: 11,
     OAK: 12,
@@ -41,8 +43,8 @@ export const BUILDING_TYPES = {
     COMPOST_HEAP: 21,
 
     SPRINKLER: 30,
-    FORESTRY: 31,
-    LUMBER_HUT: 32,
+    FORESTER: 31,
+    LOG_CABIN: 32,
 };
 
 
@@ -86,6 +88,24 @@ function handleBuildAction(gameState) {
             break;
         case BUILDING_TYPES.OAK:
             CursorActions.PlaceTree(gameState, Resources.OAK_SAPLING);
+            break;
+        case BUILDING_TYPES.WATER:
+            CursorActions.PlaceWater(gameState);
+            break;
+        case BUILDING_TYPES.TREE_NURSERY:
+            CursorActions.PlaceTreeNursery(gameState);
+            break;
+        case BUILDING_TYPES.FORESTER:
+            CursorActions.PlaceForester(gameState);
+            break;
+        case BUILDING_TYPES.LOG_CABIN:
+            CursorActions.PlaceLogCabin(gameState);
+            break;
+        case BUILDING_TYPES.SPRINKLER:
+            CursorActions.PlaceSprinkler(gameState);
+            break;
+        case BUILDING_TYPES.COMPOST_HEAP:
+            CursorActions.PlaceCompostHeap(gameState);
             break;
     }
 }
