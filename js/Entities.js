@@ -1,9 +1,11 @@
 import Vec2 from "./utils/Vec2.js";
-import { rand } from "./utils/Utils.js";
+import { clamp, rand, randFloat, trueOrFalse } from "./utils/Utils.js";
 import { newWater } from "./components/Water.js";
 import { newDisplay } from "./components/Display.js";
+import { newTree } from "./components/Tree.js";
+import { MAX_POLLUTION_VALUE } from "./gamelogic/MechanicParameters.js";
 
-export const NUM_TILES_WIDTH = 30;
+export const NUM_TILES_WIDTH = 33;
 export const NUM_TILES_HEIGHT = 22;
 
 export const entities = new Set();
@@ -21,39 +23,57 @@ export function generate() {
 
     const size = NUM_TILES_HEIGHT * NUM_TILES_WIDTH;
 
-    for (const i of Array(size).keys()) {
+    for (const id of Array(size).keys()) {
 
-        const x =
+        let position = new Vec2(
+            id % NUM_TILES_WIDTH,
+            Math.floor(id / NUM_TILES_WIDTH),
+        );
 
         entities.add({
-            id: i,
-            position: new Vec2(
-                i % NUM_TILES_WIDTH,
-                Math.floor(i/NUM_TILES_WIDTH),
-            ),
-            pollution: (i % NUM_TILES_WIDTH)  < 3 ? rand(0, 100) : 0,
+            id,
+            position,
+            pollution: 0,
             pollutionDelta: 0,
             item: null,
             display: newDisplay()
         });
     }
+
     entitiesList = [...entities];
-
-    entitiesList[20 * NUM_TILES_WIDTH + 20].pollution = 100;
-
-    // Water Stuff
-    entitiesList[5 * NUM_TILES_WIDTH + 20].water = newWater(true);
-    entitiesList[6 * NUM_TILES_WIDTH + 20].water = newWater(false);
-    entitiesList[6 * NUM_TILES_WIDTH + 20].item = {
-        bla : true,
-        location: entitiesList[6 * NUM_TILES_WIDTH + 20],
-    };
 
     for (const entity of entities) {
         entity.hood1 = getHood(1, entity.position, entitiesList);
         entity.hood2 = getHood(2, entity.position, entitiesList);
         entity.hood3 = getHood(3, entity.position, entitiesList);
     }
+
+
+    // Generate world
+    const center = new Vec2(
+        Math.ceil(NUM_TILES_WIDTH / 2),
+        Math.floor(NUM_TILES_HEIGHT / 2),
+    );
+
+    getTileByCoordinates(center).water = newWater(true);
+
+    for (const entity of entities) {
+        const distance = entity.position.subtract(center).norm();
+
+        if(distance > 1.5 && distance < 3.5 && trueOrFalse(0.8)) {
+            entity.tree = newTree(0, rand(50, 100));
+        }
+
+        entity.pollution = clamp(Math.round(((5 * distance) - 5) * randFloat(0.5, 1.0)), 0, MAX_POLLUTION_VALUE);
+    }
+
+    // Debug Water Stuff
+    entitiesList[5 * NUM_TILES_WIDTH + 25].water = newWater(true);
+    entitiesList[6 * NUM_TILES_WIDTH + 25].water = newWater(false);
+    entitiesList[6 * NUM_TILES_WIDTH + 25].item = {
+        bla : true,
+        location: entitiesList[6 * NUM_TILES_WIDTH + 25],
+    };
 }
 
 function getHood(range, position, entitiesList) {

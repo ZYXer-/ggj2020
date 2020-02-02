@@ -13,7 +13,7 @@ export function apply(entity) {
             const freeTiles = entity.hood2.filter(e => notOccupied(e));
             if (freeTiles.length > 0) {
                 const target = freeTiles[rand(0, freeTiles.length - 1)];
-                target.tree = newTree();
+                target.tree = newTree(0, 0);
                 removeResources(
                     entity.factory.outputResources,
                     { [Resources.PLANTBLE_PINE_SAPLING]: 1},

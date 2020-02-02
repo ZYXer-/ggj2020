@@ -6,12 +6,14 @@ import { objectToMap } from "./utils/Utils.js";
 export const images = objectToMap({
     loading: "img/loading.png",
     trees: "img/trees.png",
+    panel: "img/panel.png",
 });
 
 
 // Webfonts
 
 export const webFonts = [
+    "norwester"
 ];
 
 

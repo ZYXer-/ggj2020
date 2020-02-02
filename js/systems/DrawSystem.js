@@ -6,10 +6,14 @@ import * as Tooltip from "../Tooltip.js";
 import * as Img from "../core/Img.js";
 import Resources from "../gamelogic/Resources.js";
 import Vec2 from "../utils/Vec2.js";
+import { NUM_TILES_HEIGHT, NUM_TILES_WIDTH } from "../Entities.js";
+import { MAX_POLLUTION_VALUE } from "../gamelogic/MechanicParameters.js";
 
 
 export const TILE_SIZE = 48;
-export const SPRITE_SIZE = 48;
+export const OFFSET_X = 12;
+export const OFFSET_Y = 12;
+
 
 
 const COLOR_YELLOW = Color.fromHex('#efdb02');
@@ -44,10 +48,11 @@ export function applyGround(entity, animationProgress) {
     } else if (entity.factory !== undefined) {
         color = COLOR_YELLOW;
     } else {
-       color = Color.fromHSL(
-            0.45,
-            clamp(1 - entity.pollution/100, 0.001, 1),
-            0.37,
+        const nature = 1.0 - (entity.pollution / MAX_POLLUTION_VALUE);
+        color = Color.fromHSL(
+            0.15 + (0.135 * nature),
+            0.05 + (0.5 * nature),
+            0.30 + (0.10 * nature),
         );
     }
     if (entity.display && entity.display.color) {
@@ -56,7 +61,11 @@ export function applyGround(entity, animationProgress) {
 
     if (color !== undefined ) {
         c.fillStyle = color.toHex();
-        c.fillRect(0,0, TILE_SIZE + 1, TILE_SIZE + 1);
+        c.fillRect(
+            0,
+            0,
+            TILE_SIZE + (entity.position.x === NUM_TILES_WIDTH - 1 ? 0 : 1),
+            TILE_SIZE + (entity.position.y === NUM_TILES_HEIGHT - 1 ? 0 : 1));
     }
 
     if (entity.water) {
@@ -101,8 +110,8 @@ export function applyOverlay(entity, animationProgress) {
 
 
     if (Mouse.isOver(
-        entity.position.x * TILE_SIZE,
-        entity.position.y * TILE_SIZE,
+        OFFSET_X + (entity.position.x * TILE_SIZE),
+        OFFSET_X + (entity.position.y * TILE_SIZE),
         TILE_SIZE,
         TILE_SIZE,
     )) {

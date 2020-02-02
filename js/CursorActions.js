@@ -15,8 +15,8 @@ import { newWater } from "./components/Water.js";
 
 function toTileCoordinates(position) {
     return new Vec2(
-        Math.floor(position.x / DrawSystem.TILE_SIZE),
-        Math.floor(position.y / DrawSystem.TILE_SIZE),
+        Math.floor((position.x - DrawSystem.OFFSET_X) / DrawSystem.TILE_SIZE),
+        Math.floor((position.y - DrawSystem.OFFSET_Y) / DrawSystem.TILE_SIZE),
     );
 }
 
@@ -38,7 +38,7 @@ export function PlaceTree(gameState) {
             gameState,
             { [Resources.PINE_SAPLING]: 1},
         )) {
-            tile.tree = newTree();
+            tile.tree = newTree(0, 0);
             removeResources(
                 gameState,
                 { [Resources.PINE_SAPLING]: 1},

@@ -9,13 +9,14 @@ import * as PollutionGrowthSystem from "./systems/PollutionGrowthSystem.js";
 import * as Tooltip from "./Tooltip.js";
 import * as Viewport from "./core/Viewport.js";
 import { c } from "./core/canvas.js";
-import * as Timer from "./core/Timer.js"
-import * as WaterFlowSystem from "./systems/WaterFlowSystem.js"
-import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js"
-import * as TreeSystem from "./systems/TreeSystem.js"
-import * as FactorySystem from "./systems/FactorySystem.js"
-import * as WaterConsumerSystem from "./systems/WaterConsumerSystem.js"
-import * as ForesterSystem from "./systems/ForesterSystem.js"
+import * as Timer from "./core/Timer.js";
+import * as WaterFlowSystem from "./systems/WaterFlowSystem.js";
+import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js";
+import * as TreeSystem from "./systems/TreeSystem.js";
+import * as FactorySystem from "./systems/FactorySystem.js";
+import * as WaterConsumerSystem from "./systems/WaterConsumerSystem.js";
+import * as ForesterSystem from "./systems/ForesterSystem.js";
+import * as TotalPollutionCounterSystem from "./systems/TotalPollutionCounterSystem.js";
 import * as CursorActions from "./CursorActions.js";
 import * as Keyboard from "./core/input/Keyboard.js";
 import * as UI from "./UI.js"
@@ -27,10 +28,11 @@ const GameState = {
     cursorActionIndex: 0,
     cursorAction: CursorActions.List[0],
     [Resources.PINE_WOOD]: 1000,
-    [Resources.PINE_SAPLING]: 5,
-    [Resources.COMPOST]: 5,
     beechWood: 0,
     oakWood: 0,
+    [Resources.PINE_SAPLING]: 5,
+    [Resources.COMPOST]: 5,
+
 };
 
 function reset() {
@@ -59,8 +61,8 @@ export function show() {
         'map',
         0,
         0,
-        DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH,
-        DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT,
+        DrawSystem.OFFSET_X + (DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH),
+        DrawSystem.OFFSET_Y + (DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT),
         () => GameState.cursorAction(GameState)
     )
 
@@ -102,23 +104,27 @@ export function update() {
         oneSecCountUp += Timer.delta * 5;
 
         // Deltas
-        for(const entity of Entities.entities) {
-            if (oneSecCountUp > 1) {
+        if (oneSecCountUp > 1) {
+            for(const entity of Entities.entities) {
+
                 PollutionGrowthSystem.apply(entity);
                 WaterFlowSystem.apply(entity);
                 TreeSystem.apply(entity);
                 FactorySystem.apply(entity, 1);
                 WaterConsumerSystem.apply(entity); // must be after WaterFlowSystem
                 ForesterSystem.apply(entity);
+
             }
         }
 
         // Application
+        TotalPollutionCounterSystem.reset();
         for(const entity of Entities.entities) {
             if (oneSecCountUp > 1) {
                 PollutionApplicationSystem.apply(entity);
                 WaterApplicationSystem.apply(entity);
             }
+            TotalPollutionCounterSystem.apply(entity);
         }
 
         if(Mouse.left.down) {
@@ -135,8 +141,11 @@ export function update() {
 export function draw() {
 
     // clear scene
-    c.fillStyle = "#fff";
+    c.fillStyle = "#222";
     c.fillRect(0, 0, Viewport.width, Viewport.height);
+
+    c.save();
+    c.translate(DrawSystem.OFFSET_X, DrawSystem.OFFSET_Y);
 
     for(const entity of Entities.entities) {
         DrawSystem.applyGround(entity, oneSecCountUp);
@@ -145,8 +154,21 @@ export function draw() {
         DrawSystem.applyOverlay(entity, oneSecCountUp);
     }
 
-    // draw tooltip
+    c.restore();
+
+    c.fillStyle = "#222";
+    c.fillRect(0, 0, Viewport.width, DrawSystem.OFFSET_Y);
+
     UI.draw(GameState);
+
+    c.fillStyle = "#ccc";
+    c.fillRect(11, 10, 1586, 2);
+    c.fillRect(11, 1068, 1586, 2);
+    c.fillRect(10, 11, 2, 1058);
+    c.fillRect(1596, 11, 2, 1058);
+
+    // draw tooltip
+
     Tooltip.draw();
 
     // draw pause screen when paused
