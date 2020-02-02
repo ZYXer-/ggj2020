@@ -151,7 +151,8 @@ for(let itemIndex in items) {
         w : 68,
         h : 20,
         click() {
-            console.log("DISPENSE=" + item.value);
+            GameState.cursorMode = CURSOR_MODES.DROP;
+            GameState.selectedResource = item.value;
         },
         draw(x, y, w, h, isOver, down) {
             c.fillStyle = "#ccc";

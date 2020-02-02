@@ -15,16 +15,17 @@ import {
 } from "./gamelogic/MechanicParameters.js";
 import {newWaterConsumer} from "./components/WaterConsumer.js";
 import * as Actions from "./gamelogic/Actions.js";
+import { newItem } from "./components/Item.js";
 
 
 function toTileCoordinates(position) {
     return new Vec2(
-        Math.floor((position.x - DrawSystem.OFFSET_X) / DrawSystem.TILE_SIZE),
-        Math.floor((position.y - DrawSystem.OFFSET_Y) / DrawSystem.TILE_SIZE),
+       Math.floor((position.x - DrawSystem.OFFSET_X) / DrawSystem.TILE_SIZE),
+       Math.floor((position.y - DrawSystem.OFFSET_Y) / DrawSystem.TILE_SIZE),
     );
 }
 
-function getCursorTile() {
+export function getCursorTile() {
     return Entities.getTileByCoordinates(toTileCoordinates(Mouse.pos));
 }
 
@@ -125,9 +126,13 @@ export function UnloadFactory(gameState) {
     }
 }
 
-export function LoadFactory(gameState) {
+export function LoadFactory(gameState, resourceType) {
     const tile = getCursorTile();
     if (tile.factory) {
+        if (Object.keys(tile.factory.requiredResources).indexOf(resourceType) < 0) {
+            console.log('Resource not required here');
+            return;
+        }
         if (checkResourceAvailability(
             tile.factory.inputResources,
             tile.factory.requiredResources,
@@ -196,6 +201,21 @@ export function PlaceForester(gameState) {
         tile.factory.productionTime = 5;
         tile.factory.inputResourcesLimit = 5;
         tile.factory.producedResource = Resources.PLANTBLE_PINE_SAPLING;
+    }
+}
+
+export function DropResourceToGround(gameState, resourceType) {
+    const tile = getCursorTile();
+    if (checkResourceAvailability(gameState, { [resourceType]: 1})) {
+
+        tile.item  = newItem(resourceType, tile);
+        removeResources(
+            gameState,
+            { [resourceType]: 1},
+        );
+
+    } else {
+        console.log("Can't drop resource because not enough in stock ");
     }
 }
 

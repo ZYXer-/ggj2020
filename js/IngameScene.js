@@ -51,13 +51,29 @@ function handleClick(gameState) {
         case CURSOR_MODES.PICK:
             break;
         case CURSOR_MODES.DROP:
+            handleDropAction(gameState);
             break;
         case CURSOR_MODES.BUILD:
             handleBuildAction(gameState);
             break;
         case CURSOR_MODES.DESTROY:
+            CursorActions.PlaceTreeNursery(gameState);
             break;
     }
+}
+
+function handleDropAction(gameState) {
+
+    const tile = CursorActions.getCursorTile();
+    if (tile.factory) {
+        CursorActions.LoadFactory(gameState, gameState.selectedResource)
+    } else if (CursorActions.notOccupied(tile) || tile.water)  {
+        CursorActions.DropResourceToGround(gameState, gameState.selectedResource);
+
+    } else {
+        console.warn("Can't drop stuff here.");
+    }
+
 }
 
 function handleBuildAction(gameState) {
@@ -77,7 +93,7 @@ function handleBuildAction(gameState) {
 export const GameState = {
     cursorActionIndex: 0,
     cursorAction: CursorActions.List[0],
-    cursorMode: CURSOR_MODES.BUILD,
+    cursorMode: CURSOR_MODES.DESTROY,
     selectedBuildingType: BUILDING_TYPES.OAK,
 
     // Resources
