@@ -81,7 +81,7 @@ function handleDropAction(gameState) {
     const tile = CursorActions.getCursorTile();
     if (tile.factory) {
         CursorActions.LoadFactory(gameState, gameState.selectedResource)
-    } else if (CursorActions.notOccupied(tile) || tile.water || !tile.item)  {
+    } else if ((CursorActions.notOccupied(tile) || tile.water) && !tile.item)  {
         CursorActions.DropResourceToGround(gameState, gameState.selectedResource);
 
     } else {
@@ -160,10 +160,10 @@ export function show() {
     });
     Mouse.left.registerUpArea(
         'map',
-        0,
-        0,
-        DrawSystem.OFFSET_X + (DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH),
-        DrawSystem.OFFSET_Y + (DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT),
+        DrawSystem.OFFSET_X,
+        DrawSystem.OFFSET_Y,
+        DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH,
+        DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT,
         () => handleClick(GameState)
     )
 
@@ -227,7 +227,12 @@ export function update() {
             TotalPollutionCounterSystem.apply(entity);
         }
 
-        if(Mouse.left.down) {
+        if(Mouse.left.down && Mouse.isOver(
+            DrawSystem.OFFSET_X,
+            DrawSystem.OFFSET_Y,
+            DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH,
+            DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT,
+        )) {
             if(GameState.cursorMode === CURSOR_MODES.BUILD && GameState.selectedBuildingType === BUILDING_TYPES.WATER) {
                 PlaceWater(GameState);
             }
