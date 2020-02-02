@@ -8,6 +8,7 @@ export const images = objectToMap({
     trees: "img/trees.png",
     panel: "img/panel.png",
     items: "img/items.png",
+    buildings: "img/buildings.png",
 });
 
 
