@@ -63,7 +63,13 @@ function handleClick(gameState) {
 function handleBuildAction(gameState) {
     switch (gameState.selectedBuildingType) {
         case BUILDING_TYPES.PINE:
-            CursorActions.PlaceTree(gameState);
+            CursorActions.PlaceTree(gameState, Resources.PINE_SAPLING);
+            break;
+        case BUILDING_TYPES.BEECH:
+            CursorActions.PlaceTree(gameState, Resources.BEECH_SAPLING);
+            break;
+        case BUILDING_TYPES.OAK:
+            CursorActions.PlaceTree(gameState, Resources.OAK_SAPLING);
             break;
     }
 }

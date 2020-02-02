@@ -35,20 +35,33 @@ export function PlaceWater(gameState) {
     }
 }
 
-export function PlaceTree(gameState) {
+export function PlaceTree(gameState, saplingResource) { // saplingResource is a hacky way to define what kind of tree should be planted
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
         if (checkResourceAvailability(
             gameState,
-            { [Resources.PINE_SAPLING]: 1},
+            { [saplingResource]: 1},
         )) {
-            tile.tree = newTree(0, 0);
             removeResources(
                 gameState,
-                { [Resources.PINE_SAPLING]: 1},
+                { [saplingResource]: 1},
             );
+            switch(saplingResource) {
+                case Resources.PINE_SAPLING:
+                    tile.tree = newTree(0, 0);
+                    break;
+                case Resources.BEECH_SAPLING:
+                    tile.tree = newTree(1, 0);
+                    break;
+                case Resources.OAK_SAPLING:
+                    tile.tree = newTree(2, 0);
+                    break;
+                default:
+                    console.error("Invalid tree type");
+                    break
+            }
         } else {
-            console.log("No saplings available")
+            console.log("No saplings available", saplingResource);
         }
     }
 }
