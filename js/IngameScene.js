@@ -60,7 +60,7 @@ function handleClick(gameState) {
             handleBuildAction(gameState);
             break;
         case CURSOR_MODES.DESTROY:
-            CursorActions.PlaceTreeNursery(gameState);
+            handleDestroyAction(gameState);
             break;
     }
 }
@@ -77,7 +77,6 @@ function handlePickUpAction(gameState) {
 }
 
 function handleDropAction(gameState) {
-
     const tile = CursorActions.getCursorTile();
     if (tile.factory) {
         CursorActions.LoadFactory(gameState, gameState.selectedResource)
@@ -119,6 +118,15 @@ function handleBuildAction(gameState) {
         case BUILDING_TYPES.COMPOST_HEAP:
             CursorActions.PlaceCompostHeap(gameState);
             break;
+    }
+}
+
+function handleDestroyAction(gameState) {
+    const tile = CursorActions.getCursorTile();
+    if (tile.tree) {
+        CursorActions.CutTree(gameState);
+    } else {
+        CursorActions.Demolish(gameState);
     }
 }
 

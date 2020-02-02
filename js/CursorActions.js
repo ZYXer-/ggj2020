@@ -163,6 +163,22 @@ export function Demolish(gameState) {
     if (tile.water) {
         delete tile.water;
     }
+    if (tile.factory) {
+        addResources(
+            gameState,
+            tile.factory.inputResources,
+        );
+        addResources(
+            gameState,
+            tile.factory.outputResources,
+        );
+        delete tile.factory;
+    }
+    delete tile.forester;
+    delete tile.sprinkler;
+    delete tile.waterConsumer;
+    delete tile.compost;
+    delete tile.display;
 }
 
 export function PlaceSprinkler(gameState) {

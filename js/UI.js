@@ -216,7 +216,7 @@ let buildings = [
         icon: 0,
         label: "Demolish",
         click() {
-            console.log("demolish");
+            GameState.cursorMode = CURSOR_MODES.DESTROY;
         },
         isActive() {
             return false;
