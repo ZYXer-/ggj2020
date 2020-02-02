@@ -205,7 +205,7 @@ let buildings = [
         icon: 0,
         label: "Pick up",
         click() {
-            console.log("pick up");
+            GameState.cursorMode = CURSOR_MODES.PICK;
         },
         isActive() {
             return false;

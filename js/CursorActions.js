@@ -207,6 +207,16 @@ export function PlaceForester(gameState) {
     }
 }
 
+export function PickResourceFromGround(gameState) {
+    const tile = getCursorTile();
+    if (tile.item) {
+        addResources(
+            gameState,
+            { [tile.item.type]: 1},
+        );
+        delete tile.item;
+    }
+}
 export function DropResourceToGround(gameState, resourceType) {
     const tile = getCursorTile();
     if (checkResourceAvailability(gameState, { [resourceType]: 1})) {
