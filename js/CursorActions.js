@@ -5,7 +5,7 @@ import * as DrawSystem from "./systems/DrawSystem.js";
 import {newTree} from "./components/Tree.js";
 import {newDisplay} from "./components/Display.js";
 import {newFactory} from "./components/Factory.js";
-import Resources, {addResources, checkResourceAvailability, removeResources} from "./gamelogic/Resources.js";
+import Resources, {addResources, checkResourceAvailability, subtractResources} from "./gamelogic/Resources.js";
 import Color from "./utils/Color.js";
 import {
     COMPOST_COST,
@@ -43,7 +43,7 @@ export function PlaceTree(gameState, saplingResource) { // saplingResource is a 
             gameState,
             { [saplingResource]: 1},
         )) {
-            removeResources(
+            subtractResources(
                 gameState,
                 { [saplingResource]: 1},
             );
@@ -125,7 +125,7 @@ export function UnloadFactory(gameState) {
         };
 
         if(checkResourceAvailability(tile.factory.outputResources, resourceDelta)){
-            removeResources(
+            subtractResources(
                 tile.factory.outputResources,
                 resourceDelta
                 );
@@ -158,7 +158,7 @@ export function LoadFactory(gameState, resourceType) {
             console.log("Not enough resources");
             return;
         }
-        removeResources(gameState, tile.factory.requiredResources);
+        subtractResources(gameState, tile.factory.requiredResources);
         addResources(
             tile.factory.inputResources,
             tile.factory.requiredResources,
@@ -207,7 +207,7 @@ export function PlaceSprinkler(gameState) {
         tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
         tile.sprinkler = true;
         tile.display.buildingSprite = 3;
-        removeResources(
+        subtractResources(
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
         )
@@ -248,7 +248,7 @@ export function DropResourceToGround(gameState, resourceType) {
     if (checkResourceAvailability(gameState, { [resourceType]: 1})) {
 
         tile.item = newItem(resourceType, tile);
-        removeResources(
+        subtractResources(
             gameState,
             { [resourceType]: 1},
         );
@@ -285,7 +285,7 @@ export function FertilizeTile(gameState) {
             return;
         }
         tile.compost = 1;
-        removeResources(
+        subtractResources(
             gameState,
             { [Resources.COMPOST]: 1},
         );

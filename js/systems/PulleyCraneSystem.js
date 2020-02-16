@@ -1,9 +1,12 @@
 import { PULLEY_CRANE_STATUS } from "../components/PulleyCrane.js";
 import {ORIENTATION} from "../gamelogic/Constants.js";
+import { multiplyResources, subtractResources } from "../gamelogic/Resources.js";
 
 export function apply(entity) {
     if (entity.pulleyCrane) {
         if (entity.pulleyCrane.status === PULLEY_CRANE_STATUS.READY && entity.pulleyCrane.item === null) {
+            const demand = computeDemand(entity);
+
             grabItem(entity);
             if (entity.pulleyCrane.item) {
                 entity.pulleyCrane.status = PULLEY_CRANE_STATUS.LOADED;
@@ -35,22 +38,46 @@ function getEastTile(tile) {
     return tile.hood1.filter(t => t.position.x > tile.position.x && t.position.y === tile.position.y)[0];
 }
 
-function grabItem(entity) {
-    var sourceTile;
+function getSourceTile(entity) {
     switch (entity.pulleyCrane.orientation) {
         case ORIENTATION.NORTH_SOUTH:
-            sourceTile = getNorthTile(entity);
-            break;
+            return getNorthTile(entity);
         case ORIENTATION.EAST_WEST:
-            sourceTile = getEastTile(entity);
-            break;
+            return getEastTile(entity);
         case ORIENTATION.SOUTH_NORTH:
-            sourceTile = getSouthTile(entity);
-            break;
+             return getSouthTile(entity);
         case ORIENTATION.WEST_EAST:
-            sourceTile = getWestTile(entity);
-            break;
+             return getWestTile(entity);
     }
+}
+
+function getSinkTile(entity) {
+    switch (entity.pulleyCrane.orientation) {
+        case ORIENTATION.NORTH_SOUTH:
+            return getSouthTile(entity);
+        case ORIENTATION.EAST_WEST:
+            return getWestTile(entity);
+        case ORIENTATION.SOUTH_NORTH:
+            return getNorthTile(entity);
+        case ORIENTATION.WEST_EAST:
+            return getEastTile(entity);
+    }
+}
+
+function computeDemand(entity) {
+    const sink = getSinkTile(entity);
+    if (sink.factory) {
+        const demand = Object.assign({}, sink.factory.requiredResources);
+        multiplyResources(demand, 2);
+        subtractResources(demand, sink.factory.inputResources);
+        return Object.entries(demand).filter(([_, value]) => value > 0).map(([key, _]) => key);
+    }
+    return null;
+}
+
+
+function grabItem(entity) {
+    const sourceTile = getSourceTile(entity);
 
     if (sourceTile && sourceTile.item && (sourceTile.itemDelta[sourceTile.item] || 0) >= 0) {
         entity.pulleyCrane.item =  sourceTile.item.type;
@@ -59,21 +86,7 @@ function grabItem(entity) {
 }
 
 function dropItem(entity) {
-    var sinkTile;
-    switch (entity.pulleyCrane.orientation) {
-        case ORIENTATION.NORTH_SOUTH:
-            sinkTile = getSouthTile(entity);
-            break;
-        case ORIENTATION.EAST_WEST:
-            sinkTile = getWestTile(entity);
-            break;
-        case ORIENTATION.SOUTH_NORTH:
-            sinkTile = getNorthTile(entity);
-            break;
-        case ORIENTATION.WEST_EAST:
-            sinkTile = getEastTile(entity);
-            break;
-    }
+    var sinkTile = getSinkTile(entity);
 
     if (sinkTile && !sinkTile.item &&  Object.keys(sinkTile.itemDelta).length === 0)  {
         sinkTile.itemDelta[entity.pulleyCrane.item] = (sinkTile.itemDelta[entity.pulleyCrane.item] || 0) + 1;

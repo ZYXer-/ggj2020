@@ -1,5 +1,5 @@
 // import Resources from "../gamelogic/Resources.js";
-import { removeResources, checkResourceAvailability, addResources } from "../gamelogic/Resources.js";
+import { subtractResources, checkResourceAvailability, addResources } from "../gamelogic/Resources.js";
 
 function productionLimitReached(factory) {
     return factory.outputResources[factory.producedResource] >= factory.outputResourcesLimit
@@ -22,7 +22,7 @@ export function apply(tile, timeDelta) {
                 {
                     [tile.factory.producedResource]: 1,
             });
-            removeResources(tile.factory.inputResources, tile.factory.requiredResources);
+            subtractResources(tile.factory.inputResources, tile.factory.requiredResources);
             tile.factory.productionProgress = 0;
             console.log("Resource produced");
         }

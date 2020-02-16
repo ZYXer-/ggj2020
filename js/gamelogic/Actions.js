@@ -1,6 +1,6 @@
 import Resources from "./Resources.js";
 import { newWater } from "../components/Water.js";
-import {checkResourceAvailability, removeResources} from "./Resources.js";
+import {checkResourceAvailability, subtractResources} from "./Resources.js";
 import { WATER_COST } from "./MechanicParameters.js";
 import { newPulleyCrane } from "../components/PulleyCrane.js";
 import {newDisplay} from "../components/Display.js";
@@ -32,7 +32,7 @@ export function PlaceWater(tile, gameState) {
         gameState,
         WATER_COST,
     )) {
-        removeResources(
+        subtractResources(
             gameState,
             WATER_COST,
         );
