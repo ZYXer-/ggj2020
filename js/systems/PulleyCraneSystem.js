@@ -80,7 +80,6 @@ function grabItem(entity, demand) {
     const sourceTile = getSourceEntity(entity);
 
     if (sourceTile && sourceTile.item && (sourceTile.itemDelta[sourceTile.item] || 0) >= 0) {
-
         if (demand) {
             if(!demand.find(e => e === sourceTile.item.type)) {
                 return;
