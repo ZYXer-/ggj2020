@@ -1,6 +1,7 @@
 import { c } from "../core/canvas.js";
 import Color from "../utils/Color.js";
 import * as Mouse from "../core/input/Mouse.js";
+import * as Keyboard from "../core/input/Keyboard.js";
 import * as Tooltip from "../Tooltip.js";
 import * as Img from "../core/Img.js";
 import Resources from "../gamelogic/Resources.js";
@@ -236,21 +237,21 @@ function drawPulleyCrane(entity, hover) {
         c.globalAlpha = 1;
         c.strokeStyle = "#fff";
         c.lineWidth = 5;
-        drawCircle(c, -96, 0, 16);
+        drawCircle(c, -96, 0, 12);
         c.stroke();
 
         c.fillStyle = "#fff";
         c.beginPath();
-        c.moveTo(-66, -6);
-        c.lineTo(60, -6);
-        c.lineTo(60, -16);
+        c.moveTo(-70, -4);
+        c.lineTo(64, -4);
+        c.lineTo(64, -12);
         c.lineTo(76, 0);
-        c.lineTo(60, 16);
-        c.lineTo(60, 6);
-        c.lineTo(-66, 6);
+        c.lineTo(64, 12);
+        c.lineTo(64, 4);
+        c.lineTo(-70, 4);
         c.fill();
 
-        drawCircle(c, 96, 0, 10);
+        drawCircle(c, 96, 0, 8);
         c.fill();
 
     }
@@ -284,7 +285,11 @@ function drawItem(item, x, y) {
 
 function drawToolPreview(entity, animationCountUp, gameState) {
     c.save();
-    switch (gameState.cursorMode) {
+    let mode = gameState.cursorMode;
+    if(Keyboard.isPressed(Keyboard.SHIFT)) {
+        mode = CURSOR_MODES.PICK;
+    }
+    switch (mode) {
 
         case CURSOR_MODES.PICK:
             if(entity.item || entity.tree || entity.factory) {

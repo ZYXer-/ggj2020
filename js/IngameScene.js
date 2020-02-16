@@ -55,19 +55,23 @@ export const BUILDING_TYPES = {
 
 
 function handleClick(gameState) {
-    switch (gameState.cursorMode) {
-        case CURSOR_MODES.PICK:
-            handlePickUpAction(gameState);
-            break;
-        case CURSOR_MODES.DROP:
-            handleDropAction(gameState);
-            break;
-        case CURSOR_MODES.BUILD:
-            handleBuildAction(gameState);
-            break;
-        case CURSOR_MODES.DESTROY:
-            handleDestroyAction(gameState);
-            break;
+    if(Keyboard.isPressed(Keyboard.SHIFT)) {
+        handlePickUpAction(gameState);
+    } else {
+        switch (gameState.cursorMode) {
+            case CURSOR_MODES.PICK:
+                handlePickUpAction(gameState);
+                break;
+            case CURSOR_MODES.DROP:
+                handleDropAction(gameState);
+                break;
+            case CURSOR_MODES.BUILD:
+                handleBuildAction(gameState);
+                break;
+            case CURSOR_MODES.DESTROY:
+                handleDestroyAction(gameState);
+                break;
+        }
     }
 }
 
@@ -90,7 +94,6 @@ function handleDropAction(gameState) {
         CursorActions.LoadFactory(gameState, gameState.selectedResource)
     } else if ((CursorActions.notOccupied(tile) || tile.water) && !tile.item)  {
         CursorActions.DropResourceToGround(gameState, gameState.selectedResource);
-
     } else {
         console.warn("Can't drop stuff here.");
     }
@@ -165,15 +168,40 @@ export function show() {
 
     Tooltip.setPainter(BasicTooltipPainter);
     reset();
-
     Keyboard.registerKeyUpHandler(Keyboard.D, function() {
         GameState[Resources.PINE_WOOD] += 100;
         GameState[Resources.BEECH_WOOD] += 100;
         GameState[Resources.OAK_WOOD] += 100;
     });
-    Keyboard.registerKeyUpHandler(Keyboard.R, function() {
+    Keyboard.registerKeyUpHandler(Keyboard.R, () => {
         GameState.orientation = (GameState.orientation + 1) % 4;
-        console.log(GameState.orientation);
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.Q, () => {
+        GameState.cursorMode = CURSOR_MODES.PICK;
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.X, () => {
+        GameState.cursorMode = CURSOR_MODES.DESTROY;
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.KEY_1, () => {
+        keyboardShortcut(BUILDING_TYPES.PULLEY_CRANE, Resources.PINE_SAPLING, BUILDING_TYPES.PINE);
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.KEY_2, () => {
+        keyboardShortcut(BUILDING_TYPES.WATER, Resources.BEECH_SAPLING, BUILDING_TYPES.BEECH);
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.KEY_3, () => {
+        keyboardShortcut(BUILDING_TYPES.TREE_NURSERY, Resources.OAK_SAPLING, BUILDING_TYPES.OAK);
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.KEY_4, () => {
+        keyboardShortcut(BUILDING_TYPES.FORESTER, Resources.PINE_WOOD);
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.KEY_5, () => {
+        keyboardShortcut(BUILDING_TYPES.LOG_CABIN, Resources.BEECH_WOOD);
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.KEY_6, () => {
+        keyboardShortcut(BUILDING_TYPES.SPRINKLER, Resources.OAK_WOOD);
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.KEY_7, () => {
+        keyboardShortcut(BUILDING_TYPES.COMPOST_HEAP, Resources.COMPOST);
     });
     Mouse.left.registerUpArea(
         'map',
@@ -186,6 +214,22 @@ export function show() {
 
     // do stuff before we update and draw this scene for the first time
 
+}
+
+
+function keyboardShortcut(building, resource, plant) {
+    if(Keyboard.isPressed(Keyboard.SHIFT) && building != null) {
+        GameState.cursorMode = CURSOR_MODES.BUILD;
+        GameState.selectedBuildingType = building;
+
+    } else if(plant != null && GameState.cursorMode === CURSOR_MODES.DROP && GameState.selectedResource === resource) {
+        GameState.cursorMode = CURSOR_MODES.BUILD;
+        GameState.selectedBuildingType = plant;
+
+    } else if(resource != null) {
+        GameState.cursorMode = CURSOR_MODES.DROP;
+        GameState.selectedResource = resource;
+    }
 }
 
 
