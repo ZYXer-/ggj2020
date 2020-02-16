@@ -216,7 +216,14 @@ export function PlaceSprinkler(gameState) {
 }
 
 export function notOccupied(tile) {
-    return !(tile.water || tile.tree || tile.factory || tile.sprinkler || tile.forester || tile.lumberHut)
+    return !(tile.water
+        || tile.tree
+        || tile.factory
+        || tile.sprinkler
+        || tile.forester
+        || tile.lumberHut
+        || tile.pulleyCrane
+    )
 }
 
 export function PlaceForester(gameState) {

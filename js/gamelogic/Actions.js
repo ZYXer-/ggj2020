@@ -14,15 +14,15 @@ export function CutTree(entity, gameState) {
             break;
         case 1:
             resourceType = Resources.BEECH_WOOD;
-            break
+            break;
         case 2:
             resourceType = Resources.OAK_WOOD;
             break;
     }
     if (entity.tree.level === 100) {
-        gameState[resourceType] += 15;
+        gameState[resourceType] = (gameState[resourceType] || 0) + 15;
     } else {
-        gameState[resourceType] += Math.floor(entity.tree.level / 10);
+        gameState[resourceType] = (gameState[resourceType] || 0) + Math.floor(entity.tree.level / 10);
     }
     delete entity.tree;
 }

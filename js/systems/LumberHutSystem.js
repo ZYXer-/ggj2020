@@ -3,6 +3,7 @@ import { MAX_TREE_LEVEL } from "../gamelogic/MechanicParameters.js";
 import { subtractResources } from "../gamelogic/Resources.js";
 import { rand } from "../utils/Utils.js";
 import * as Actions from "../gamelogic/Actions.js";
+import { addResources } from "../gamelogic/Resources.js";
 
 export function apply(entity, gameState) {
     if (entity && entity.lumberHut) {
@@ -18,7 +19,11 @@ export function apply(entity, gameState) {
                     entity.factory.outputResources,
                     { [Resources.TREE_CUT_ACTION]: 1},
                 );
-                Actions.CutTree(target, gameState);
+                const harvestedResources = {};
+                //TODO: use this function in a different way, when it was created we used it to add the resources to the global state. Now we add the resources to the hut it self.
+                Actions.CutTree(target, harvestedResources);
+                addResources(entity.factory.outputResources, harvestedResources);
+                console.debug("Lumberjack outstack", entity.factory.outputResources);
             }
         }
     }
