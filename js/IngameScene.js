@@ -77,6 +77,8 @@ function handlePickUpAction(gameState) {
         CursorActions.UnloadFactory(gameState);
     } else if (tile.item) {
         CursorActions.PickResourceFromGround(gameState);
+    } else if (tile.tree) {
+        CursorActions.CutTree(gameState);
     } else {
         console.warn("Nothing to pick.");
     }

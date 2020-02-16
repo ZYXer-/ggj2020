@@ -7,8 +7,10 @@ import Resources from "../gamelogic/Resources.js";
 import Vec2 from "../utils/Vec2.js";
 import { NUM_TILES_HEIGHT, NUM_TILES_WIDTH } from "../Entities.js";
 import { MAX_POLLUTION_VALUE } from "../gamelogic/MechanicParameters.js";
-import { BUILDING_TYPES, CURSOR_MODES } from "../IngameScene.js";
-import { PI, TWO_PI } from "../utils/GeometryUtils.js";
+import {BUILDING_TYPES, CURSOR_MODES } from "../IngameScene.js";
+import {HALF_PI, PI } from "../utils/GeometryUtils.js";
+import { notOccupied } from "../CursorActions.js";
+import {drawCircle} from "../utils/DrawUtils.js";
 
 
 
@@ -132,18 +134,12 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
         isOver = true;
     }
 
-
-    let draw;
     if (entity.factory || entity.sprinkler || entity.pulleyCrane) {
-        draw = drawBuilding;
+        drawBuilding(entity, isOver);
     }
 
     if (entity.tree) {
-        draw = drawTree;
-    }
-
-    if (draw) {
-        draw(entity);
+        drawTree(entity);
     }
 
     if(isOver) {
@@ -217,14 +213,47 @@ function drawTree(entity) {
 }
 
 
-function drawBuilding(entity) {
+function drawBuilding(entity, hover) {
     c.save();
     c.translate(24, 24);
     c.scale(0.5, 0.5);
     if (typeof entity.display.buildingSprite !== "undefined") {
-        Img.drawSprite("buildings", -96, -96, 192, 192, entity.display.buildingSprite, 0);
+        if(entity.pulleyCrane) {
+            drawPulleyCrane(entity, hover);
+        } else {
+            Img.drawSprite("buildings", -96, -96, 192, 192, entity.display.buildingSprite, 0);
+
+        }
     }
     c.restore();
+}
+
+
+function drawPulleyCrane(entity, hover) {
+    c.rotate(HALF_PI * (entity.pulleyCrane.orientation - 1));
+    Img.drawSprite("buildings", -96, -96, 192, 192, 5, 0);
+    if(hover) {
+        c.globalAlpha = 1;
+        c.strokeStyle = "#fff";
+        c.lineWidth = 5;
+        drawCircle(c, -96, 0, 16);
+        c.stroke();
+
+        c.fillStyle = "#fff";
+        c.beginPath();
+        c.moveTo(-66, -6);
+        c.lineTo(60, -6);
+        c.lineTo(60, -16);
+        c.lineTo(76, 0);
+        c.lineTo(60, 16);
+        c.lineTo(60, 6);
+        c.lineTo(-66, 6);
+        c.fill();
+
+        drawCircle(c, 96, 0, 10);
+        c.fill();
+
+    }
 }
 
 
@@ -258,55 +287,63 @@ function drawToolPreview(entity, animationCountUp, gameState) {
     switch (gameState.cursorMode) {
 
         case CURSOR_MODES.PICK:
-            c.translate(24, 24);
-            c.scale(0.5, 0.5);
-            Img.drawSprite("icons", -48, -64 - 32 * Math.abs(Math.sin(PI * animationCountUp)), 96, 96, 0, 3);
-            break;
+            if(entity.item || entity.tree || entity.factory) {
+                c.translate(24, 24);
+                c.scale(0.5, 0.5);
+                Img.drawSprite("icons", -48, -64 - 32 * Math.abs(Math.sin(PI * animationCountUp)), 96, 96, 0, 3);
+                break;
+            }
 
         case CURSOR_MODES.DROP:
 
             break;
 
         case CURSOR_MODES.BUILD:
-            c.globalAlpha = 0.5;
 
-            switch (gameState.selectedBuildingType) {
-                case BUILDING_TYPES.PINE:
-                    //drawTree({});
-                    break;
-                case BUILDING_TYPES.BEECH:
-                    //drawTree({});
-                    break;
-                case BUILDING_TYPES.OAK:
-                    //CursorActions.PlaceTree(gameState, Resources.OAK_SAPLING);
-                    break;
-                case BUILDING_TYPES.WATER:
-                    //CursorActions.PlaceWater(gameState);
-                    break;
-                case BUILDING_TYPES.TREE_NURSERY:
-                    //CursorActions.PlaceTreeNursery(gameState);
-                    break;
-                case BUILDING_TYPES.FORESTER:
-                    //CursorActions.PlaceForester(gameState);
-                    break;
-                case BUILDING_TYPES.LOG_CABIN:
-                    //CursorActions.PlaceLogCabin(gameState);
-                    break;
-                case BUILDING_TYPES.SPRINKLER:
-                    //CursorActions.PlaceSprinkler(gameState);
-                    break;
-                case BUILDING_TYPES.COMPOST_HEAP:
-                    //CursorActions.PlaceCompostHeap(gameState);
-                    break;
+            if(notOccupied(entity)) {
+                c.globalAlpha = 0.5;
+
+                switch (gameState.selectedBuildingType) {
+                    case BUILDING_TYPES.PINE:
+                        drawTree({ display : entity.display, tree: { type : 0, level : 0, health: 100 }});
+                        break;
+                    case BUILDING_TYPES.BEECH:
+                        drawTree({ display : entity.display, tree: { type : 1, level : 0, health: 100 }});
+                        break;
+                    case BUILDING_TYPES.OAK:
+                        drawTree({ display : entity.display, tree: { type : 2, level : 0, health: 100 }});
+                        break;
+                    case BUILDING_TYPES.WATER:
+                        // TODO
+                        break;
+                    case BUILDING_TYPES.TREE_NURSERY:
+                        drawBuilding({ display: { buildingSprite : 0 } }, true);
+                        break;
+                    case BUILDING_TYPES.FORESTER:
+                        drawBuilding({ display: { buildingSprite : 1 } }, true);
+                        break;
+                    case BUILDING_TYPES.LOG_CABIN:
+                        drawBuilding({ display: { buildingSprite : 2 } }, true);
+                        break;
+                    case BUILDING_TYPES.SPRINKLER:
+                        drawBuilding({ display: { buildingSprite : 3 } }, true);
+                        break;
+                    case BUILDING_TYPES.COMPOST_HEAP:
+                        drawBuilding({ display: { buildingSprite : 4 } }, true);
+                        break;
+                    case BUILDING_TYPES.PULLEY_CRANE:
+                        drawBuilding({ display: { buildingSprite : 5 }, pulleyCrane: { orientation: gameState.orientation } }, true);
+                        break;
+                }
+
+                c.globalAlpha = 1;
             }
-
-            c.globalAlpha = 1;
             break;
 
         case CURSOR_MODES.DESTROY:
             c.translate(24, 24);
             c.scale(0.5, 0.5);
-            if(entity.factory || entity.water || entity.sprinkler) {
+            if(entity.factory || (entity.water && !entity.water.source) || entity.sprinkler || entity.pulleyCrane) {
                 Img.drawSprite("icons", -48, -48, 96, 96, 1, 3);
             } else if(entity.tree) {
                 Img.drawSprite(
