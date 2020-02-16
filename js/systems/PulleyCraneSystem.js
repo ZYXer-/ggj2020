@@ -1,13 +1,13 @@
 import { PULLEY_CRANE_STATUS } from "../components/PulleyCrane.js";
 import {ORIENTATION} from "../gamelogic/Constants.js";
-import { multiplyResources, subtractResources } from "../gamelogic/Resources.js";
+import { multiplyResources, subtractResources, addResources } from "../gamelogic/Resources.js";
 
 export function apply(entity) {
     if (entity.pulleyCrane) {
         if (entity.pulleyCrane.status === PULLEY_CRANE_STATUS.READY && entity.pulleyCrane.item === null) {
             const demand = computeDemand(entity);
 
-            grabItem(entity);
+            grabItem(entity, demand);
             if (entity.pulleyCrane.item) {
                 entity.pulleyCrane.status = PULLEY_CRANE_STATUS.LOADED;
             }
@@ -38,7 +38,7 @@ function getEastTile(tile) {
     return tile.hood1.filter(t => t.position.x > tile.position.x && t.position.y === tile.position.y)[0];
 }
 
-function getSourceTile(entity) {
+function getSourceEntity(entity) {
     switch (entity.pulleyCrane.orientation) {
         case ORIENTATION.NORTH_SOUTH:
             return getNorthTile(entity);
@@ -51,7 +51,7 @@ function getSourceTile(entity) {
     }
 }
 
-function getSinkTile(entity) {
+function getSinkEntity(entity) {
     switch (entity.pulleyCrane.orientation) {
         case ORIENTATION.NORTH_SOUTH:
             return getSouthTile(entity);
@@ -65,7 +65,7 @@ function getSinkTile(entity) {
 }
 
 function computeDemand(entity) {
-    const sink = getSinkTile(entity);
+    const sink = getSinkEntity(entity);
     if (sink.factory) {
         const demand = Object.assign({}, sink.factory.requiredResources);
         multiplyResources(demand, 2);
@@ -76,19 +76,36 @@ function computeDemand(entity) {
 }
 
 
-function grabItem(entity) {
-    const sourceTile = getSourceTile(entity);
+function grabItem(entity, demand) {
+    const sourceTile = getSourceEntity(entity);
 
     if (sourceTile && sourceTile.item && (sourceTile.itemDelta[sourceTile.item] || 0) >= 0) {
-        entity.pulleyCrane.item =  sourceTile.item.type;
+
+        if (demand) {
+            if(!demand.find(e => e === sourceTile.item.type)) {
+                return;
+            }
+        }
+        entity.pulleyCrane.item = sourceTile.item.type;
         sourceTile.itemDelta[sourceTile.item] = (sourceTile.itemDelta[sourceTile.item] || 0) - 1;
     }
 }
 
 function dropItem(entity) {
-    var sinkTile = getSinkTile(entity);
-
-    if (sinkTile && !sinkTile.item &&  Object.keys(sinkTile.itemDelta).length === 0)  {
+    var sinkTile = getSinkEntity(entity);
+    if (!sinkTile) {
+        return;
+    }
+    if (sinkTile.factory) {
+        const demand = computeDemand(entity);
+        if (demand) {
+            if(!demand.find(e => e === entity.pulleyCrane.item)) {
+                return;
+            }
+        }
+        addResources(sinkTile.factory.inputResources, { [entity.pulleyCrane.item]: 1 });
+        entity.pulleyCrane.item = null;
+    } else if(!sinkTile.item &&  Object.keys(sinkTile.itemDelta).length === 0)  {
         sinkTile.itemDelta[entity.pulleyCrane.item] = (sinkTile.itemDelta[entity.pulleyCrane.item] || 0) + 1;
         entity.pulleyCrane.item = null;
     }

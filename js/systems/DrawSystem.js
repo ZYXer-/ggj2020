@@ -230,7 +230,7 @@ function drawBuilding(entity, hover) {
 
 
 function drawPulleyCrane(entity, hover) {
-    c.rotate(HALF_PI * (entity.pulleyCrane.orientation - 1));
+    c.rotate(HALF_PI * (entity.pulleyCrane.orientation + 1));
     Img.drawSprite("buildings", -96, -96, 192, 192, 5, 0);
     if(hover) {
         c.globalAlpha = 1;
