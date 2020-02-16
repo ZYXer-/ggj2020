@@ -28,11 +28,11 @@ export function apply(entity) {
 
             entity.water.flow += maxNeighborLevel - EVAPORATION;
 
-            if(entity.item !== null
-                && entity.itemDelta[entity.item.type] >= 0
+            if(entity.item
+                && (entity.itemDelta[entity.item.type] || 0) >= 0 // used by itemdeltasystem
                 && entity.water.output
-                && entity.water.output.item === null
-                && entity.water.output.water.itemInput === null) {
+                && !entity.water.output.item
+                && !entity.water.output.water.itemInput) {
                 entity.water.output.water.itemInput = entity.item;
             }
 
