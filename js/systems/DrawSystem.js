@@ -159,7 +159,7 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
             tooltip += "Growth: " + Math.round(entity.tree.level) + "%///";
             tooltip += "Health: " + Math.round(entity.tree.health) + "%///";
             tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
-            if(gameState.cursorMode === CURSOR_MODES.DESTROY || gameState.cursorMode === CURSOR_MODES.PICK) {
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.DESTROY || gameState.cursorMode === CURSOR_MODES.PICK) {
                 tooltip += "$$$Click to chop down";
             }
 
@@ -176,7 +176,9 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
                     tooltip += "$$$Click to demolish";
                 }
             }
-            if(gameState.cursorMode === CURSOR_MODES.DROP) {
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to pick up resources";// TODO make differentiation between resources
+            } else if(gameState.cursorMode === CURSOR_MODES.DROP) {
                 tooltip += "$$$Click to drop item"; // TODO make differentiation between items
             }
 
@@ -192,14 +194,17 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
                 tooltip += "Moves items West to East///";
             }
             tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
-            if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
+
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to pick up resources";// TODO make differentiation between resources
+            } else if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
                 tooltip += "$$$Click to demolish";
             }
 
         } else if(entity.sprinkler) {
             tooltip += "Sprinkler///";
             tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
-            if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.DESTROY) {
                 tooltip += "$$$Click to demolish";
             }
 
@@ -267,17 +272,20 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
             }
 
             tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
-            if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to pick up resources";// TODO make differentiation between resources
+            } else if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
                 tooltip += "$$$Click to demolish";
-            }
-            if(gameState.cursorMode === CURSOR_MODES.DROP) {
+            } else if(gameState.cursorMode === CURSOR_MODES.DROP) {
                 tooltip += "$$$Click to drop item"; // TODO make differentiation between items
             }
 
         } else {
             tooltip += "Barren Land///";
             tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
-            if(gameState.cursorMode === CURSOR_MODES.BUILD) {
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to pick up resources";// TODO make differentiation between resources
+            } else if(gameState.cursorMode === CURSOR_MODES.BUILD) {
                 tooltip += "$$$Click to build building"; // TODO make differentiation between buildings
             }
         }
