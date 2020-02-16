@@ -7,6 +7,7 @@ import Color from "./utils/Color.js";
 import * as TotalPollutionCounterSystem from "./systems/TotalPollutionCounterSystem.js";
 import Resources from "./gamelogic/Resources.js";
 import { GameState, BUILDING_TYPES, CURSOR_MODES } from "./IngameScene.js";
+import {drawRoundedCornerRect} from "./utils/DrawUtils.js";
 
 
 let progressNumber = new Text({
@@ -59,13 +60,6 @@ let centerText = new Text({
 });
 
 let activeText = new Text({
-    size : 16,
-    font : "norwester",
-    align : "center",
-    color : "#58b001"
-});
-
-let selectedText = new Text({
     size : 16,
     font : "norwester",
     align : "center",
@@ -166,7 +160,7 @@ for(let itemIndex in items) {
                 c.fillStyle = "#58b001";
             }
             c.fillRect(x, y, w, h);
-            selectedText.drawPosText(x + 0.5 * w, y + 16, "dispense");
+            activeText.drawPosText(x + 0.5 * w, y + 16, "dispense");
         }
     });
     if(itemIndex < 3) {
@@ -191,7 +185,7 @@ for(let itemIndex in items) {
                     c.fillStyle = "#58b001";
                 }
                 c.fillRect(x, y, w, h);
-                selectedText.drawPosText(x + 0.5 * w, y + 16, "plant");
+                activeText.drawPosText(x + 0.5 * w, y + 16, "plant");
             }
         });
     }
@@ -339,12 +333,16 @@ for(let buildingIndex in buildings) {
                 }
             }
             if(building.isActive()) {
-                c.fillStyle = "#58b001";
+                c.fillStyle = "#fff";
                 iconSpriteY = 2;
             }
-            c.fillRect(x, y, w, h);
-            c.fillStyle = "#222";
-            c.fillRect(x + 2, y + 2, w - 4, h - 4);
+            drawRoundedCornerRect(x, y, w, h, 4);
+            c.fill();
+            if(iconSpriteY < 2) {
+                c.fillStyle = "#222";
+                drawRoundedCornerRect(x + 2, y + 2, w - 4, h - 4, 2);
+                c.fill();
+            }
 
             if(typeof building.icon !== "undefined") {
                 c.save();

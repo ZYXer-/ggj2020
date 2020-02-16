@@ -25,6 +25,7 @@ import Resources from "./gamelogic/Resources.js";
 import {PlaceWater} from "./CursorActions.js";
 
 let oneSecCountUp = 0;
+let animationCountUp = 0;
 
 export const CURSOR_MODES = {
     PICK: 0,
@@ -203,6 +204,7 @@ export function update() {
     if(!Game.paused) {
 
         oneSecCountUp += Timer.delta * 5;
+        animationCountUp += Timer.delta;
 
         // Deltas
         if (oneSecCountUp > 1) {
@@ -241,6 +243,7 @@ export function update() {
         // update stuff except when paused
 
         oneSecCountUp -= oneSecCountUp > 1 ? 1 : 0;
+        animationCountUp -= animationCountUp > 1 ? 1 : 0;
     }
 }
 
@@ -258,7 +261,7 @@ export function draw() {
         DrawSystem.applyGround(entity, oneSecCountUp);
     }
     for(const entity of Entities.entities) {
-        DrawSystem.applyOverlay(entity, oneSecCountUp);
+        DrawSystem.applyOverlay(entity, oneSecCountUp, animationCountUp, GameState);
     }
 
     c.restore();

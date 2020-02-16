@@ -8,6 +8,9 @@ import Resources from "../gamelogic/Resources.js";
 import Vec2 from "../utils/Vec2.js";
 import { NUM_TILES_HEIGHT, NUM_TILES_WIDTH } from "../Entities.js";
 import { MAX_POLLUTION_VALUE } from "../gamelogic/MechanicParameters.js";
+import {BUILDING_TYPES, CURSOR_MODES, GameState} from "../IngameScene.js";
+import { PI, TWO_PI } from "../utils/GeometryUtils.js";
+import * as CursorActions from "../CursorActions.js";
 
 
 
@@ -93,7 +96,7 @@ export function applyGround(entity, animationProgress) {
 }
 
 
-export function applyOverlay(entity, animationProgress) {
+export function applyOverlay(entity, animationProgress, animationCountUp, gameState) {
 
     c.save();
     c.translate(
@@ -114,27 +117,23 @@ export function applyOverlay(entity, animationProgress) {
         }
     }
 
-
+    let isOver = false;
     if (Mouse.isOver(
         OFFSET_X + (entity.position.x * TILE_SIZE),
         OFFSET_X + (entity.position.y * TILE_SIZE),
         TILE_SIZE,
         TILE_SIZE,
     )) {
-        c.fillStyle ="#fff";
-        c.fillRect(0, -1, 50, 2);
-        c.fillRect(0, 49, 50, 2);
-        c.fillRect(-1, 0, 2, 50);
-        c.fillRect(49, 0, 2, 50);
+        c.fillStyle = "#fff";
+        if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
+            c.fillStyle = "#d00";
+        }
+        c.fillRect(0, -1, 48, 2);
+        c.fillRect(0, 47, 48, 2);
+        c.fillRect(-1, 0, 2, 48);
+        c.fillRect(47, 0, 2, 48);
 
-        Tooltip.set(
-            `Pollution: ${entity.pollution}\n` +
-            `Waterlevel: ${entity.water ? entity.water.level : null}\n` +
-            `Treelevel: ${entity.tree ? entity.tree.level : null}\n` +
-            `TreeHealth: ${entity.tree ? entity.tree.health : null}\n` +
-            `Factory Supply: ${entity.factor ? entity.factor.inputResources[Resources.PINE_WOOD] : null}` +
-            ``
-        );
+        isOver = true;
     }
 
 
@@ -149,6 +148,19 @@ export function applyOverlay(entity, animationProgress) {
 
     if (draw) {
         draw(entity);
+    }
+
+    if(isOver) {
+        drawToolPreview(entity, animationCountUp, gameState);
+
+        Tooltip.set(
+            `Pollution: ${entity.pollution}\n` +
+            `Waterlevel: ${entity.water ? entity.water.level : null}\n` +
+            `Treelevel: ${entity.tree ? entity.tree.level : null}\n` +
+            `TreeHealth: ${entity.tree ? entity.tree.health : null}\n` +
+            `Factory Supply: ${entity.factor ? entity.factor.inputResources[Resources.PINE_WOOD] : null}` +
+            ``
+        );
     }
 
     c.restore();
@@ -241,5 +253,78 @@ function drawItem(item, x, y) {
         spriteX = 6;
     }
     Img.drawSprite("items", -16, -16, 32, 32, spriteX, 0);
+    c.restore();
+}
+
+
+function drawToolPreview(entity, animationCountUp, gameState) {
+    c.save();
+    switch (gameState.cursorMode) {
+
+        case CURSOR_MODES.PICK:
+            c.translate(24, 24);
+            c.scale(0.5, 0.5);
+            Img.drawSprite("icons", -48, -64 - 32 * Math.abs(Math.sin(PI * animationCountUp)), 96, 96, 0, 3);
+            break;
+
+        case CURSOR_MODES.DROP:
+
+            break;
+
+        case CURSOR_MODES.BUILD:
+            c.globalAlpha = 0.5;
+
+            switch (gameState.selectedBuildingType) {
+                case BUILDING_TYPES.PINE:
+                    //drawTree({});
+                    break;
+                case BUILDING_TYPES.BEECH:
+                    //drawTree({});
+                    break;
+                case BUILDING_TYPES.OAK:
+                    //CursorActions.PlaceTree(gameState, Resources.OAK_SAPLING);
+                    break;
+                case BUILDING_TYPES.WATER:
+                    //CursorActions.PlaceWater(gameState);
+                    break;
+                case BUILDING_TYPES.TREE_NURSERY:
+                    //CursorActions.PlaceTreeNursery(gameState);
+                    break;
+                case BUILDING_TYPES.FORESTER:
+                    //CursorActions.PlaceForester(gameState);
+                    break;
+                case BUILDING_TYPES.LOG_CABIN:
+                    //CursorActions.PlaceLogCabin(gameState);
+                    break;
+                case BUILDING_TYPES.SPRINKLER:
+                    //CursorActions.PlaceSprinkler(gameState);
+                    break;
+                case BUILDING_TYPES.COMPOST_HEAP:
+                    //CursorActions.PlaceCompostHeap(gameState);
+                    break;
+            }
+
+            c.globalAlpha = 1;
+            break;
+
+        case CURSOR_MODES.DESTROY:
+            c.translate(24, 24);
+            c.scale(0.5, 0.5);
+            if(entity.factory || entity.water || entity.sprinkler) {
+                Img.drawSprite("icons", -48, -48, 96, 96, 1, 3);
+            } else if(entity.tree) {
+                Img.drawSprite(
+                    "icons",
+                    -48 + (2 * entity.display.offsetX),
+                    -62 + (2 * entity.display.offsetY) - (0.2 * entity.tree.level),
+                    96,
+                    96,
+                    1,
+                    3
+                );
+            }
+
+            break;
+    }
     c.restore();
 }

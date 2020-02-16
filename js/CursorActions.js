@@ -184,7 +184,6 @@ export function Demolish(gameState) {
     delete tile.sprinkler;
     delete tile.waterConsumer;
     delete tile.compost;
-    delete tile.display;
 }
 
 export function PlaceSprinkler(gameState) {
