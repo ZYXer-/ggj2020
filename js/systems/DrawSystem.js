@@ -12,6 +12,7 @@ import {BUILDING_TYPES, CURSOR_MODES } from "../IngameScene.js";
 import {HALF_PI, PI } from "../utils/GeometryUtils.js";
 import { notOccupied } from "../CursorActions.js";
 import {drawCircle} from "../utils/DrawUtils.js";
+import {ORIENTATION} from "../gamelogic/Constants.js";
 
 
 
@@ -146,14 +147,159 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
     if(isOver) {
         drawToolPreview(entity, animationCountUp, gameState);
 
-        Tooltip.set(
+        let tooltip = "full///";
+        if(entity.tree) {
+            if(entity.tree.type === 0) {
+                tooltip += "Pine Tree///";
+            } else if(entity.tree.type === 1) {
+                tooltip += "Beech Tree///";
+            } else if(entity.tree.type === 2) {
+                tooltip += "Oak Tree///";
+            }
+            tooltip += "Growth: " + Math.round(entity.tree.level) + "%///";
+            tooltip += "Health: " + Math.round(entity.tree.health) + "%///";
+            tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.DESTROY || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to chop down";
+            }
+
+        } else if(entity.water) {
+            if(entity.water.source) {
+                tooltip += "Natural Water Spring///";
+                tooltip += "Source of all life///";
+                tooltip += "$$$(Cannot be demolished)";
+            } else {
+                tooltip += "Water Canal///";
+                tooltip += "Water level: " + Math.round(entity.water.level) + "%///";
+                tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
+                if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
+                    tooltip += "$$$Click to demolish";
+                }
+            }
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to pick up resources";// TODO make differentiation between resources
+            } else if(gameState.cursorMode === CURSOR_MODES.DROP) {
+                tooltip += "$$$Click to drop item"; // TODO make differentiation between items
+            }
+
+        } else if(entity.pulleyCrane) {
+            tooltip += "Pulley Crane///";
+            if(entity.pulleyCrane.orientation === ORIENTATION.NORTH_SOUTH) {
+                tooltip += "Moves items North to South///";
+            } else if(entity.pulleyCrane.orientation === ORIENTATION.EAST_WEST) {
+                tooltip += "Moves items East to West///";
+            } else if(entity.pulleyCrane.orientation === ORIENTATION.SOUTH_NORTH) {
+                tooltip += "Moves items South to North///";
+            } else if(entity.pulleyCrane.orientation === ORIENTATION.WEST_EAST) {
+                tooltip += "Moves items West to East///";
+            }
+            tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
+
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to pick up resources";// TODO make differentiation between resources
+            } else if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
+                tooltip += "$$$Click to demolish";
+            }
+
+        } else if(entity.sprinkler) {
+            tooltip += "Sprinkler///";
+            tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.DESTROY) {
+                tooltip += "$$$Click to demolish";
+            }
+
+        } else if(entity.factory) {
+            if(entity.treeNursery) {
+                tooltip += "Tree Nursery///";
+                // TODO: Explain what it does
+            } else if(entity.forester) {
+                tooltip += "Forester///";
+                // TODO: Explain what it does
+            } else if(entity.lumberHut) {
+                tooltip += "Log Cabin///";
+                // TODO: Explain what it does
+            } else if(entity.compost) {
+                tooltip += "Compost///";
+                // TODO: Explain what it does
+            }
+
+            const resourceNames = {
+                [Resources.PINE_WOOD]: " pine wood",
+                [Resources.BEECH_WOOD]: " beech wood",
+                [Resources.OAK_WOOD]: " oak wood",
+                [Resources.PINE_SAPLING]: " pine sapling",
+                [Resources.BEECH_SAPLING]: " beech sapling",
+                [Resources.OAK_SAPLING]: " oak sapling",
+                [Resources.COMPOST]: " fertilizer",
+            };
+
+            let inputTooltip = "";
+            let first = true;
+            for(let res in resourceNames) {
+                if(typeof entity.factory.requiredResources[res] !== "undefined" && entity.factory.requiredResources[res] > 0) {
+                    if(!first) {
+                        inputTooltip += ", ";
+                    }
+                    if(entity.factory.inputResources[res]) {
+                        inputTooltip += entity.factory.inputResources[res] + resourceNames[res];
+                    } else {
+                        inputTooltip += "0" + resourceNames[res];
+                    }
+                    first = false;
+                }
+            }
+            if(inputTooltip !== "") {
+                tooltip += "Input: " + inputTooltip + "///";
+            }
+
+            let outputTooltip = "";
+            first = true;
+            for(let res in resourceNames) {
+                if(entity.factory.producedResource === res) {
+                    if(!first) {
+                        outputTooltip += ", ";
+                    }
+                    if(entity.factory.outputResources[res]) {
+                        outputTooltip += entity.factory.outputResources[res] + resourceNames[res];
+                    } else {
+                        outputTooltip += "0" + resourceNames[res];
+                    }
+                    first = false;
+                }
+            }
+            if(outputTooltip !== "") {
+                tooltip += "Output: " + outputTooltip + "///";
+            }
+
+            tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to pick up resources";// TODO make differentiation between resources
+            } else if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
+                tooltip += "$$$Click to demolish";
+            } else if(gameState.cursorMode === CURSOR_MODES.DROP) {
+                tooltip += "$$$Click to drop item"; // TODO make differentiation between items
+            }
+
+        } else {
+            tooltip += "Barren Land///";
+            tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
+            if(Keyboard.isPressed(Keyboard.SHIFT) || gameState.cursorMode === CURSOR_MODES.PICK) {
+                tooltip += "$$$Click to pick up resources";// TODO make differentiation between resources
+            } else if(gameState.cursorMode === CURSOR_MODES.BUILD) {
+                tooltip += "$$$Click to build building"; // TODO make differentiation between buildings
+            }
+        }
+
+        Tooltip.set(tooltip);
+
+        /*Tooltip.set(
             `Pollution: ${entity.pollution}\n` +
             `Waterlevel: ${entity.water ? entity.water.level : null}\n` +
             `Treelevel: ${entity.tree ? entity.tree.level : null}\n` +
             `TreeHealth: ${entity.tree ? entity.tree.health : null}\n` +
             `Factory Supply: ${entity.factor ? entity.factor.inputResources[Resources.PINE_WOOD] : null}` +
             ``
-        );
+        );*/
     }
 
     c.restore();

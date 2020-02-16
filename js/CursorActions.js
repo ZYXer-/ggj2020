@@ -76,6 +76,7 @@ export function PlaceTreeNursery(gameState) {
         tile.factory.productionTime = 5;
         tile.factory.inputResourcesLimit = 5;
         tile.factory.producedResource = Resources.PINE_SAPLING;
+        tile.treeNursery = true;
         tile.display.buildingSprite = 0;
     }
 }
@@ -89,6 +90,7 @@ export function PlaceCompostHeap() {
         tile.factory.productionTime = 5;
         tile.factory.inputResourcesLimit = 5;
         tile.factory.producedResource = Resources.COMPOST;
+        tile.compost = true;
         tile.display.buildingSprite = 4;
     }
 }
@@ -188,7 +190,9 @@ export function Demolish(gameState) {
         delete tile.factory;
         delete tile.display.buildingSprite;
     }
+    delete tile.treeNursery;
     delete tile.forester;
+    delete tile.lumberHut;
     delete tile.sprinkler;
     delete tile.waterConsumer;
     delete tile.compost;
@@ -216,6 +220,7 @@ export function PlaceSprinkler(gameState) {
 }
 
 export function notOccupied(tile) {
+<<<<<<< HEAD
     return !(tile.water
         || tile.tree
         || tile.factory
@@ -223,6 +228,7 @@ export function notOccupied(tile) {
         || tile.forester
         || tile.lumberHut
         || tile.pulleyCrane
+        || tile.treeNursery
     )
 }
 
