@@ -220,7 +220,6 @@ export function PlaceSprinkler(gameState) {
 }
 
 export function notOccupied(tile) {
-<<<<<<< HEAD
     return !(tile.water
         || tile.tree
         || tile.factory
