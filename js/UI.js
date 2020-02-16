@@ -225,7 +225,8 @@ let buildings = [
             GameState.selectedBuildingType = BUILDING_TYPES.PULLEY_CRANE;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.BUILD
+                && GameState.selectedBuildingType === BUILDING_TYPES.PULLEY_CRANE;
         },
     },
     {
