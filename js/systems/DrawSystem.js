@@ -176,6 +176,9 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
                     tooltip += "$$$Click to demolish";
                 }
             }
+            if(gameState.cursorMode === CURSOR_MODES.DROP) {
+                tooltip += "$$$Click to drop item"; // TODO make differentiation between items
+            }
 
         } else if(entity.pulleyCrane) {
             tooltip += "Pulley Crane///";
@@ -267,10 +270,16 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
             if(gameState.cursorMode === CURSOR_MODES.DESTROY) {
                 tooltip += "$$$Click to demolish";
             }
+            if(gameState.cursorMode === CURSOR_MODES.DROP) {
+                tooltip += "$$$Click to drop item"; // TODO make differentiation between items
+            }
 
         } else {
             tooltip += "Barren Land///";
             tooltip += "Pollution: " + Math.round(entity.pollution) + "%///";
+            if(gameState.cursorMode === CURSOR_MODES.BUILD) {
+                tooltip += "$$$Click to build building"; // TODO make differentiation between buildings
+            }
         }
 
         Tooltip.set(tooltip);
