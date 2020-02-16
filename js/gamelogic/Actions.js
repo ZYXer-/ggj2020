@@ -42,6 +42,7 @@ export function PlaceWater(tile, gameState) {
 
 export function PlacePulleyCrane(tile, gameState) {
     // TODO: Check and subtract resources
-    tile.display = newDisplay(0,0,Color.fromHex('rgba(0,0,0,0.98)'))
+    tile.display = newDisplay(0,0,Color.fromHex('rgba(0,0,0,0.98)'));
+    tile.display.buildingSprite = 5;
     tile.pulleyCrane = newPulleyCrane(gameState.orientation);
 }

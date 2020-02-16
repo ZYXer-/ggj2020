@@ -138,8 +138,8 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
 
 
     let draw;
-    if (entity.factory || entity.sprinkler) {
-        draw = drawFactory;
+    if (entity.factory || entity.sprinkler || entity.pulleyCrane) {
+        draw = drawBuilding;
     }
 
     if (entity.tree) {
@@ -221,7 +221,7 @@ function drawTree(entity) {
 }
 
 
-function drawFactory(entity) {
+function drawBuilding(entity) {
     c.save();
     c.translate(24, 24);
     c.scale(0.5, 0.5);
