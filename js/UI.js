@@ -226,7 +226,8 @@ let buildings = [
         buildingSprite: 5,
         label: "Pulley Crane",
         click() {
-            console.log("pulley crane");
+            GameState.cursorMode = CURSOR_MODES.BUILD;
+            GameState.selectedBuildingType = BUILDING_TYPES.PULLEY_CRANE;
         },
         isActive() {
             return false;
