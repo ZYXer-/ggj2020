@@ -168,6 +168,11 @@ export function show() {
 
     Tooltip.setPainter(BasicTooltipPainter);
     reset();
+    Keyboard.registerKeyUpHandler(Keyboard.D, function() {
+        GameState[Resources.PINE_WOOD] += 100;
+        GameState[Resources.BEECH_WOOD] += 100;
+        GameState[Resources.OAK_WOOD] += 100;
+    });
     Keyboard.registerKeyUpHandler(Keyboard.R, () => {
         GameState.orientation = (GameState.orientation + 1) % 4;
     });
@@ -258,7 +263,7 @@ export function update() {
 
     if(!Game.paused) {
 
-        oneSecCountUp += Timer.delta * 5;
+        oneSecCountUp += Timer.delta * 3;
         animationCountUp += Timer.delta;
 
         // Deltas

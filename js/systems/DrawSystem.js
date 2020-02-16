@@ -107,7 +107,7 @@ export function applyOverlay(entity, animationProgress, animationCountUp, gameSt
     if(entity.item) {
         if (entity.water) {
             let itemFlow = new Vec2(0, 0);
-            if(entity.water.output && entity.water.output.item === null) {
+            if(entity.water.output && !entity.water.output.item) {
                 itemFlow = entity.water.output.position.subtract(entity.position);
                 itemFlow = itemFlow.multiply(TILE_SIZE * animationProgress);
             }
