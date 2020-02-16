@@ -167,7 +167,9 @@ export function show() {
     reset();
 
     Keyboard.registerKeyUpHandler(Keyboard.D, function() {
-        debugger;
+        GameState[Resources.PINE_WOOD] += 100;
+        GameState[Resources.BEECH_WOOD] += 100;
+        GameState[Resources.OAK_WOOD] += 100;
     });
     Keyboard.registerKeyUpHandler(Keyboard.R, function() {
         GameState.orientation = (GameState.orientation + 1) % 4;

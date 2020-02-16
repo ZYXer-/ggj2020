@@ -29,6 +29,7 @@ export function apply(entity) {
             entity.water.flow += maxNeighborLevel - EVAPORATION;
 
             if(entity.item !== null
+                && entity.itemDelta[entity.item.type] >= 0
                 && entity.water.output
                 && entity.water.output.item === null
                 && entity.water.output.water.itemInput === null) {
