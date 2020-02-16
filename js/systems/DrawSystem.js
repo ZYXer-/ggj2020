@@ -46,8 +46,6 @@ export function applyGround(entity, animationProgress) {
         } else {
             color = COLOR_GREY;
         }
-    } else if (entity.factory !== undefined) {
-        color = COLOR_YELLOW;
     } else {
         const nature = 1.0 - (entity.pollution / MAX_POLLUTION_VALUE);
         color = Color.fromHSL(
@@ -55,9 +53,6 @@ export function applyGround(entity, animationProgress) {
             0.05 + (0.5 * nature),
             0.30 + (0.10 * nature),
         );
-    }
-    if (entity.display && entity.display.color) {
-        color = entity.display.color;
     }
 
     if (color !== undefined ) {
@@ -144,6 +139,10 @@ export function applyOverlay(entity, animationProgress) {
 
 
     let draw;
+    if (entity.factory || entity.sprinkler) {
+        draw = drawFactory;
+    }
+
     if (entity.tree) {
         draw = drawTree;
     }
@@ -206,6 +205,17 @@ function drawTree(entity) {
         );
     }
 
+    c.restore();
+}
+
+
+function drawFactory(entity) {
+    c.save();
+    c.translate(24, 24);
+    c.scale(0.5, 0.5);
+    if (typeof entity.display.buildingSprite !== "undefined") {
+        Img.drawSprite("buildings", -96, -96, 192, 192, entity.display.buildingSprite, 0);
+    }
     c.restore();
 }
 

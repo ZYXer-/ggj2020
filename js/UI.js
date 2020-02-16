@@ -58,11 +58,11 @@ let centerText = new Text({
     color : "#ccc"
 });
 
-let highlightedText = new Text({
+let activeText = new Text({
     size : 16,
     font : "norwester",
     align : "center",
-    color : "#fff"
+    color : "#58b001"
 });
 
 let selectedText = new Text({
@@ -207,23 +207,24 @@ let buildings = [
             GameState.cursorMode = CURSOR_MODES.PICK;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.PICK;
         },
     },
     {
         offset: 0,
-        icon: 0,
+        icon: 1,
         label: "Demolish",
         click() {
             GameState.cursorMode = CURSOR_MODES.DESTROY;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.DESTROY;
         },
     },
     {
         offset: 22,
         buildingSprite: 5,
+        buildingSpriteOffsetY: 36,
         label: "Pulley Crane",
         click() {
             console.log("pulley crane");
@@ -240,68 +241,79 @@ let buildings = [
             GameState.selectedBuildingType = BUILDING_TYPES.WATER;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.BUILD
+                && GameState.selectedBuildingType === BUILDING_TYPES.WATER;
         },
     },
     {
         offset: 22,
         buildingSprite: 0,
+        buildingSpriteOffsetY: 36,
         label: "Tree Nursery",
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.TREE_NURSERY;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.BUILD
+                && GameState.selectedBuildingType === BUILDING_TYPES.TREE_NURSERY;
         },
     },
     {
         offset: 22,
         buildingSprite: 1,
+        buildingSpriteOffsetY: 48,
         label: "Forester",
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.FORESTER;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.BUILD
+                && GameState.selectedBuildingType === BUILDING_TYPES.FORESTER;
         },
     },
     {
         offset: 22,
         buildingSprite: 2,
+        buildingSpriteOffsetY: 48,
         label: "Log Cabin",
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.LOG_CABIN;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.BUILD
+                && GameState.selectedBuildingType === BUILDING_TYPES.LOG_CABIN;
         },
     },
     {
         offset: 22,
         buildingSprite: 3,
+        buildingSpriteOffsetY: 40,
         label: "Sprinkler",
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.SPRINKLER;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.BUILD
+                && GameState.selectedBuildingType === BUILDING_TYPES.SPRINKLER;
         },
 
     },
     {
         offset: 22,
         buildingSprite: 4,
+        buildingSpriteOffsetY: 40,
         label: "Compost Heap",
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.COMPOST_HEAP;
         },
         isActive() {
-            return false;
+            return GameState.cursorMode === CURSOR_MODES.BUILD
+                && GameState.selectedBuildingType === BUILDING_TYPES.COMPOST_HEAP;
         },
     },
 ];
@@ -318,19 +330,43 @@ for(let buildingIndex in buildings) {
         },
         draw(x, y, w, h, isOver, down) {
             c.fillStyle = "#ccc";
+            let iconSpriteY = 0;
             if(isOver) {
                 c.fillStyle = "#fff";
+                iconSpriteY = 1;
                 if(down) {
                     y += 2;
                 }
             }
             if(building.isActive()) {
                 c.fillStyle = "#58b001";
+                iconSpriteY = 2;
             }
             c.fillRect(x, y, w, h);
             c.fillStyle = "#222";
             c.fillRect(x + 2, y + 2, w - 4, h - 4);
-            centerText.drawPosText(x + 0.5 * w, y + 80, building.label);
+
+            if(typeof building.icon !== "undefined") {
+                c.save();
+                c.translate(x + (0.5 * w), y + 36);
+                c.scale(0.5, 0.5);
+                Img.drawSprite("icons", -48, -48, 96, 96, building.icon, iconSpriteY);
+                c.restore();
+            }
+
+            if(typeof building.buildingSprite !== "undefined") {
+                c.save();
+                c.translate(x + (0.5 * w), y + building.buildingSpriteOffsetY);
+                c.scale(0.5, 0.5);
+                Img.drawSprite("buildings", -96, -96, 192, 192, building.buildingSprite, 0);
+                c.restore();
+            }
+
+            if(iconSpriteY < 2) {
+                centerText.drawPosText(x + 0.5 * w, y + 80, building.label);
+            } else {
+                activeText.drawPosText(x + 0.5 * w, y + 80, building.label);
+            }
         }
     });
 }

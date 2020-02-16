@@ -9,6 +9,7 @@ export const images = objectToMap({
     panel: "img/panel.png",
     items: "img/items.png",
     buildings: "img/buildings.png",
+    icons: "img/icons.png"
 });
 
 

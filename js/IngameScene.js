@@ -132,7 +132,7 @@ function handleDestroyAction(gameState) {
 }
 
 export const GameState = {
-    cursorMode: CURSOR_MODES.DESTROY,
+    cursorMode: CURSOR_MODES.PICK,
     selectedBuildingType: BUILDING_TYPES.OAK,
 
     // Resources
