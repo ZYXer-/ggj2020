@@ -2,6 +2,9 @@ import Resources from "./Resources.js";
 import { newWater } from "../components/Water.js";
 import {checkResourceAvailability, removeResources} from "./Resources.js";
 import { WATER_COST } from "./MechanicParameters.js";
+import { newPulleyCrane } from "../components/PulleyCrane.js";
+import {newDisplay} from "../components/Display.js";
+import Color from "../utils/Color.js";
 
 export function CutTree(entity, gameState) {
     let resourceType;
@@ -35,4 +38,10 @@ export function PlaceWater(tile, gameState) {
         );
         tile.water = newWater(false);
     }
+}
+
+export function PlacePulleyCrane(tile, gameState) {
+    // TODO: Check and subtract resources
+    tile.display = newDisplay(0,0,Color.fromHex('rgba(0,0,0,0.98)'))
+    tile.pulleyCrane = newPulleyCrane(gameState.orientation);
 }

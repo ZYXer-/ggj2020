@@ -93,6 +93,14 @@ export function PlaceCompostHeap() {
     }
 }
 
+export function PlacePulleyCrane(gameState) {
+    const tile = getCursorTile();
+
+    if (notOccupied(tile)) {
+        Actions.PlacePulleyCrane(tile, gameState);
+    }
+}
+
 export function CutTree(gameState) {
     const tile = getCursorTile();
 
@@ -239,7 +247,7 @@ export function DropResourceToGround(gameState, resourceType) {
     const tile = getCursorTile();
     if (checkResourceAvailability(gameState, { [resourceType]: 1})) {
 
-        tile.item  = newItem(resourceType, tile);
+        tile.item = newItem(resourceType, tile);
         removeResources(
             gameState,
             { [resourceType]: 1},

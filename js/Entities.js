@@ -36,6 +36,7 @@ export function generate() {
             pollution: 0,
             pollutionDelta: 0,
             item: null,
+            itemDelta: {},
             display: newDisplay()
         });
     }

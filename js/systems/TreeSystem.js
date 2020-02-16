@@ -37,6 +37,10 @@ function applyTreeGrowth(entity) {
     }
 }
 
+// function applyTreeGrowth(entity) {
+//
+// }
+
 function applyTreeHealth(entity) {
     if (entity.pollution > 50) {
         entity.tree.health -= (entity.pollution - MAX_POLLUTION_VALUE * 0.5) * POLLUTION_DAMAGE_FACTOR;

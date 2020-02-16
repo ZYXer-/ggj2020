@@ -12,7 +12,9 @@ import { c } from "./core/canvas.js";
 import * as Timer from "./core/Timer.js";
 import * as WaterFlowSystem from "./systems/WaterFlowSystem.js";
 import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js";
+import * as ItemApplicationSystem from "./systems/ItemDeltaApplicationSystem.js";
 import * as TreeSystem from "./systems/TreeSystem.js";
+import * as PulleyCraneSystem from "./systems/PulleyCraneSystem.js";
 import * as FactorySystem from "./systems/FactorySystem.js";
 import * as WaterConsumerSystem from "./systems/WaterConsumerSystem.js";
 import * as ForesterSystem from "./systems/ForesterSystem.js";
@@ -23,6 +25,7 @@ import * as Keyboard from "./core/input/Keyboard.js";
 import * as UI from "./UI.js"
 import Resources from "./gamelogic/Resources.js";
 import {PlaceWater} from "./CursorActions.js";
+import { ORIENTATION } from "./gamelogic/Constants.js";
 
 let oneSecCountUp = 0;
 let animationCountUp = 0;
@@ -47,6 +50,7 @@ export const BUILDING_TYPES = {
     SPRINKLER: 30,
     FORESTER: 31,
     LOG_CABIN: 32,
+    PULLEY_CRANE: 33,
 };
 
 
@@ -120,6 +124,9 @@ function handleBuildAction(gameState) {
         case BUILDING_TYPES.COMPOST_HEAP:
             CursorActions.PlaceCompostHeap(gameState);
             break;
+        case BUILDING_TYPES.PULLEY_CRANE:
+            CursorActions.PlacePulleyCrane(gameState);
+            break;
     }
 }
 
@@ -135,15 +142,16 @@ function handleDestroyAction(gameState) {
 export const GameState = {
     cursorMode: CURSOR_MODES.PICK,
     selectedBuildingType: BUILDING_TYPES.OAK,
+    orientation: ORIENTATION.NORTH_SOUTH,
 
     // Resources
-    [Resources.PINE_WOOD]: 1000,
+    [Resources.PINE_WOOD]: 10,
     [Resources.BEECH_WOOD]: 0,
     [Resources.OAK_WOOD]: 0,
     [Resources.PINE_SAPLING]: 5,
-    [Resources.BEECH_SAPLING]: 5,
-    [Resources.OAK_SAPLING]: 5,
-    [Resources.COMPOST]: 5,
+    [Resources.BEECH_SAPLING]: 0,
+    [Resources.OAK_SAPLING]: 0,
+    [Resources.COMPOST]: 0,
 };
 
 function reset() {
@@ -158,6 +166,10 @@ export function show() {
 
     Keyboard.registerKeyUpHandler(Keyboard.D, function() {
         debugger;
+    });
+    Keyboard.registerKeyUpHandler(Keyboard.R, function() {
+        GameState.orientation = (GameState.orientation + 1) % 4;
+        console.log(GameState.orientation);
     });
     Mouse.left.registerUpArea(
         'map',
@@ -216,6 +228,7 @@ export function update() {
                 WaterConsumerSystem.apply(entity); // must be after WaterFlowSystem
                 ForesterSystem.apply(entity);
                 LumberHutSystem.apply(entity, GameState);
+                PulleyCraneSystem.apply(entity, GameState);
             }
         }
 
@@ -226,6 +239,7 @@ export function update() {
                 PollutionApplicationSystem.apply(entity);
                 WaterApplicationSystem.apply(entity);
             }
+            ItemApplicationSystem.apply(entity, GameState);
             TotalPollutionCounterSystem.apply(entity);
         }
 
