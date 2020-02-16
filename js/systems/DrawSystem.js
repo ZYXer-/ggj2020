@@ -1,6 +1,5 @@
 import { c } from "../core/canvas.js";
 import Color from "../utils/Color.js";
-import { clamp } from "../utils/Utils.js";
 import * as Mouse from "../core/input/Mouse.js";
 import * as Keyboard from "../core/input/Keyboard.js";
 import * as Tooltip from "../Tooltip.js";
@@ -9,9 +8,8 @@ import Resources from "../gamelogic/Resources.js";
 import Vec2 from "../utils/Vec2.js";
 import { NUM_TILES_HEIGHT, NUM_TILES_WIDTH } from "../Entities.js";
 import { MAX_POLLUTION_VALUE } from "../gamelogic/MechanicParameters.js";
-import {BUILDING_TYPES, CURSOR_MODES, GameState} from "../IngameScene.js";
-import {HALF_PI, PI, TWO_PI} from "../utils/GeometryUtils.js";
-import * as CursorActions from "../CursorActions.js";
+import {BUILDING_TYPES, CURSOR_MODES } from "../IngameScene.js";
+import {HALF_PI, PI } from "../utils/GeometryUtils.js";
 import { notOccupied } from "../CursorActions.js";
 import {drawCircle} from "../utils/DrawUtils.js";
 
@@ -22,8 +20,6 @@ export const OFFSET_X = 12;
 export const OFFSET_Y = 12;
 
 
-
-const COLOR_YELLOW = Color.fromHex('#efdb02');
 const COLOR_GREY = Color.fromHex('#898989');
 const COLOR_BLUE = Color.fromHSL(
             0.53,
@@ -235,7 +231,7 @@ function drawBuilding(entity, hover) {
 
 
 function drawPulleyCrane(entity, hover) {
-    c.rotate(HALF_PI * (entity.pulleyCrane.orientation - 1));
+    c.rotate(HALF_PI * (entity.pulleyCrane.orientation + 1));
     Img.drawSprite("buildings", -96, -96, 192, 192, 5, 0);
     if(hover) {
         c.globalAlpha = 1;

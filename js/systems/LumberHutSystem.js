@@ -1,6 +1,6 @@
 import Resources, { checkResourceAvailability } from "../gamelogic/Resources.js";
 import { MAX_TREE_LEVEL } from "../gamelogic/MechanicParameters.js";
-import { removeResources } from "../gamelogic/Resources.js";
+import { subtractResources } from "../gamelogic/Resources.js";
 import { rand } from "../utils/Utils.js";
 import * as Actions from "../gamelogic/Actions.js";
 
@@ -14,7 +14,7 @@ export function apply(entity, gameState) {
 
             if (fullGrownTrees.length > 0) {
                 const target = fullGrownTrees[rand(0, fullGrownTrees.length - 1)];
-                removeResources(
+                subtractResources(
                     entity.factory.outputResources,
                     { [Resources.TREE_CUT_ACTION]: 1},
                 );
