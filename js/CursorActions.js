@@ -70,12 +70,13 @@ export function PlaceTree(gameState, saplingResource) { // saplingResource is a 
 export function PlaceTreeNursery(gameState) {
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
-       console.warn("TODO: remove resources!");
-       tile.factory = newFactory();
-       tile.factory.requiredResources[Resources.PINE_WOOD] = 1;
-       tile.factory.productionTime = 5;
-       tile.factory.inputResourcesLimit = 5;
-       tile.factory.producedResource = Resources.PINE_SAPLING;
+        console.warn("TODO: remove resources!");
+        tile.factory = newFactory();
+        tile.factory.requiredResources[Resources.PINE_WOOD] = 1;
+        tile.factory.productionTime = 5;
+        tile.factory.inputResourcesLimit = 5;
+        tile.factory.producedResource = Resources.PINE_SAPLING;
+        tile.display.buildingSprite = 0;
     }
 }
 
@@ -88,7 +89,7 @@ export function PlaceCompostHeap() {
         tile.factory.productionTime = 5;
         tile.factory.inputResourcesLimit = 5;
         tile.factory.producedResource = Resources.COMPOST;
-        tile.display = newDisplay(0,0,Color.fromHex('#b53803'))
+        tile.display.buildingSprite = 4;
     }
 }
 
@@ -185,6 +186,7 @@ export function Demolish(gameState) {
             tile.factory.outputResources,
         );
         delete tile.factory;
+        delete tile.display.buildingSprite;
     }
     delete tile.forester;
     delete tile.sprinkler;
@@ -205,11 +207,7 @@ export function PlaceSprinkler(gameState) {
         tile.waterConsumer = newWaterConsumer();
         tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
         tile.sprinkler = true;
-        tile.display = newDisplay(
-            0,
-            0,
-            Color.fromHex('#702265'),
-        );
+        tile.display.buildingSprite = 3;
         removeResources(
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
@@ -220,11 +218,12 @@ export function PlaceSprinkler(gameState) {
 export function notOccupied(tile) {
     return !(tile.water || tile.tree || tile.factory || tile.sprinkler || tile.forester || tile.lumberHut)
 }
+
 export function PlaceForester(gameState) {
     const tile = getCursorTile();
     if(notOccupied(tile)) {
         console.warn("TODO: remove resources!");
-        tile.display = newDisplay(0,0,Color.fromHex('#ef0ee0'));
+        tile.display.buildingSprite = 1;
         tile.forester = true;
 
         tile.factory = newFactory();
@@ -264,9 +263,7 @@ export function PlaceLogCabin(gameState) {
     const tile = getCursorTile();
     if(notOccupied(tile)) {
         console.warn("TODO: remove resources!");
-        tile.display = newDisplay(0,0,Color.fromHex('#441700'));
-        tile.forester = true;
-
+        tile.display.buildingSprite = 2;
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_SAPLING] = 0; // Indicate that nothing is required
         tile.factory.productionTime = LUMBER_HUT_COOL_DOWN;
