@@ -1,7 +1,7 @@
 import {clamp} from "../utils/Utils.js";
 import {
-    COMPOST_GROWTH_BOOST,
-    COMPOST_USAGE_RATE,
+    FERTILIZER_GROWTH_BOOST,
+    FERTILIZER_USAGE_RATE,
     MAX_POLLUTION_VALUE,
     POLLUTION_DAMAGE_FACTOR,
     TREE_RECOVERY_RATE
@@ -21,18 +21,18 @@ function applyTreeGrowth(entity) {
     const waterEntities = entity.hood1.filter(e => e.water && e.water.level > TREE_GROWTH_WATER_THRESHOLD);
     const sprinklerEntities = entity.hood2.filter(e => e.sprinkler && e.waterConsumer.supplied);
     if(waterEntities.length > 0 || sprinklerEntities.length > 0) {
-        if(!entity.compost || entity.compost === 0) {
+        if(!entity.fertilizer || entity.fertilizer === 0) {
             entity.tree.level = clamp(entity.tree.level + 1,
                 0,
                 MAX_TREE_LEVEL,
             );
         } else {
             entity.tree.level = clamp(
-                entity.tree.level + 1 * COMPOST_GROWTH_BOOST,
+                entity.tree.level + 1 * FERTILIZER_GROWTH_BOOST,
                 0,
                 MAX_TREE_LEVEL,
             );
-            entity.compost -= COMPOST_USAGE_RATE;
+            entity.fertilizer -= FERTILIZER_USAGE_RATE;
         }
     }
 }

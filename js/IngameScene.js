@@ -27,7 +27,7 @@ import Resources from "./gamelogic/Resources.js";
 import {PlaceWater} from "./CursorActions.js";
 import { ORIENTATION } from "./gamelogic/Constants.js";
 
-let oneSecCountUp = 0;
+let tickCountUp = 0;
 let animationCountUp = 0;
 
 export const CURSOR_MODES = {
@@ -49,7 +49,7 @@ export const BUILDING_TYPES = {
 
     SPRINKLER: 30,
     FORESTER: 31,
-    LOG_CABIN: 32,
+    LUMBER_HUT: 32,
     PULLEY_CRANE: 33,
 };
 
@@ -114,13 +114,16 @@ function handleBuildAction(gameState) {
         case BUILDING_TYPES.WATER:
             CursorActions.PlaceWater(gameState);
             break;
+        case BUILDING_TYPES.PULLEY_CRANE:
+            CursorActions.PlacePulleyCrane(gameState);
+            break;
         case BUILDING_TYPES.TREE_NURSERY:
             CursorActions.PlaceTreeNursery(gameState);
             break;
         case BUILDING_TYPES.FORESTER:
             CursorActions.PlaceForester(gameState);
             break;
-        case BUILDING_TYPES.LOG_CABIN:
+        case BUILDING_TYPES.LUMBER_HUT:
             CursorActions.PlaceLogCabin(gameState);
             break;
         case BUILDING_TYPES.SPRINKLER:
@@ -128,9 +131,6 @@ function handleBuildAction(gameState) {
             break;
         case BUILDING_TYPES.COMPOST_HEAP:
             CursorActions.PlaceCompostHeap(gameState);
-            break;
-        case BUILDING_TYPES.PULLEY_CRANE:
-            CursorActions.PlacePulleyCrane(gameState);
             break;
     }
 }
@@ -156,12 +156,12 @@ export const GameState = {
     [Resources.PINE_SAPLING]: 5,
     [Resources.BEECH_SAPLING]: 0,
     [Resources.OAK_SAPLING]: 0,
-    [Resources.COMPOST]: 0,
+    [Resources.FERTILIZER]: 0,
 };
 
 function reset() {
     Entities.generate();
-    oneSecCountUp = 0;
+    tickCountUp = 0;
 }
 
 export function show() {
@@ -195,13 +195,13 @@ export function show() {
         keyboardShortcut(BUILDING_TYPES.FORESTER, Resources.PINE_WOOD);
     });
     Keyboard.registerKeyUpHandler(Keyboard.KEY_5, () => {
-        keyboardShortcut(BUILDING_TYPES.LOG_CABIN, Resources.BEECH_WOOD);
+        keyboardShortcut(BUILDING_TYPES.LUMBER_HUT, Resources.BEECH_WOOD);
     });
     Keyboard.registerKeyUpHandler(Keyboard.KEY_6, () => {
         keyboardShortcut(BUILDING_TYPES.SPRINKLER, Resources.OAK_WOOD);
     });
     Keyboard.registerKeyUpHandler(Keyboard.KEY_7, () => {
-        keyboardShortcut(BUILDING_TYPES.COMPOST_HEAP, Resources.COMPOST);
+        keyboardShortcut(BUILDING_TYPES.COMPOST_HEAP, Resources.FERTILIZER);
     });
     Mouse.left.registerUpArea(
         'map',
@@ -263,11 +263,11 @@ export function update() {
 
     if(!Game.paused) {
 
-        oneSecCountUp += Timer.delta * 6;
+        tickCountUp += Timer.delta * 6;
         animationCountUp += Timer.delta;
 
         // Deltas
-        if (oneSecCountUp > 1) {
+        if (tickCountUp > 1) {
             for(const entity of Entities.entities) {
                 PollutionGrowthSystem.apply(entity);
                 PulleyCraneSystem.apply(entity, GameState); // must be before water flow system to make sure items are picked up by cranes before they flow away
@@ -283,7 +283,7 @@ export function update() {
         // Application
         TotalPollutionCounterSystem.reset();
         for(const entity of Entities.entities) {
-            if (oneSecCountUp > 1) {
+            if (tickCountUp > 1) {
                 PollutionApplicationSystem.apply(entity);
                 WaterApplicationSystem.apply(entity);
             }
@@ -304,7 +304,7 @@ export function update() {
 
         // update stuff except when paused
 
-        oneSecCountUp -= oneSecCountUp > 1 ? 1 : 0;
+        tickCountUp -= tickCountUp > 1 ? 1 : 0;
         animationCountUp -= animationCountUp > 1 ? 1 : 0;
     }
 }
@@ -320,10 +320,10 @@ export function draw() {
     c.translate(DrawSystem.OFFSET_X, DrawSystem.OFFSET_Y);
 
     for(const entity of Entities.entities) {
-        DrawSystem.applyGround(entity, oneSecCountUp);
+        DrawSystem.applyGround(entity, tickCountUp);
     }
     for(const entity of Entities.entities) {
-        DrawSystem.applyOverlay(entity, oneSecCountUp, animationCountUp, GameState);
+        DrawSystem.applyOverlay(entity, tickCountUp, animationCountUp, GameState);
     }
 
     c.restore();

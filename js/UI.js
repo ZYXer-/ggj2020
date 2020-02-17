@@ -107,7 +107,7 @@ let items = [
         offset: 16,
         item: 6,
         label: "Fertilizer",
-        value: Resources.COMPOST,
+        value: Resources.FERTILIZER,
     },
 ];
 
@@ -273,14 +273,14 @@ let buildings = [
         offset: 22,
         buildingSprite: 2,
         buildingSpriteOffsetY: 48,
-        label: "Log Cabin",
+        label: "Lumber Hut",
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
-            GameState.selectedBuildingType = BUILDING_TYPES.LOG_CABIN;
+            GameState.selectedBuildingType = BUILDING_TYPES.LUMBER_HUT;
         },
         isActive() {
             return GameState.cursorMode === CURSOR_MODES.BUILD
-                && GameState.selectedBuildingType === BUILDING_TYPES.LOG_CABIN;
+                && GameState.selectedBuildingType === BUILDING_TYPES.LUMBER_HUT;
         },
     },
     {

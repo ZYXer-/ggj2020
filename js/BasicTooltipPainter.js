@@ -43,18 +43,26 @@ export function insertNewContent(content) {
         height += titleDrawable.getHeight() + 9;
         for(let i = 2; i < parts.length; i++) {
             if(parts[i] !== "") {
-                if(parts[i].substr(0, 3) === "$$$") {
+                if(parts[i] === "===") {
+                    height += 6;
+                } else if(parts[i].substr(0, 3) === "$$$") {
                     hintDrawable.setText(parts[i].substr(3));
                     hintDrawable.setPos(0, height + 18);
                     width = max(width, hintDrawable.getWidth());
                     height += hintDrawable.getHeight() + 6;
                     hasHint = true;
                     break;
+                } else if(parts[i].substr(0, 3) === "###") {
+                    lineDrawables[lines].setText(parts[i].substr(3));
+                    lineDrawables[lines].setPos(16, height + 12);
+                    width = max(width, lineDrawables[lines].getWidth() + 16);
+                    height += lineDrawables[lines].getHeight();
+                    lines++;
                 } else {
-                    lineDrawables[i - 2].setText(parts[i]);
-                    lineDrawables[i - 2].setPos(8, height + 12);
-                    width = max(width, lineDrawables[i - 2].getWidth() + 8);
-                    height += lineDrawables[i - 2].getHeight();
+                    lineDrawables[lines].setText(parts[i]);
+                    lineDrawables[lines].setPos(8, height + 12);
+                    width = max(width, lineDrawables[lines].getWidth() + 8);
+                    height += lineDrawables[lines].getHeight();
                     lines++;
                 }
             }
@@ -99,7 +107,7 @@ function initTextDrawables() {
         size : 20,
         font : "norwester",
         color : "#ccc",
-        maxWidth : 200,
+        maxWidth : 280,
         lineHeight : 24
     });
     for(let i = 0; i < 10; i++) {
@@ -107,7 +115,7 @@ function initTextDrawables() {
             size : 16,
             font : "norwester",
             color : "#ccc",
-            maxWidth : 200,
+            maxWidth : 280,
             lineHeight : 18
         });
     }
@@ -117,7 +125,7 @@ function initTextDrawables() {
         size : 16,
         font : "norwester",
         color : "#999",
-        maxWidth : 200,
+        maxWidth : 280,
         lineHeight : 18
     });
 }

@@ -89,8 +89,8 @@ export function PlaceCompostHeap() {
         tile.factory.requiredResources[Resources.PINE_WOOD] = COMPOST_COST;
         tile.factory.productionTime = 5;
         tile.factory.inputResourcesLimit = 5;
-        tile.factory.producedResource = Resources.COMPOST;
-        tile.compost = true;
+        tile.factory.producedResource = Resources.FERTILIZER;
+        tile.compostHeap = true;
         tile.display.buildingSprite = 4;
     }
 }
@@ -190,13 +190,13 @@ export function Demolish(gameState) {
         delete tile.factory;
         delete tile.display.buildingSprite;
     }
+    delete tile.pulleyCrane;
     delete tile.treeNursery;
     delete tile.forester;
     delete tile.lumberHut;
     delete tile.sprinkler;
+    delete tile.compostHeap;
     delete tile.waterConsumer;
-    delete tile.compost;
-    delete tile.pulleyCrane;
 }
 
 export function PlaceSprinkler(gameState) {
@@ -220,14 +220,14 @@ export function PlaceSprinkler(gameState) {
 }
 
 export function notOccupied(tile) {
-    return !(tile.water
-        || tile.tree
-        || tile.factory
-        || tile.sprinkler
-        || tile.forester
-        || tile.lumberHut
+    return !(tile.tree
+        || tile.water
         || tile.pulleyCrane
         || tile.treeNursery
+        || tile.forester
+        || tile.lumberHut
+        || tile.sprinkler
+        || tile.compostHeap
     )
 }
 
@@ -235,14 +235,13 @@ export function PlaceForester(gameState) {
     const tile = getCursorTile();
     if(notOccupied(tile)) {
         console.warn("TODO: remove resources!");
-        tile.display.buildingSprite = 1;
-        tile.forester = true;
-
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_SAPLING] = 1;
         tile.factory.productionTime = 5;
         tile.factory.inputResourcesLimit = 5;
         tile.factory.producedResource = Resources.PLANTBLE_PINE_SAPLING;
+        tile.forester = true;
+        tile.display.buildingSprite = 1;
     }
 }
 
@@ -289,18 +288,18 @@ export function PlaceLogCabin(gameState) {
 export function FertilizeTile(gameState) {
     const tile = getCursorTile();
     if (true) { // What can be fertelized?
-        if (!checkResourceAvailability(gameState, { [Resources.COMPOST]: 1})) {
+        if (!checkResourceAvailability(gameState, { [Resources.FERTILIZER]: 1})) {
             console.log("No Compost available");
             return;
         }
-        if (tile.compost && tile.compost > 0) {
+        if (tile.fertilizer && tile.fertilizer > 0) {
             console.log("Already Fertelized");
             return;
         }
-        tile.compost = 1;
+        tile.fertilizer = 1;
         subtractResources(
             gameState,
-            { [Resources.COMPOST]: 1},
+            { [Resources.FERTILIZER]: 1},
         );
     }
 }

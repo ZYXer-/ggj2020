@@ -6,7 +6,7 @@ export default {
     BEECH_SAPLING: 'BeechSapling',
     OAK_SAPLING: 'OakSapling',
     PLANTBLE_PINE_SAPLING: 'PlantablePineSapling',
-    COMPOST: 'Compost',
+    FERTILIZER: 'Fertilizer',
     TREE_CUT_ACTION: 'TreeCutAction',
 }
 
