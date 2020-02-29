@@ -7,8 +7,8 @@ import Resources from './Resources.js';
 export const TREE_POLLUTION_REDUCTION_FACTOR = 0.012; // Tree's pollution reduction relative to the level of the tree
 export const TREE_POLLUTION_REDUCTION_DISTANCE_FACTOR = 0.30; // Tree's pollution reduction relative to the tree's distance to a polluted tile
 export const TREE_POLLUTION_REDUCTION_CHANCE = 0.45; // Chance that a tree decreases the pollution of a field
-export const POLLUTION_DIFFUSION = 0.04; // Diffusion factor of pollution `(polluter.pollution - entity.pollution) * factor`
-export const POLLUTION_REDUCTION = 0.2; // General decrease of pollution
+export const POLLUTION_DIFFUSION = 0.025; // Diffusion factor of pollution `(polluter.pollution - entity.pollution) * factor`
+export const POLLUTION_REDUCTION = 0.25; // General decrease of pollution
 
 export const TREE_RECOVERY_RATE = 1;
 export const POLLUTION_DAMAGE_FACTOR = 0.25;

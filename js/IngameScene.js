@@ -263,7 +263,7 @@ export function update() {
 
     if(!Game.paused) {
 
-        tickCountUp += Timer.delta * 5;
+        tickCountUp += Timer.delta * 20;
         animationCountUp += Timer.delta;
 
         // Deltas
