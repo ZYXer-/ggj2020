@@ -5,7 +5,7 @@ import * as Game from './core/Game.js';
 import * as Mouse from './core/input/Mouse.js';
 import * as PauseScreen from './PauseScreen.js';
 import * as PollutionApplicationSystem from './systems/PollutionApplicationSystem.js';
-import * as PollutionGrowthSystem from './systems/PollutionGrowthSystem.js';
+import * as PollutionGrowthSystem from './systems/PollutionSystem.js';
 import * as Tooltip from './Tooltip.js';
 import * as Viewport from './core/Viewport.js';
 import { c } from './core/canvas.js';
@@ -263,7 +263,7 @@ export function update() {
 
     if(!Game.paused) {
 
-        tickCountUp += Timer.delta * 6;
+        tickCountUp += Timer.delta * 5;
         animationCountUp += Timer.delta;
 
         // Deltas

@@ -1,25 +1,31 @@
-import { min, rand } from '../utils/Utils.js';
 import {
     TREE_POLLUTION_REDUCTION_FACTOR ,
     TREE_POLLUTION_REDUCTION_DISTANCE_FACTOR,
     TREE_POLLUTION_REDUCTION_CHANCE,
-    MIN_POLLUTION_GROWTH,
+    POLLUTION_DIFFUSION,
+    POLLUTION_REDUCTION,
 } from '../gamelogic/MechanicParameters.js';
 import { trueOrFalse } from '../utils/Utils.js';
 
 
 export function apply(entity) {
-    const neighbour = entity.hood1[rand(0, entity.hood1.length - 1)];
-    // Growth
-    if (neighbour.pollution > entity.pollution){
-        entity.pollutionDelta += min(
-            MIN_POLLUTION_GROWTH,
-            0.5
-            , neighbour.pollution - entity.pollution
-        );
+    // const neighbour = entity.hood1[rand(0, entity.hood1.length - 1)];
+
+    if (entity.pollutionSource) {
+        entity.pollutionDelta += entity.pollutionSource.pollutionEmission;
     }
 
-    // Reduction
+    // Growth
+    const polluters = entity.hood1.filter(n => n.pollution > entity.pollution);
+    entity.pollutionDelta += polluters.reduce(
+        (pollutionDelta, polluter) => pollutionDelta + (polluter.pollution - entity.pollution) * POLLUTION_DIFFUSION,
+        0,
+    );
+
+    // General Reduction
+    entity.pollutionDelta -= POLLUTION_REDUCTION;
+
+    // Tree Reduction
     const treeLevelSum = entity.hood3.filter(e => e.tree && e.tree.health > 0 && trueOrFalse(TREE_POLLUTION_REDUCTION_CHANCE))
         .reduce(
             (accumulator, e) => {

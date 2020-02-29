@@ -7,6 +7,9 @@ import { getTileByCoordinates, NUM_TILES_HEIGHT, NUM_TILES_WIDTH } from '../Enti
 import { newPulleyCrane } from '../components/PulleyCrane.js';
 import { newItem } from '../components/Item.js';
 import Resources from '../gamelogic/Resources.js';
+import { newPollutionSource } from '../components/PollutionSource.js';
+import { notOccupied } from '../CursorActions.js';
+
 
 
 /**
@@ -26,20 +29,17 @@ export function generateDebugWorld(entities) {
     generateRiver(entities, center);
     generateCranes(entities, center);
     generateItems(entities, center);
+    generatePollutionSources(entities, center);
 
-    // for (const entity of entities) {
-    //     const distance = entity.position.subtract(center).norm();
-    //
-    //     if (distance > 1.5 && distance < 3.5 && trueOrFalse(0.8)) {
-    //         entity.tree = newTree(0, rand(50, 100));
-    //     }
-    //
-    //     entity.pollution = clamp(
-    //         Math.round(((5 * distance) - 5) * randFloat(0.5, 1.0)),
-    //         0,
-    //         MAX_POLLUTION_VALUE,
-    //     );
-    // }
+    for (const entity of entities) {
+        if (notOccupied(entity)) {
+            const distance = entity.position.subtract(center).norm();
+
+            if (distance > 1.5 && distance < 3.5 && trueOrFalse(0.8)) {
+                entity.tree = newTree(0, rand(50, 100));
+            }
+        }
+    }
 }
 
 
@@ -92,5 +92,21 @@ function generateItems(entities, center) {
     let cursor = center.add(new Vec2(0,-1));
     let tile = getTileByCoordinates(cursor);
     tile.item = newItem(Resources.PINE_WOOD, tile);
+
+}
+
+function generatePollutionSources(entities, center) {
+
+    let cursor = center.add(new Vec2(-15,0));
+    getTileByCoordinates(cursor).pollutionSource = newPollutionSource();
+
+    cursor = center.add(new Vec2(0,10));
+    getTileByCoordinates(cursor).pollutionSource = newPollutionSource();
+
+    cursor = center.add(new Vec2(15,0));
+    getTileByCoordinates(cursor).pollutionSource = newPollutionSource();
+
+    cursor = center.add(new Vec2(0,-10));
+    getTileByCoordinates(cursor).pollutionSource = newPollutionSource();
 
 }
