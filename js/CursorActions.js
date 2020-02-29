@@ -8,11 +8,12 @@ import {newFactory} from './components/Factory.js';
 import Resources, {addResources, checkResourceAvailability, subtractResources} from './gamelogic/Resources.js';
 import Color from './utils/Color.js';
 import {
-    COMPOST_COST,
+    COMPOST_HEAP_COST,
+    COMPOST_HEAP_INPUT_RECOURCES,
+	COMPOST_HEAP_INPUT_RECOURCES_LIMIT,
+	COMPOST_HEAP_COOL_DOWN,
     LUMBERHUT_COST,
     LUMBER_HUT_COOL_DOWN,
-    LUMBER_HUT_INPUT_RECOURCES,
-    LUMBER_HUT_INPUT_RECOURCES_LIMIT,
     SPRINKLER_COST,
     SPRINKLER_WATER_CONSUMPTION,
     FORESTER_COST,
@@ -83,11 +84,11 @@ export function PlaceTreeNursery(gameState) {
     const tile = getCursorTile();
     if (notOccupied(tile) && checkResourceAvailability(
             gameState,
-            { [Resources.PINE_WOOD]: TREENURCERY_COST },
+            TREENURCERY_COST,
         )){ 
         subtractResources(
             gameState,
-            { [Resources.PINE_WOOD]: TREENURCERY_COST },
+            TREENURCERY_COST,
         );
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_WOOD] = TREENURCERY_INPUT_RECOURCES;
@@ -99,14 +100,20 @@ export function PlaceTreeNursery(gameState) {
     }
 }
 
-export function PlaceCompostHeap() {
+export function PlaceCompostHeap(gameState) {
     const tile = getCursorTile();
-    if (!tile.water && !tile.tree && !tile.factory) {
-        console.warn('TODO: remove resources!');
+    if (notOccupied(tile) && checkResourceAvailability(
+            gameState,
+            COMPOST_HEAP_COST,
+        )){ 
+        subtractResources(
+            gameState,
+            COMPOST_HEAP_COST,
+        );
         tile.factory = newFactory();
-        tile.factory.requiredResources[Resources.PINE_WOOD] = COMPOST_COST;
-        tile.factory.productionTime = 5;
-        tile.factory.inputResourcesLimit = 5;
+        tile.factory.requiredResources[Resources.PINE_WOOD] = COMPOST_HEAP_INPUT_RECOURCES;
+        tile.factory.productionTime = COMPOST_HEAP_COOL_DOWN;
+        tile.factory.inputResourcesLimit = COMPOST_HEAP_INPUT_RECOURCES_LIMIT;
         tile.factory.producedResource = Resources.FERTILIZER;
         tile.compostHeap = true;
         tile.display.buildingSprite = 4;
@@ -118,11 +125,11 @@ export function PlacePulleyCrane(gameState) {
 
     if (notOccupied(tile) && checkResourceAvailability(
             gameState,
-            { [Resources.PINE_WOOD]: PULLYCRANE_COST },
+            PULLYCRANE_COST,
         )){ 
         subtractResources(
             gameState,
-            { [Resources.PINE_WOOD]: PULLYCRANE_COST },
+            PULLYCRANE_COST,
         );
         Actions.PlacePulleyCrane(tile, gameState);
     }
@@ -132,11 +139,11 @@ export function PlaceSprinkler(gameState) {
     const tile = getCursorTile();
     if (notOccupied(tile) && checkResourceAvailability(
             gameState,
-            { [Resources.PINE_WOOD]: SPRINKLER_COST },
+            SPRINKLER_COST,
         )){ 
         subtractResources(
             gameState,
-            { [Resources.PINE_WOOD]: SPRINKLER_COST },
+            SPRINKLER_COST,
         );
         tile.waterConsumer = newWaterConsumer();
         tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
@@ -149,11 +156,11 @@ export function PlaceForester(gameState) {
     const tile = getCursorTile();
     if (notOccupied(tile) && checkResourceAvailability(
             gameState,
-            { [Resources.PINE_WOOD]: FORESTER_COST },
+            FORESTER_COST,
         )){ 
         subtractResources(
             gameState,
-            { [Resources.PINE_WOOD]: FORESTER_COST },
+            FORESTER_COST,
         );
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_SAPLING] = FORESTER_INPUT_RECOURCES;
@@ -169,16 +176,15 @@ export function PlaceLumberHut(gameState) {
     const tile = getCursorTile();
     if (notOccupied(tile) && checkResourceAvailability(
             gameState,
-            { [Resources.PINE_WOOD]: LUMBERHUT_COST },
+            LUMBERHUT_COST,
         )){ 
         subtractResources(
             gameState,
-            { [Resources.PINE_WOOD]: LUMBERHUT_COST },
+            LUMBERHUT_COST,
         );
         tile.display.buildingSprite = 2;
         tile.factory = newFactory();
         tile.factory.productionTime = LUMBER_HUT_COOL_DOWN;
-        tile.factory.inputResourcesLimit = LUMBER_HUT_INPUT_RECOURCES_LIMIT;
         tile.factory.producedResource = Resources.TREE_CUT_ACTION;
         tile.lumberHut = true;
     }
