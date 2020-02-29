@@ -9,11 +9,21 @@ import Resources, {addResources, checkResourceAvailability, subtractResources} f
 import Color from './utils/Color.js';
 import {
     COMPOST_COST,
+    LUMBERHUT_COST,
     LUMBER_HUT_COOL_DOWN,
+    LUMBER_HUT_INPUT_RECOURCES,
+    LUMBER_HUT_INPUT_RECOURCES_LIMIT,
     SPRINKLER_COST,
     SPRINKLER_WATER_CONSUMPTION,
     FORESTER_COST,
-    LUMBERHUT_COST,
+    FORESTER_COOL_DOWN,
+    FORESTER_INPUT_RECOURCES,
+    FORESTER_INPUT_RECOURCES_LIMIT,
+	PULLYCRANE_COST,
+	TREENURCERY_COST,
+	TREENURCERY_INPUT_RECOURCES,
+	TREENURCERY_INPUT_RECOURCES_LIMIT,
+	TREENURCERY_COOL_DOWN,
 } from './gamelogic/MechanicParameters.js';
 import {newWaterConsumer} from './components/WaterConsumer.js';
 import * as Actions from './gamelogic/Actions.js';
@@ -71,12 +81,18 @@ export function PlaceTree(gameState, saplingResource) { // saplingResource is a 
 
 export function PlaceTreeNursery(gameState) {
     const tile = getCursorTile();
-    if (!tile.water && !tile.tree && !tile.factory) {
-        console.warn('TODO: remove resources!');
+    if (notOccupied(tile) && checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_WOOD]: TREENURCERY_COST },
+        )){ 
+        subtractResources(
+            gameState,
+            { [Resources.PINE_WOOD]: TREENURCERY_COST },
+        );
         tile.factory = newFactory();
-        tile.factory.requiredResources[Resources.PINE_WOOD] = 1;
-        tile.factory.productionTime = 5;
-        tile.factory.inputResourcesLimit = 5;
+        tile.factory.requiredResources[Resources.PINE_WOOD] = TREENURCERY_INPUT_RECOURCES;
+        tile.factory.productionTime = TREENURCERY_COOL_DOWN;
+        tile.factory.inputResourcesLimit = TREENURCERY_INPUT_RECOURCES_LIMIT;
         tile.factory.producedResource = Resources.PINE_SAPLING;
         tile.treeNursery = true;
         tile.display.buildingSprite = 0;
@@ -100,8 +116,71 @@ export function PlaceCompostHeap() {
 export function PlacePulleyCrane(gameState) {
     const tile = getCursorTile();
 
-    if (notOccupied(tile)) {
+    if (notOccupied(tile) && checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_WOOD]: PULLYCRANE_COST },
+        )){ 
+        subtractResources(
+            gameState,
+            { [Resources.PINE_WOOD]: PULLYCRANE_COST },
+        );
         Actions.PlacePulleyCrane(tile, gameState);
+    }
+}
+
+export function PlaceSprinkler(gameState) {
+    const tile = getCursorTile();
+    if (notOccupied(tile) && checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_WOOD]: SPRINKLER_COST },
+        )){ 
+        subtractResources(
+            gameState,
+            { [Resources.PINE_WOOD]: SPRINKLER_COST },
+        );
+        tile.waterConsumer = newWaterConsumer();
+        tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
+        tile.sprinkler = true;
+        tile.display.buildingSprite = 3;
+	}
+}
+
+export function PlaceForester(gameState) {
+    const tile = getCursorTile();
+    if (notOccupied(tile) && checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_WOOD]: FORESTER_COST },
+        )){ 
+        subtractResources(
+            gameState,
+            { [Resources.PINE_WOOD]: FORESTER_COST },
+        );
+        tile.factory = newFactory();
+        tile.factory.requiredResources[Resources.PINE_SAPLING] = FORESTER_INPUT_RECOURCES;
+        tile.factory.productionTime = FORESTER_COOL_DOWN;
+        tile.factory.inputResourcesLimit = FORESTER_INPUT_RECOURCES_LIMIT;
+        tile.factory.producedResource = Resources.PLANTBLE_PINE_SAPLING;
+        tile.forester = true;
+        tile.display.buildingSprite = 1;
+    }
+}
+
+export function PlaceLumberHut(gameState) {
+    const tile = getCursorTile();
+    if (notOccupied(tile) && checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_WOOD]: LUMBERHUT_COST },
+        )){ 
+        subtractResources(
+            gameState,
+            { [Resources.PINE_WOOD]: LUMBERHUT_COST },
+        );
+        tile.display.buildingSprite = 2;
+        tile.factory = newFactory();
+        tile.factory.productionTime = LUMBER_HUT_COOL_DOWN;
+        tile.factory.inputResourcesLimit = LUMBER_HUT_INPUT_RECOURCES_LIMIT;
+        tile.factory.producedResource = Resources.TREE_CUT_ACTION;
+        tile.lumberHut = true;
     }
 }
 
@@ -201,22 +280,6 @@ export function Demolish(gameState) {
     delete tile.waterConsumer;
 }
 
-export function PlaceSprinkler(gameState) {
-    const tile = getCursorTile();
-    if (notOccupied(tile) && checkResourceAvailability(
-            gameState,
-            { [Resources.PINE_WOOD]: SPRINKLER_COST },
-        )){ 
-        subtractResources(
-            gameState,
-            { [Resources.PINE_WOOD]: SPRINKLER_COST },
-        );
-        tile.waterConsumer = newWaterConsumer();
-        tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
-        tile.sprinkler = true;
-        tile.display.buildingSprite = 3;
-	}
-}
 
 export function notOccupied(tile) {
     return !(tile.tree
@@ -230,25 +293,6 @@ export function notOccupied(tile) {
     );
 }
 
-export function PlaceForester(gameState) {
-    const tile = getCursorTile();
-    if (notOccupied(tile) && checkResourceAvailability(
-            gameState,
-            { [Resources.PINE_WOOD]: FORESTER_COST },
-        )){ 
-        subtractResources(
-            gameState,
-            { [Resources.PINE_WOOD]: FORESTER_COST },
-        );
-        tile.factory = newFactory();
-        tile.factory.requiredResources[Resources.PINE_SAPLING] = 1;
-        tile.factory.productionTime = 5;
-        tile.factory.inputResourcesLimit = 5;
-        tile.factory.producedResource = Resources.PLANTBLE_PINE_SAPLING;
-        tile.forester = true;
-        tile.display.buildingSprite = 1;
-    }
-}
 
 export function PickResourceFromGround(gameState) {
     const tile = getCursorTile();
@@ -272,27 +316,6 @@ export function DropResourceToGround(gameState, resourceType) {
 
     } else {
         console.log('Can\'t drop resource because not enough in stock ');
-    }
-}
-
-export function PlaceLumberHut(gameState) {
-    const tile = getCursorTile();
-    if (notOccupied(tile) && checkResourceAvailability(
-            gameState,
-            { [Resources.PINE_WOOD]: LUMBERHUT_COST },
-        )){ 
-        subtractResources(
-            gameState,
-            { [Resources.PINE_WOOD]: LUMBERHUT_COST },
-        );
-        tile.display.buildingSprite = 2;
-        tile.factory = newFactory();
-        tile.factory.requiredResources[Resources.PINE_SAPLING] = 0; // Indicate that nothing is required
-        tile.factory.productionTime = LUMBER_HUT_COOL_DOWN;
-        tile.factory.productionTime = 1;
-        tile.factory.inputResourcesLimit = 1;
-        tile.factory.producedResource = Resources.TREE_CUT_ACTION;
-        tile.lumberHut = true;
     }
 }
 
