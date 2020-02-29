@@ -201,22 +201,19 @@ export function Demolish(gameState) {
 
 export function PlaceSprinkler(gameState) {
     const tile = getCursorTile();
-    if (notOccupied(tile)) {
-        if (!checkResourceAvailability(
+    if (notOccupied(tile) && checkResourceAvailability(
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
-        )) {
-            console.log('Not enough resources for sprinkler.');
-        }
-        tile.waterConsumer = newWaterConsumer();
-        tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
-        tile.sprinkler = true;
-        tile.display.buildingSprite = 3;
+        )){ 
         subtractResources(
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
         );
-    }
+        tile.waterConsumer = newWaterConsumer();
+        tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
+        tile.sprinkler = true;
+        tile.display.buildingSprite = 3;
+	}
 }
 
 export function notOccupied(tile) {
