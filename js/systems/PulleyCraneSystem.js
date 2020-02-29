@@ -10,7 +10,6 @@ export function apply(entity) {
 
             grabItem(entity, demand);
             if (entity.pulleyCrane.item) {
-                console.log(`Grabbed: ${entity.pulleyCrane.item}`);
                 entity.pulleyCrane.status = PULLEY_CRANE_STATUS.LOADED;
             }
         } else if (entity.pulleyCrane.status === PULLEY_CRANE_STATUS.LOADED) {
@@ -90,7 +89,7 @@ function grabItem(entity, demand) {
     if (!sourceTile) {
         return;
     }
-    if (sourceTile.factory) {
+    if (sourceTile.factory) { // Grab item from factory
         const supplies = computeSupply(sourceTile.factory);
         // TODO: clean up code, create helpers that filters for resources of size > 0
         if (demand) { // Pick specific item
@@ -108,14 +107,15 @@ function grabItem(entity, demand) {
                 subtractResources(sourceTile.factory.outputResources, { [supplyType]: 1 });
             }
         }
-    } else if (sourceTile.item && (sourceTile.itemDelta[sourceTile.item] || 0) >= 0) {
+    } else if (sourceTile.item && (sourceTile.itemDelta[sourceTile.item.type] || 0) >= 0) { // Grab item from water or ground
+
         if (demand) {
             if(!demand.find(e => e === sourceTile.item.type)) {
                 return;
             }
         }
         entity.pulleyCrane.item = sourceTile.item.type;
-        sourceTile.itemDelta[sourceTile.item] = (sourceTile.itemDelta[sourceTile.item] || 0) - 1;
+        sourceTile.itemDelta[sourceTile.item.type] = (sourceTile.itemDelta[sourceTile.item] || 0) - 1;
     }
 }
 
@@ -134,7 +134,7 @@ function dropItem(entity) {
         addResources(sinkTile.factory.inputResources, { [entity.pulleyCrane.item]: 1 });
         entity.pulleyCrane.item = null;
     } else if(!sinkTile.item &&  Object.keys(sinkTile.itemDelta).length === 0)  {
-        sinkTile.itemDelta[entity.pulleyCrane.item] = (sinkTile.itemDelta[entity.pulleyCrane.item] || 0) + 1;
+        sinkTile.itemDelta[entity.pulleyCrane.item] = (sinkTile.itemDelta[entity.pulleyCrane.item.type] || 0) + 1;
         entity.pulleyCrane.item = null;
     }
 }

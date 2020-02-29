@@ -268,9 +268,11 @@ export function update() {
 
         // Deltas
         if (tickCountUp > 1) {
+            for(const entity of Entities.entities) { // Prio 1 system
+                PulleyCraneSystem.apply(entity, GameState); // must be before water flow system to make sure items are picked up by cranes before they flow away
+            }
             for(const entity of Entities.entities) {
                 PollutionGrowthSystem.apply(entity);
-                PulleyCraneSystem.apply(entity, GameState); // must be before water flow system to make sure items are picked up by cranes before they flow away
                 WaterFlowSystem.apply(entity);
                 TreeSystem.apply(entity);
                 FactorySystem.apply(entity, 1);
@@ -286,8 +288,8 @@ export function update() {
             if (tickCountUp > 1) {
                 PollutionApplicationSystem.apply(entity);
                 WaterApplicationSystem.apply(entity);
+                ItemApplicationSystem.apply(entity, GameState);
             }
-            ItemApplicationSystem.apply(entity, GameState);
             TotalPollutionCounterSystem.apply(entity);
         }
 

@@ -13,7 +13,7 @@ export function apply(entity) {
         if(entity.water.itemInput) {
             entity.item = entity.water.itemInput;
             entity.water.itemInput = null;
-            entity.item.location.item = null;
+            // entity.item.location.item = null;
             entity.item.location = entity;
         }
     }

@@ -22,7 +22,6 @@ export function apply(entity)  {
         const key = keys[0];
         if (entity.itemDelta[key] > 0) {
             entity.item = newItem(key, entity);
-            console.log('item added');
         } else if (key && entity.itemDelta[key] < 0) {
             entity.item = null;
         }

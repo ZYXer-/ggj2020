@@ -33,9 +33,9 @@ export function apply(entity) {
                 && entity.water.output
                 && !entity.water.output.item
                 && !entity.water.output.water.itemInput) {
+                entity.itemDelta[entity.item.type] = -1;
                 entity.water.output.water.itemInput = entity.item;
             }
-
             entity.water.output = minNeighbor; // has to be after item transfer
 
         }

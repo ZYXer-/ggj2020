@@ -79,12 +79,12 @@ function generateCranes(entities, center) {
     let cursor = center.add(new Vec2(1,-3));
     let tile = getTileByCoordinates(cursor);
     tile.display.buildingSprite = 5;
-    tile.pulleyCrane = newPulleyCrane(3);
+    tile.pulleyCrane = newPulleyCrane(1);
 
     cursor = center.add(new Vec2(1,-1));
     tile = getTileByCoordinates(cursor);
     tile.display.buildingSprite = 5;
-    tile.pulleyCrane = newPulleyCrane(1);
+    // tile.pulleyCrane = newPulleyCrane(1);
 }
 
 
