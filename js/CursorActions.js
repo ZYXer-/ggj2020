@@ -12,6 +12,8 @@ import {
     LUMBER_HUT_COOL_DOWN,
     SPRINKLER_COST,
     SPRINKLER_WATER_CONSUMPTION,
+    FORESTER_COST,
+    LUMBERHUT_COST,
 } from './gamelogic/MechanicParameters.js';
 import {newWaterConsumer} from './components/WaterConsumer.js';
 import * as Actions from './gamelogic/Actions.js';
@@ -201,22 +203,19 @@ export function Demolish(gameState) {
 
 export function PlaceSprinkler(gameState) {
     const tile = getCursorTile();
-    if (notOccupied(tile)) {
-        if (!checkResourceAvailability(
+    if (notOccupied(tile) && checkResourceAvailability(
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
-        )) {
-            console.log('Not enough resources for sprinkler.');
-        }
-        tile.waterConsumer = newWaterConsumer();
-        tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
-        tile.sprinkler = true;
-        tile.display.buildingSprite = 3;
+        )){ 
         subtractResources(
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
         );
-    }
+        tile.waterConsumer = newWaterConsumer();
+        tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
+        tile.sprinkler = true;
+        tile.display.buildingSprite = 3;
+	}
 }
 
 export function notOccupied(tile) {
@@ -233,8 +232,14 @@ export function notOccupied(tile) {
 
 export function PlaceForester(gameState) {
     const tile = getCursorTile();
-    if(notOccupied(tile)) {
-        console.warn('TODO: remove resources!');
+    if (notOccupied(tile) && checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_WOOD]: FORESTER_COST },
+        )){ 
+        subtractResources(
+            gameState,
+            { [Resources.PINE_WOOD]: FORESTER_COST },
+        );
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_SAPLING] = 1;
         tile.factory.productionTime = 5;
@@ -270,10 +275,16 @@ export function DropResourceToGround(gameState, resourceType) {
     }
 }
 
-export function PlaceLogCabin(gameState) {
+export function PlaceLumberHut(gameState) {
     const tile = getCursorTile();
-    if(notOccupied(tile)) {
-        console.warn('TODO: remove resources!');
+    if (notOccupied(tile) && checkResourceAvailability(
+            gameState,
+            { [Resources.PINE_WOOD]: LUMBERHUT_COST },
+        )){ 
+        subtractResources(
+            gameState,
+            { [Resources.PINE_WOOD]: LUMBERHUT_COST },
+        );
         tile.display.buildingSprite = 2;
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_SAPLING] = 0; // Indicate that nothing is required
@@ -306,7 +317,7 @@ export function FertilizeTile(gameState) {
 
 
 export const List = [
-    PlaceLogCabin,
+    PlaceLumberHut,
     PlaceTree,
     PlaceWater,
     CutTree,

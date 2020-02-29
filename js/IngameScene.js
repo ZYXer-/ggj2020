@@ -124,7 +124,7 @@ function handleBuildAction(gameState) {
         CursorActions.PlaceForester(gameState);
         break;
     case BUILDING_TYPES.LUMBER_HUT:
-        CursorActions.PlaceLogCabin(gameState);
+        CursorActions.PlaceLumberHut(gameState);
         break;
     case BUILDING_TYPES.SPRINKLER:
         CursorActions.PlaceSprinkler(gameState);
