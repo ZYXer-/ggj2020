@@ -104,6 +104,7 @@ function getWaterTooltip(entity) {
         tooltip += 'Water Canal///';
         tooltip += 'Can carry water and items///';
         tooltip += `Water level: ${Math.round(entity.water.level)}%///`;
+        tooltip += `Water inflow: ${entity.water.flow}///`;
     }
     return tooltip;
 }

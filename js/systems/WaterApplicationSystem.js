@@ -1,4 +1,4 @@
-import { clamp, max } from '../utils/Utils.js';
+import { clamp } from '../utils/Utils.js';
 import { MAX_WATER_LEVEL } from '../components/Water.js';
 
 
