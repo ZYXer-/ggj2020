@@ -1,6 +1,6 @@
-import { clamp } from "./Utils.js";
-import * as Timer from "../core/Timer.js";
-import { QUART_PI, HALF_PI, PI, TWO_PI } from "./GeometryUtils.js";
+import { clamp } from './Utils.js';
+import * as Timer from '../core/Timer.js';
+import { QUART_PI, HALF_PI, PI, TWO_PI } from './GeometryUtils.js';
 
 
 export function sin(x) {

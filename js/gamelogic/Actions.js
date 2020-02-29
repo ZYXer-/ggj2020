@@ -1,23 +1,23 @@
-import Resources from "./Resources.js";
-import { newWater } from "../components/Water.js";
-import {checkResourceAvailability, subtractResources} from "./Resources.js";
-import { WATER_COST } from "./MechanicParameters.js";
-import { newPulleyCrane } from "../components/PulleyCrane.js";
-import {newDisplay} from "../components/Display.js";
-import Color from "../utils/Color.js";
+import Resources from './Resources.js';
+import { newWater } from '../components/Water.js';
+import {checkResourceAvailability, subtractResources} from './Resources.js';
+import { WATER_COST } from './MechanicParameters.js';
+import { newPulleyCrane } from '../components/PulleyCrane.js';
+import {newDisplay} from '../components/Display.js';
+import Color from '../utils/Color.js';
 
 export function CutTree(entity, gameState) {
     let resourceType;
     switch (entity.tree.type) {
-        case 0:
-            resourceType = Resources.PINE_WOOD;
-            break;
-        case 1:
-            resourceType = Resources.BEECH_WOOD;
-            break;
-        case 2:
-            resourceType = Resources.OAK_WOOD;
-            break;
+    case 0:
+        resourceType = Resources.PINE_WOOD;
+        break;
+    case 1:
+        resourceType = Resources.BEECH_WOOD;
+        break;
+    case 2:
+        resourceType = Resources.OAK_WOOD;
+        break;
     }
     if (entity.tree.level === 100) {
         gameState[resourceType] = (gameState[resourceType] || 0) + 15;

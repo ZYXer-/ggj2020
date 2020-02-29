@@ -1,4 +1,4 @@
-import * as Timer from "../core/Timer.js";
+import * as Timer from '../core/Timer.js';
 
 
 class TimerCallback {

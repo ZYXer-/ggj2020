@@ -1,15 +1,15 @@
-import * as Settings from "../../Settings.js";
-import * as SceneManager from "../SceneManager.js";
-import * as Scenes from "../../Scenes.js";
-import * as Utils from "../../utils/Utils.js";
-import * as Timer from "../Timer.js";
-import * as Resources from "../../Resources.js";
-import * as CustomPreloading from "../../CustomPreloading.js";
-import SoundManagerPreloader from "./SoundManagerPreloader.js";
-import SoundPreloader from "./SoundPreloader.js";
-import ImagePreloader from "./ImagePreloader.js";
-import PixelFontPreloader from "./PixelFontPreloader.js";
-import WebFontPreloader from "./WebFontPreloader.js";
+import * as Settings from '../../Settings.js';
+import * as SceneManager from '../SceneManager.js';
+import * as Scenes from '../../Scenes.js';
+import * as Utils from '../../utils/Utils.js';
+import * as Timer from '../Timer.js';
+import * as Resources from '../../Resources.js';
+import * as CustomPreloading from '../../CustomPreloading.js';
+import SoundManagerPreloader from './SoundManagerPreloader.js';
+import SoundPreloader from './SoundPreloader.js';
+import ImagePreloader from './ImagePreloader.js';
+import PixelFontPreloader from './PixelFontPreloader.js';
+import WebFontPreloader from './WebFontPreloader.js';
 
 
 const soundManagerPreloader = new SoundManagerPreloader();

@@ -1,7 +1,7 @@
-import * as Settings from "../../Settings.js";
-import * as Viewport from "../Viewport.js";
-import Vec2 from "../../utils/Vec2.js";
-import MouseButton from "./MouseButton.js";
+import * as Settings from '../../Settings.js';
+import * as Viewport from '../Viewport.js';
+import Vec2 from '../../utils/Vec2.js';
+import MouseButton from './MouseButton.js';
 
 
 export const pos = new Vec2(0, 0);
@@ -18,21 +18,21 @@ const scrollCallbacks = new Map();
 
 function construct() {
 
-    jQuery(document).bind("contextmenu", event => {
+    jQuery(document).bind('contextmenu', event => {
         if(Settings.Game.PREVENT_CONTEXT_MENU) {
             event.preventDefault();
         }
     });
 
-    jQuery("body")
-        .attr("unselectable", "on")
-        .css("user-select", "none")
-        .on("selectstart", false)
+    jQuery('body')
+        .attr('unselectable', 'on')
+        .css('user-select', 'none')
+        .on('selectstart', false)
 
         .mousemove(event => {
             updatePosition(getPositionFromMouseEvent(event));
         })
-        .bind("touchmove", event => {
+        .bind('touchmove', event => {
             updatePosition(getPositionFromTouchEvent(event));
             event.preventDefault();
         })
@@ -47,7 +47,7 @@ function construct() {
             }
             event.preventDefault();
         })
-        .bind("touchstart", event => {
+        .bind('touchstart', event => {
             left.triggerDown(getPositionFromTouchEvent(event));
             event.preventDefault();
         })
@@ -62,11 +62,11 @@ function construct() {
             }
             event.preventDefault();
         })
-        .bind("touchend touchleave touchcancel", event => {
+        .bind('touchend touchleave touchcancel', event => {
             left.triggerUp(getPositionFromTouchEvent(event));
             event.preventDefault();
         })
-        .on("mousewheel DOMMouseScroll", event => {
+        .on('mousewheel DOMMouseScroll', event => {
             triggerScroll(event);
         });
 }
@@ -128,7 +128,7 @@ export function deleteScrollCallback(name) {
 
 function updatePosition(newPos) {
     if(newPos !== null) {
-        const offset = jQuery("#game").offset();
+        const offset = jQuery('#game').offset();
         const ratio = window.devicePixelRatio || 1;
         pos.x = ((ratio * (newPos.x - offset.left)) - Viewport.frameOffsetX) / Viewport.scaleX;
         pos.y = ((ratio * (newPos.y - offset.top)) - Viewport.frameOffsetY) / Viewport.scaleY;

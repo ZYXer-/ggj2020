@@ -1,8 +1,8 @@
-import * as Keyboard from "./core/input/Keyboard.js";
-import * as Game from "./core/Game.js";
-import * as Viewport from "./core/Viewport.js";
-import * as Sound from "./core/Sound.js";
-import ParticleSystem from "./utils/ParticleSystem.js";
+import * as Keyboard from './core/input/Keyboard.js';
+import * as Game from './core/Game.js';
+import * as Viewport from './core/Viewport.js';
+import * as Sound from './core/Sound.js';
+import ParticleSystem from './utils/ParticleSystem.js';
 
 
 export const allowDefaultBehavior = [

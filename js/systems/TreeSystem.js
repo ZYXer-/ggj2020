@@ -1,12 +1,12 @@
-import {clamp} from "../utils/Utils.js";
+import {clamp} from '../utils/Utils.js';
 import {
     FERTILIZER_GROWTH_BOOST,
     FERTILIZER_USAGE_RATE,
     MAX_POLLUTION_VALUE,
     POLLUTION_DAMAGE_FACTOR,
     TREE_RECOVERY_RATE
-} from "../gamelogic/MechanicParameters.js";
-import {MAX_TREE_LEVEL} from "../gamelogic/MechanicParameters.js";
+} from '../gamelogic/MechanicParameters.js';
+import {MAX_TREE_LEVEL} from '../gamelogic/MechanicParameters.js';
 
 const TREE_GROWTH_WATER_THRESHOLD = 10;
 

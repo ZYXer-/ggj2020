@@ -1,6 +1,6 @@
-import * as LoadingScene from "./LoadingScene.js";
-import * as DemoMenuScene from "./demos/DemoMenuScene.js";
-import * as IngameScene from "./IngameScene.js";
+import * as LoadingScene from './LoadingScene.js';
+import * as DemoMenuScene from './demos/DemoMenuScene.js';
+import * as IngameScene from './IngameScene.js';
 
 
 export let INITIAL_SCENE;

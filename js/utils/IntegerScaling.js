@@ -1,11 +1,11 @@
-import { c } from "../core/canvas.js";
-import * as Viewport from "../core/Viewport.js";
-import * as Settings from "../Settings.js";
-import * as Img from "../core/Img.js";
-import * as Mouse from "../core/input/Mouse.js";
-import * as ImageProcessing from "./ImageProcessing.js";
-import { clamp } from "./Utils.js";
-import Vec2 from "./Vec2.js";
+import { c } from '../core/canvas.js';
+import * as Viewport from '../core/Viewport.js';
+import * as Settings from '../Settings.js';
+import * as Img from '../core/Img.js';
+import * as Mouse from '../core/input/Mouse.js';
+import * as ImageProcessing from './ImageProcessing.js';
+import { clamp } from './Utils.js';
+import Vec2 from './Vec2.js';
 
 
 class IntegerScaling {
@@ -32,7 +32,7 @@ class IntegerScaling {
         this.resize();
 
         if(Settings.Size.FIXED_SIZE_IN_UNITS) {
-            console.warn("Do not use FIXED_SIZE_IN_UNITS and IntegerScaling at the same time, as this might lead to unexpected results.");
+            console.warn('Do not use FIXED_SIZE_IN_UNITS and IntegerScaling at the same time, as this might lead to unexpected results.');
         }
     }
 

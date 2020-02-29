@@ -1,5 +1,5 @@
-import { clamp, max } from "../utils/Utils.js";
-import { MAX_WATER_LEVEL } from "../components/Water.js";
+import { clamp, max } from '../utils/Utils.js';
+import { MAX_WATER_LEVEL } from '../components/Water.js';
 
 
 export function apply(entity) {

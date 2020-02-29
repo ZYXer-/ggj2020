@@ -1,7 +1,7 @@
-import { c } from "../core/canvas.js";
-import * as Img from "../core/Img.js";
-import * as Timer from "../core/Timer.js";
-import Vec2 from "./Vec2.js";
+import { c } from '../core/canvas.js';
+import * as Img from '../core/Img.js';
+import * as Timer from '../core/Timer.js';
+import Vec2 from './Vec2.js';
 
 
 

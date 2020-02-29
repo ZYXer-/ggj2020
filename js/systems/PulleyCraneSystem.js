@@ -1,7 +1,7 @@
-import { PULLEY_CRANE_STATUS } from "../components/PulleyCrane.js";
-import {ORIENTATION} from "../gamelogic/Constants.js";
-import { multiplyResources, subtractResources, addResources } from "../gamelogic/Resources.js";
-import Resources from "../gamelogic/Resources.js";
+import { PULLEY_CRANE_STATUS } from '../components/PulleyCrane.js';
+import {ORIENTATION} from '../gamelogic/Constants.js';
+import { multiplyResources, subtractResources, addResources } from '../gamelogic/Resources.js';
+import Resources from '../gamelogic/Resources.js';
 
 export function apply(entity) {
     if (entity.pulleyCrane) {
@@ -10,7 +10,7 @@ export function apply(entity) {
 
             grabItem(entity, demand);
             if (entity.pulleyCrane.item) {
-                console.log("Grabbed: " + entity.pulleyCrane.item);
+                console.log('Grabbed: ' + entity.pulleyCrane.item);
                 entity.pulleyCrane.status = PULLEY_CRANE_STATUS.LOADED;
             }
         } else if (entity.pulleyCrane.status === PULLEY_CRANE_STATUS.LOADED) {
@@ -42,27 +42,27 @@ function getEastTile(tile) {
 
 function getSourceEntity(entity) {
     switch (entity.pulleyCrane.orientation) {
-        case ORIENTATION.NORTH_SOUTH:
-            return getNorthTile(entity);
-        case ORIENTATION.EAST_WEST:
-            return getEastTile(entity);
-        case ORIENTATION.SOUTH_NORTH:
-             return getSouthTile(entity);
-        case ORIENTATION.WEST_EAST:
-             return getWestTile(entity);
+    case ORIENTATION.NORTH_SOUTH:
+        return getNorthTile(entity);
+    case ORIENTATION.EAST_WEST:
+        return getEastTile(entity);
+    case ORIENTATION.SOUTH_NORTH:
+        return getSouthTile(entity);
+    case ORIENTATION.WEST_EAST:
+        return getWestTile(entity);
     }
 }
 
 function getSinkEntity(entity) {
     switch (entity.pulleyCrane.orientation) {
-        case ORIENTATION.NORTH_SOUTH:
-            return getSouthTile(entity);
-        case ORIENTATION.EAST_WEST:
-            return getWestTile(entity);
-        case ORIENTATION.SOUTH_NORTH:
-            return getNorthTile(entity);
-        case ORIENTATION.WEST_EAST:
-            return getEastTile(entity);
+    case ORIENTATION.NORTH_SOUTH:
+        return getSouthTile(entity);
+    case ORIENTATION.EAST_WEST:
+        return getWestTile(entity);
+    case ORIENTATION.SOUTH_NORTH:
+        return getNorthTile(entity);
+    case ORIENTATION.WEST_EAST:
+        return getEastTile(entity);
     }
 }
 

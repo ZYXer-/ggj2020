@@ -1,6 +1,6 @@
-import * as Img from "../core/Img.js";
-import * as Utils from "./Utils.js";
-import Color from "./Color.js";
+import * as Img from '../core/Img.js';
+import * as Utils from './Utils.js';
+import Color from './Color.js';
 
 
 export function readData(image, width, height) {
@@ -227,7 +227,7 @@ export function isometricProjection(source, target, tileSize, scale, side) {
 
     let targetWidth = width * scale;
     let targetHeight = height * scale;
-    if(side === "top") {
+    if(side === 'top') {
         targetWidth *= 2;
     } else {
         targetHeight *= 1.5;
@@ -250,7 +250,7 @@ export function isometricProjection(source, target, tileSize, scale, side) {
                     let b = data[i + 2];
                     let a = data[i + 3];
 
-                    if(side === "top") {
+                    if(side === 'top') {
                         let midX = ((tileX * tileSize * 2) + tileSize + x - y) * scale;
                         let midY = ((tileY * tileSize * 2) + x + y + 1) * scale / 2;
                         for(let cX = -scale; cX < scale; cX++) {
@@ -265,7 +265,7 @@ export function isometricProjection(source, target, tileSize, scale, side) {
                             }
                         }
 
-                    } else if(side === "left") {
+                    } else if(side === 'left') {
                         let cornerX = ((tileX * tileSize) + x) * scale;
                         let cornerY = ((tileY * tileSize * 1.5) + y + (x * 0.5)) * scale;
                         for(let cX = 0; cX < scale; cX++) {
@@ -278,7 +278,7 @@ export function isometricProjection(source, target, tileSize, scale, side) {
                             }
                         }
 
-                    } else if(side === "right") {
+                    } else if(side === 'right') {
                         let cornerX = ((tileX * tileSize) + x) * scale;
                         let cornerY = ((tileY * tileSize * 1.5) + (tileSize * 0.5) + y - (x * 0.5)) * scale;
                         for(let cX = 0; cX < scale; cX++) {
@@ -308,6 +308,6 @@ export function outputImage(name) {
     context.drawImage(oImage, 0, 0);
 
     let image = new Image();
-    image.src = outputCanvas.toDataURL("image/png");
-    jQuery("body").append(image);
+    image.src = outputCanvas.toDataURL('image/png');
+    jQuery('body').append(image);
 }

@@ -1,31 +1,31 @@
-import * as BasicTooltipPainter from "./BasicTooltipPainter.js"
-import * as DrawSystem from "./systems/DrawSystem.js";
-import * as Entities from "./Entities.js";
-import * as Game from "./core/Game.js";
-import * as Mouse from "./core/input/Mouse.js";
-import * as PauseScreen from "./PauseScreen.js";
-import * as PollutionApplicationSystem from "./systems/PollutionApplicationSystem.js";
-import * as PollutionGrowthSystem from "./systems/PollutionGrowthSystem.js";
-import * as Tooltip from "./Tooltip.js";
-import * as Viewport from "./core/Viewport.js";
-import { c } from "./core/canvas.js";
-import * as Timer from "./core/Timer.js";
-import * as WaterFlowSystem from "./systems/WaterFlowSystem.js";
-import * as WaterApplicationSystem from "./systems/WaterApplicationSystem.js";
-import * as ItemApplicationSystem from "./systems/ItemDeltaApplicationSystem.js";
-import * as TreeSystem from "./systems/TreeSystem.js";
-import * as PulleyCraneSystem from "./systems/PulleyCraneSystem.js";
-import * as FactorySystem from "./systems/FactorySystem.js";
-import * as WaterConsumerSystem from "./systems/WaterConsumerSystem.js";
-import * as ForesterSystem from "./systems/ForesterSystem.js";
-import * as LumberHutSystem from "./systems/LumberHutSystem.js";
-import * as TotalPollutionCounterSystem from "./systems/TotalPollutionCounterSystem.js";
-import * as CursorActions from "./CursorActions.js";
-import * as Keyboard from "./core/input/Keyboard.js";
-import * as UI from "./UI.js"
-import Resources from "./gamelogic/Resources.js";
-import {PlaceWater} from "./CursorActions.js";
-import { ORIENTATION } from "./gamelogic/Constants.js";
+import * as BasicTooltipPainter from './BasicTooltipPainter.js';
+import * as DrawSystem from './systems/DrawSystem.js';
+import * as Entities from './Entities.js';
+import * as Game from './core/Game.js';
+import * as Mouse from './core/input/Mouse.js';
+import * as PauseScreen from './PauseScreen.js';
+import * as PollutionApplicationSystem from './systems/PollutionApplicationSystem.js';
+import * as PollutionGrowthSystem from './systems/PollutionGrowthSystem.js';
+import * as Tooltip from './Tooltip.js';
+import * as Viewport from './core/Viewport.js';
+import { c } from './core/canvas.js';
+import * as Timer from './core/Timer.js';
+import * as WaterFlowSystem from './systems/WaterFlowSystem.js';
+import * as WaterApplicationSystem from './systems/WaterApplicationSystem.js';
+import * as ItemApplicationSystem from './systems/ItemDeltaApplicationSystem.js';
+import * as TreeSystem from './systems/TreeSystem.js';
+import * as PulleyCraneSystem from './systems/PulleyCraneSystem.js';
+import * as FactorySystem from './systems/FactorySystem.js';
+import * as WaterConsumerSystem from './systems/WaterConsumerSystem.js';
+import * as ForesterSystem from './systems/ForesterSystem.js';
+import * as LumberHutSystem from './systems/LumberHutSystem.js';
+import * as TotalPollutionCounterSystem from './systems/TotalPollutionCounterSystem.js';
+import * as CursorActions from './CursorActions.js';
+import * as Keyboard from './core/input/Keyboard.js';
+import * as UI from './UI.js';
+import Resources from './gamelogic/Resources.js';
+import {PlaceWater} from './CursorActions.js';
+import { ORIENTATION } from './gamelogic/Constants.js';
 
 let tickCountUp = 0;
 let animationCountUp = 0;
@@ -59,18 +59,18 @@ function handleClick(gameState) {
         handlePickUpAction(gameState);
     } else {
         switch (gameState.cursorMode) {
-            case CURSOR_MODES.PICK:
-                handlePickUpAction(gameState);
-                break;
-            case CURSOR_MODES.DROP:
-                handleDropAction(gameState);
-                break;
-            case CURSOR_MODES.BUILD:
-                handleBuildAction(gameState);
-                break;
-            case CURSOR_MODES.DESTROY:
-                handleDestroyAction(gameState);
-                break;
+        case CURSOR_MODES.PICK:
+            handlePickUpAction(gameState);
+            break;
+        case CURSOR_MODES.DROP:
+            handleDropAction(gameState);
+            break;
+        case CURSOR_MODES.BUILD:
+            handleBuildAction(gameState);
+            break;
+        case CURSOR_MODES.DESTROY:
+            handleDestroyAction(gameState);
+            break;
         }
     }
 }
@@ -84,54 +84,54 @@ function handlePickUpAction(gameState) {
     } else if (tile.tree) {
         CursorActions.CutTree(gameState);
     } else {
-        console.warn("Nothing to pick.");
+        console.warn('Nothing to pick.');
     }
 }
 
 function handleDropAction(gameState) {
     const tile = CursorActions.getCursorTile();
     if (tile.factory) {
-        CursorActions.LoadFactory(gameState, gameState.selectedResource)
+        CursorActions.LoadFactory(gameState, gameState.selectedResource);
     } else if ((CursorActions.notOccupied(tile) || tile.water) && !tile.item)  {
         CursorActions.DropResourceToGround(gameState, gameState.selectedResource);
     } else {
-        console.warn("Can't drop stuff here.");
+        console.warn('Can\'t drop stuff here.');
     }
 
 }
 
 function handleBuildAction(gameState) {
     switch (gameState.selectedBuildingType) {
-        case BUILDING_TYPES.PINE:
-            CursorActions.PlaceTree(gameState, Resources.PINE_SAPLING);
-            break;
-        case BUILDING_TYPES.BEECH:
-            CursorActions.PlaceTree(gameState, Resources.BEECH_SAPLING);
-            break;
-        case BUILDING_TYPES.OAK:
-            CursorActions.PlaceTree(gameState, Resources.OAK_SAPLING);
-            break;
-        case BUILDING_TYPES.WATER:
-            CursorActions.PlaceWater(gameState);
-            break;
-        case BUILDING_TYPES.PULLEY_CRANE:
-            CursorActions.PlacePulleyCrane(gameState);
-            break;
-        case BUILDING_TYPES.TREE_NURSERY:
-            CursorActions.PlaceTreeNursery(gameState);
-            break;
-        case BUILDING_TYPES.FORESTER:
-            CursorActions.PlaceForester(gameState);
-            break;
-        case BUILDING_TYPES.LUMBER_HUT:
-            CursorActions.PlaceLogCabin(gameState);
-            break;
-        case BUILDING_TYPES.SPRINKLER:
-            CursorActions.PlaceSprinkler(gameState);
-            break;
-        case BUILDING_TYPES.COMPOST_HEAP:
-            CursorActions.PlaceCompostHeap(gameState);
-            break;
+    case BUILDING_TYPES.PINE:
+        CursorActions.PlaceTree(gameState, Resources.PINE_SAPLING);
+        break;
+    case BUILDING_TYPES.BEECH:
+        CursorActions.PlaceTree(gameState, Resources.BEECH_SAPLING);
+        break;
+    case BUILDING_TYPES.OAK:
+        CursorActions.PlaceTree(gameState, Resources.OAK_SAPLING);
+        break;
+    case BUILDING_TYPES.WATER:
+        CursorActions.PlaceWater(gameState);
+        break;
+    case BUILDING_TYPES.PULLEY_CRANE:
+        CursorActions.PlacePulleyCrane(gameState);
+        break;
+    case BUILDING_TYPES.TREE_NURSERY:
+        CursorActions.PlaceTreeNursery(gameState);
+        break;
+    case BUILDING_TYPES.FORESTER:
+        CursorActions.PlaceForester(gameState);
+        break;
+    case BUILDING_TYPES.LUMBER_HUT:
+        CursorActions.PlaceLogCabin(gameState);
+        break;
+    case BUILDING_TYPES.SPRINKLER:
+        CursorActions.PlaceSprinkler(gameState);
+        break;
+    case BUILDING_TYPES.COMPOST_HEAP:
+        CursorActions.PlaceCompostHeap(gameState);
+        break;
     }
 }
 
@@ -210,7 +210,7 @@ export function show() {
         DrawSystem.TILE_SIZE * Entities.NUM_TILES_WIDTH,
         DrawSystem.TILE_SIZE * Entities.NUM_TILES_HEIGHT,
         () => handleClick(GameState)
-    )
+    );
 
     // do stuff before we update and draw this scene for the first time
 
@@ -313,7 +313,7 @@ export function update() {
 export function draw() {
 
     // clear scene
-    c.fillStyle = "#222";
+    c.fillStyle = '#222';
     c.fillRect(0, 0, Viewport.width, Viewport.height);
 
     c.save();
@@ -328,12 +328,12 @@ export function draw() {
 
     c.restore();
 
-    c.fillStyle = "#222";
+    c.fillStyle = '#222';
     c.fillRect(0, 0, Viewport.width, DrawSystem.OFFSET_Y);
 
     UI.draw(GameState);
 
-    c.fillStyle = "#ccc";
+    c.fillStyle = '#ccc';
     c.fillRect(11, 10, 1586, 2);
     c.fillRect(11, 1068, 1586, 2);
     c.fillRect(10, 11, 2, 1058);

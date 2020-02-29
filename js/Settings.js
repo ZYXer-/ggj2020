@@ -30,7 +30,7 @@ export const Size = {
 
     FIXED_ASPECT_RATIO: true,
     ASPECT_RATIO: 16.0 / 9.0,
-    FRAME_COLOR: "#000",
+    FRAME_COLOR: '#000',
 
     FIXED_SIZE_IN_UNITS: true,
     WIDTH_IN_UNITS: 1920,

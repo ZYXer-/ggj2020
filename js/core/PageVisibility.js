@@ -2,7 +2,7 @@
 
 export let visible = true;
 
-let hiddenAttr = "hidden";
+let hiddenAttr = 'hidden';
 
 const blurHandlers = {};
 const focusHandlers = {};
@@ -13,14 +13,14 @@ function construct() {
 
     // Standards:
     if(hiddenAttr in document) {
-        document.addEventListener("visibilitychange", changeEvent);
-    } else if((hiddenAttr = "mozHidden") in document) {
-        document.addEventListener("mozvisibilitychange", changeEvent);
-    } else if((hiddenAttr = "webkitHidden") in document) {
-        document.addEventListener("webkitvisibilitychange", changeEvent);
-    } else if((hiddenAttr = "msHidden") in document) {
-        document.addEventListener("msvisibilitychange", changeEvent);
-    } else if("onfocusin" in document) { // IE 9 and lower:
+        document.addEventListener('visibilitychange', changeEvent);
+    } else if((hiddenAttr = 'mozHidden') in document) {
+        document.addEventListener('mozvisibilitychange', changeEvent);
+    } else if((hiddenAttr = 'webkitHidden') in document) {
+        document.addEventListener('webkitvisibilitychange', changeEvent);
+    } else if((hiddenAttr = 'msHidden') in document) {
+        document.addEventListener('msvisibilitychange', changeEvent);
+    } else if('onfocusin' in document) { // IE 9 and lower:
         document.onfocusin = document.onfocusout = changeEvent;
     }
     window.onpageshow = window.onpagehide = window.onfocus = window.onblur = changeEvent;
@@ -28,7 +28,7 @@ function construct() {
     // set the initial state (but only if browser supports the Page Visibility API)
     if(document[hiddenAttr] !== undefined) {
         changeEvent({
-            type : document[hiddenAttr] ? "blur" : "focus"
+            type : document[hiddenAttr] ? 'blur' : 'focus'
         });
     }
 }

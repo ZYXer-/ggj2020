@@ -1,5 +1,5 @@
-import { c } from "../core/canvas.js";
-import * as Timer from "../core/Timer.js";
+import { c } from '../core/canvas.js';
+import * as Timer from '../core/Timer.js';
 
 
 class Text {
@@ -7,91 +7,91 @@ class Text {
     constructor(options) {
 
         this.x = 0;
-        if(options.hasOwnProperty("x")) {
+        if(options.hasOwnProperty('x')) {
             this.x = options.x;
         }
 
         this.y = 0;
-        if(options.hasOwnProperty("y")) {
+        if(options.hasOwnProperty('y')) {
             this.y = options.y;
         }
 
         this.size = 16;
-        if(options.hasOwnProperty("size")) {
+        if(options.hasOwnProperty('size')) {
             this.size = options.size;
         }
 
-        this.font = "";
-        if(options.hasOwnProperty("font")) {
+        this.font = '';
+        if(options.hasOwnProperty('font')) {
             this.font = options.font;
         }
 
-        this.align = "left";
-        if(options.hasOwnProperty("align")) {
+        this.align = 'left';
+        if(options.hasOwnProperty('align')) {
             this.align = options.align;
         }
 
-        this.color = "#000";
-        if(options.hasOwnProperty("color")) {
+        this.color = '#000';
+        if(options.hasOwnProperty('color')) {
             this.color = options.color;
         }
 
         this.borderWidth = 0;
-        if(options.hasOwnProperty("borderWidth")) {
+        if(options.hasOwnProperty('borderWidth')) {
             this.borderWidth = options.borderWidth;
         }
 
-        this.borderColor = "#000";
-        if(options.hasOwnProperty("borderColor")) {
+        this.borderColor = '#000';
+        if(options.hasOwnProperty('borderColor')) {
             this.borderColor = options.borderColor;
         }
 
-        this.borderLineJoin = "round";
-        if(options.hasOwnProperty("borderLineJoin")) {
+        this.borderLineJoin = 'round';
+        if(options.hasOwnProperty('borderLineJoin')) {
             this.borderLineJoin = options.borderLineJoin;
         }
 
         this.monospaced = -1;
-        if(options.hasOwnProperty("monospaced")) {
+        if(options.hasOwnProperty('monospaced')) {
             this.monospaced = options.monospaced;
         }
 
-        this.lines = [""];
-        this.showLines = [""];
+        this.lines = [''];
+        this.showLines = [''];
         this.appearPos = 0;
         this.appearChar = 0;
         this.appearLine = 0;
         this.finishedAppearing = true;
 
         this.maxWidth = 0;
-        if(options.hasOwnProperty("maxWidth")) {
+        if(options.hasOwnProperty('maxWidth')) {
             this.maxWidth = options.maxWidth;
         }
 
         this.lineHeight = 0;
-        if(options.hasOwnProperty("lineHeight")) {
+        if(options.hasOwnProperty('lineHeight')) {
             this.lineHeight = options.lineHeight;
-        } else if(options.hasOwnProperty("size")) {
+        } else if(options.hasOwnProperty('size')) {
             this.lineHeight = options.size;
         }
 
-        this.verticalAlign = "top";
-        if(options.hasOwnProperty("verticalAlign")) {
+        this.verticalAlign = 'top';
+        if(options.hasOwnProperty('verticalAlign')) {
             this.verticalAlign = options.verticalAlign;
         }
 
         this.letterSpacing = 0;
-        if(options.hasOwnProperty("letterSpacing")) {
+        if(options.hasOwnProperty('letterSpacing')) {
             this.letterSpacing = options.letterSpacing;
         }
 
         this.appearCharPerSec = 0;
-        if(options.hasOwnProperty("appearCharPerSec")) {
+        if(options.hasOwnProperty('appearCharPerSec')) {
             this.appearCharPerSec = options.appearCharPerSec;
         }
 
-        this.text = "";
-        if(options.hasOwnProperty("text")) {
+        this.text = '';
+        if(options.hasOwnProperty('text')) {
             this.setText(options.text);
         }
     }
@@ -149,7 +149,7 @@ class Text {
 
 
     measureWidth(text) {
-        c.font = this.size + "px \"" + this.font + "\"";
+        c.font = this.size + 'px "' + this.font + '"';
         return c.measureText(text).width + (this.letterSpacing * (text.length - 1));
     }
 
@@ -189,32 +189,32 @@ class Text {
 
     applyMultiline() {
         if(this.maxWidth === 0) {
-            this.lines = this.text.split("\n");
+            this.lines = this.text.split('\n');
 
         } else {
 
-            c.font = this.size + "px \"" + this.font + "\"";
+            c.font = this.size + 'px "' + this.font + '"';
             this.lines = [];
 
-            var tempLines = this.text.split("\n");
+            var tempLines = this.text.split('\n');
             for(var tempLineI = 0; tempLineI < tempLines.length; tempLineI++) {
-                var words = tempLines[tempLineI].split(" ");
+                var words = tempLines[tempLineI].split(' ');
 
-                var currentLine = "";
+                var currentLine = '';
                 for(var partI = 0; partI < words.length; partI++) {
                     var testLine = currentLine;
-                    if(currentLine !== "") {
-                        testLine += " ";
+                    if(currentLine !== '') {
+                        testLine += ' ';
                     }
                     testLine += words[partI];
-                    if(currentLine === "" || c.measureText(testLine).width <= this.maxWidth) {
+                    if(currentLine === '' || c.measureText(testLine).width <= this.maxWidth) {
                         currentLine = testLine;
                     } else {
                         this.lines.push(currentLine);
                         currentLine = words[partI];
                     }
                 }
-                if(currentLine !== "" || tempLineI < tempLines.length) {
+                if(currentLine !== '' || tempLineI < tempLines.length) {
                     this.lines.push(currentLine);
                 }
             }
@@ -223,7 +223,7 @@ class Text {
 
 
     resetAppear() {
-        this.showLines = [""];
+        this.showLines = [''];
         this.appearPos = 0;
         this.appearChar = 0;
         this.appearLine = 0;
@@ -243,7 +243,7 @@ class Text {
                     this.finishedAppearing = true;
                     return;
                 } else {
-                    this.showLines.push("");
+                    this.showLines.push('');
                 }
             }
             this.showLines[this.appearLine] += this.lines[this.appearLine].substring(this.appearChar - 1, this.appearChar);
@@ -279,14 +279,14 @@ class Text {
             this.updateAppear();
         }
         c.fillStyle = this.color;
-        c.font = this.size + "px \"" + this.font + "\"";
+        c.font = this.size + 'px "' + this.font + '"';
         if(this.letterSpacing === 0) {
             c.textAlign = this.align;
         } else {
-            c.textAlign = "left";
+            c.textAlign = 'left';
         }
         if(this.monospaced !== -1) {
-            c.textAlign = "center";
+            c.textAlign = 'center';
         }
 
         if(this.borderWidth > 0) {
@@ -294,7 +294,7 @@ class Text {
             c.strokeStyle = this.borderColor;
             c.lineJoin = this.borderLineJoin;
             this.drawLines(c, true);
-            c.lineJoin = "miter";
+            c.lineJoin = 'miter';
         }
 
         this.drawLines(c, false);
@@ -303,9 +303,9 @@ class Text {
 
     drawLines(c, drawBorder) {
         var y = 0;
-        if(this.verticalAlign === "bottom") {
+        if(this.verticalAlign === 'bottom') {
             y -= this.lineHeight * (this.lines.length - 1);
-        } else if(this.verticalAlign === "center") {
+        } else if(this.verticalAlign === 'center') {
             y -= this.lineHeight * 0.5 * (this.lines.length - 1);
         }
         if(this.finishedAppearing) {
@@ -324,7 +324,7 @@ class Text {
 
     drawLine(c, line, fullLine, x, y, drawBorder) {
         if(this.letterSpacing === 0 && this.monospaced === -1) {
-            if(this.finishedAppearing || this.align === "left") {
+            if(this.finishedAppearing || this.align === 'left') {
                 if(drawBorder) {
                     c.strokeText(line, x, y);
                 } else {
@@ -332,7 +332,7 @@ class Text {
                 }
             } else {
                 var appearOffset = this.measureWidth(fullLine) - this.measureWidth(line);
-                if(this.align === "center") {
+                if(this.align === 'center') {
                     appearOffset /= 2;
                 }
                 if(drawBorder) {
@@ -343,13 +343,13 @@ class Text {
             }
         } else {
             var offsetX = 0;
-            if(this.align === "center") {
+            if(this.align === 'center') {
                 if(this.monospaced >= 0) {
                     offsetX = -((this.monospaced + this.letterSpacing) * fullLine.length) / 2;
                 } else {
                     offsetX = -this.measureWidth(fullLine) / 2;
                 }
-            } else if(this.align === "right") {
+            } else if(this.align === 'right') {
                 if(this.monospaced >= 0) {
                     offsetX = -((this.monospaced + this.letterSpacing) * fullLine.length);
                 } else {

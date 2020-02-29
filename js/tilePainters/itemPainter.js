@@ -1,7 +1,7 @@
-import { c } from "../core/canvas.js";
-import * as Img from "../core/Img.js";
-import Vec2 from "../utils/Vec2.js";
-import { TILE_SIZE } from "../systems/DrawSystem.js";
+import { c } from '../core/canvas.js';
+import * as Img from '../core/Img.js';
+import Vec2 from '../utils/Vec2.js';
+import { TILE_SIZE } from '../systems/DrawSystem.js';
 
 
 export function drawItemOnTile(entity, tickCountUp) {
@@ -23,21 +23,21 @@ export function drawItem(item, x, y) {
     c.translate(x, y);
     c.scale(0.5, 0.5);
     let spriteX = 0;
-    if(item.type === "PineWood") {
+    if(item.type === 'PineWood') {
         spriteX = 0;
-    } else if(item.type === "BeechWood") {
+    } else if(item.type === 'BeechWood') {
         spriteX = 1;
-    } else if(item.type === "OakWood") {
+    } else if(item.type === 'OakWood') {
         spriteX = 2;
-    } else if(item.type === "PineSapling") {
+    } else if(item.type === 'PineSapling') {
         spriteX = 3;
-    } else if(item.type === "BeechSapling") {
+    } else if(item.type === 'BeechSapling') {
         spriteX = 4;
-    } else if(item.type === "OakSapling") {
+    } else if(item.type === 'OakSapling') {
         spriteX = 5;
-    } else if(item.type === "Compost") {
+    } else if(item.type === 'Compost') {
         spriteX = 6;
     }
-    Img.drawSprite("items", -16, -16, 32, 32, spriteX, 0);
+    Img.drawSprite('items', -16, -16, 32, 32, spriteX, 0);
     c.restore();
 }

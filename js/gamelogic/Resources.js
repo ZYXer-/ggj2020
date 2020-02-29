@@ -8,7 +8,7 @@ export default {
     PLANTBLE_PINE_SAPLING: 'PlantablePineSapling',
     FERTILIZER: 'Fertilizer',
     TREE_CUT_ACTION: 'TreeCutAction',
-}
+};
 
 //TODO: Make resources operations immutable, maybe use vectors for them
 

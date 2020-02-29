@@ -4,6 +4,8 @@
   "description": "Base code to create 2D games using html canvas.",
   "main": "nodeServer.js",
   "dependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
     "express": "^4.17.1",
     "path": "^0.12.7"
   },

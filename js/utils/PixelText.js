@@ -1,5 +1,5 @@
-import { c } from "../core/canvas.js";
-import * as PixelFontManager from "./PixelFontManager.js";
+import { c } from '../core/canvas.js';
+import * as PixelFontManager from './PixelFontManager.js';
 
 
 class PixelText {
@@ -14,7 +14,7 @@ class PixelText {
 
         this.alignment = Text.LEFT;
 
-        this.pixelFont = PixelFontManager.get("black");
+        this.pixelFont = PixelFontManager.get('black');
 
         this.lineHeight = this.pixelFont.charHeight;
 

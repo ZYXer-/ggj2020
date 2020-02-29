@@ -1,4 +1,4 @@
-import { c } from "./canvas.js";
+import { c } from './canvas.js';
 
 
 const assets = new Map();
@@ -18,7 +18,7 @@ export function get(name) {
     if(assets.has(name)) {
         return assets.get(name);
     } else {
-        alert("There is no image named '" + name + "'.");
+        alert('There is no image named \'' + name + '\'.');
         return null;
     }
 }

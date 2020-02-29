@@ -1,11 +1,11 @@
-import { min, rand } from "../utils/Utils.js";
+import { min, rand } from '../utils/Utils.js';
 import {
     TREE_POLLUTION_REDUCTION_FACTOR ,
     TREE_POLLUTION_REDUCTION_DISTANCE_FACTOR,
     TREE_POLLUTION_REDUCTION_CHANCE,
     MIN_POLLUTION_GROWTH,
-} from "../gamelogic/MechanicParameters.js";
-import { trueOrFalse } from "../utils/Utils.js";
+} from '../gamelogic/MechanicParameters.js';
+import { trueOrFalse } from '../utils/Utils.js';
 
 
 export function apply(entity) {
@@ -31,11 +31,11 @@ export function apply(entity) {
                 } else if ( entity.hood2.includes(e)) {
                     power = 2;
                 } else if ( entity.hood3.includes(e)) {
-                    power = 3
+                    power = 3;
                 }
-                return accumulator + e.tree.level * Math.pow(TREE_POLLUTION_REDUCTION_DISTANCE_FACTOR, power)
+                return accumulator + e.tree.level * Math.pow(TREE_POLLUTION_REDUCTION_DISTANCE_FACTOR, power);
             }
-        , 0);
+            , 0);
     if (treeLevelSum > 0) {
         entity.pollutionDelta -= treeLevelSum * TREE_POLLUTION_REDUCTION_FACTOR;
     }

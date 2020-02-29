@@ -1,6 +1,6 @@
-import { c } from "../core/canvas.js";
-import * as Img from "../core/Img.js";
-import { TILE_SIZE } from "../systems/DrawSystem.js";
+import { c } from '../core/canvas.js';
+import * as Img from '../core/Img.js';
+import { TILE_SIZE } from '../systems/DrawSystem.js';
 
 
 export function drawTree(entity) {
@@ -10,12 +10,12 @@ export function drawTree(entity) {
         c.translate(
             entity.display.offsetX,
             entity.display.offsetY,
-        )
+        );
     }
     c.scale(0.5, 0.5);
     if(entity.tree.level < 20 && entity.tree.health > 0) {
         Img.drawSprite(
-            "items",
+            'items',
             33,
             18,
             32,
@@ -45,7 +45,7 @@ export function drawTree(entity) {
             spriteY += 4;
         }
         Img.drawSprite(
-            "trees",
+            'trees',
             0,
             -48,
             2 * TILE_SIZE,

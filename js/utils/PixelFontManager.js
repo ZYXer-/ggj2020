@@ -11,12 +11,12 @@ export function create(name, file, minCharSpacingInFile, printCharSpacing, print
     let fileWidth = file.naturalWidth;
     let fileHeight = file.naturalHeight;
 
-    let fontCanvas = document.createElement("canvas");
+    let fontCanvas = document.createElement('canvas');
     fontCanvas.width = fileWidth;
     fontCanvas.height = fileHeight;
 
-    let fontContext = fontCanvas.getContext("2d");
-    fontContext.fillStyle = "rgb(" + EMPTY_R + ", " + EMPTY_G + ", " + EMPTY_B + ")";
+    let fontContext = fontCanvas.getContext('2d');
+    fontContext.fillStyle = 'rgb(' + EMPTY_R + ', ' + EMPTY_G + ', ' + EMPTY_B + ')';
     fontContext.fillRect(0, 0, fileWidth, fileHeight);
 
     fontContext.drawImage(file, 0, 0);
@@ -41,7 +41,7 @@ export function create(name, file, minCharSpacingInFile, printCharSpacing, print
         }
         if(x === fileWidth) {
             let char = String.fromCharCode(i + 32);
-            console.log("Couldn't find the glyph '" + char + "' for font '" + name + "'.");
+            console.log('Couldn\'t find the glyph \'' + char + '\' for font \'' + name + '\'.');
         }
         let thisCharOffset = x;
 
@@ -59,7 +59,7 @@ export function create(name, file, minCharSpacingInFile, printCharSpacing, print
 
         if(thisCharWidth < 0) {
             let char = String.fromCharCode(i + 32);
-            console.log("The glyph for '" + char + "' in font '" + name + "' has a width of 0.");
+            console.log('The glyph for \'' + char + '\' in font \'' + name + '\' has a width of 0.');
         }
 
         font.charOffsets.push(thisCharOffset);
@@ -102,12 +102,12 @@ export function create(name, file, minCharSpacingInFile, printCharSpacing, print
 
     for(let i = 0; i < manualSpacing.length; i++) {
         let c = manualSpacing[i].char.charCodeAt(0) - 32;
-        if(manualSpacing[i].hasOwnProperty("left")) {
-            font.charOffsets[c] -= manualSpacing[i]["left"];
-            font.charWidths[c] += manualSpacing[i]["left"];
+        if(manualSpacing[i].hasOwnProperty('left')) {
+            font.charOffsets[c] -= manualSpacing[i]['left'];
+            font.charWidths[c] += manualSpacing[i]['left'];
         }
-        if(manualSpacing[i].hasOwnProperty("right")) {
-            font.charWidths[c] += manualSpacing[i]["right"];
+        if(manualSpacing[i].hasOwnProperty('right')) {
+            font.charWidths[c] += manualSpacing[i]['right'];
         }
     }
 

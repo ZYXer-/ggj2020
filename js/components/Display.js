@@ -1,4 +1,4 @@
-import { rand } from "../utils/Utils.js";
+import { rand } from '../utils/Utils.js';
 
 export function newDisplay(x, y, color) {
     return {

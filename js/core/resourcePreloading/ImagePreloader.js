@@ -1,5 +1,5 @@
-import * as Img from "../Img.js";
-import Preloader from "./Preloader.js";
+import * as Img from '../Img.js';
+import Preloader from './Preloader.js';
 
 
 class ImagePreloader extends Preloader {
@@ -21,7 +21,7 @@ class ImagePreloader extends Preloader {
                 this.reportAssetLoaded();
             };
             newImage.onerror = () => {
-                alert("Could not load image \"" + name + "\" from \"" + source + "\".");
+                alert('Could not load image "' + name + '" from "' + source + '".');
             };
             newImage.src = source;
             Img.add(name, newImage);

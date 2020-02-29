@@ -1,4 +1,4 @@
-import Vec2 from "./Vec2.js";
+import Vec2 from './Vec2.js';
 
 
 export const QUART_PI = 0.78539816339;

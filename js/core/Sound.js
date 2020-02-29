@@ -1,5 +1,5 @@
-import * as Timer from "./Timer.js";
-import * as sm2 from "../libs/soundmanager2.js";
+import * as Timer from './Timer.js';
+import * as sm2 from '../libs/soundmanager2.js';
 
 
 export let muted = false;
@@ -46,7 +46,7 @@ export function play(name, attributes) { // attributes example: { volume : 100, 
         }
         return instance;
     } else {
-        alert("There is no sound named '" + name + "'.");
+        alert('There is no sound named \'' + name + '\'.');
         return null;
     }
 }

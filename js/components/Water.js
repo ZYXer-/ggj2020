@@ -8,5 +8,5 @@ export function newWater(isSource) {
         flow: isSource ? MAX_WATER_LEVEL : 0,
         output: null,
         itemInput: null,
-    }
+    };
 }

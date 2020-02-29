@@ -1,9 +1,9 @@
-import {ORIENTATION} from "../gamelogic/Constants.js";
+import {ORIENTATION} from '../gamelogic/Constants.js';
 
 export const PULLEY_CRANE_STATUS = {
-   READY: 0,
-   LOADED: 10,
-   REWIND: 20,
+    READY: 0,
+    LOADED: 10,
+    REWIND: 20,
 };
 
 export function newPulleyCrane(orientation) {

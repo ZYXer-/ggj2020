@@ -1,6 +1,6 @@
-import * as Game from "../core/Game.js";
-import * as Timer from "../core/Timer.js";
-import * as Utils from "./Utils.js";
+import * as Game from '../core/Game.js';
+import * as Timer from '../core/Timer.js';
+import * as Utils from './Utils.js';
 
 
 class Particle {

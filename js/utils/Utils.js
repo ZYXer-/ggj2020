@@ -1,5 +1,5 @@
-import * as Keyboard from "../core/input/Keyboard.js";
-import Vec2 from "./Vec2.js";
+import * as Keyboard from '../core/input/Keyboard.js';
+import Vec2 from './Vec2.js';
 
 
 
@@ -57,7 +57,7 @@ export function max(value, max) {
 
 
 export function scale0to1(value, min, max, reverse) {
-    reverse = (typeof reverse !== "undefined" ? reverse : false);
+    reverse = (typeof reverse !== 'undefined' ? reverse : false);
     if(min === max) {
         return 0.0;
     }
@@ -77,7 +77,7 @@ export function createMatrix(width, height, defaultValue) {
     for(let x = 0; x < width; x++) {
         matrix[x] = [];
         for(let y = 0; y < height; y++) {
-            if(typeof defaultValue === "object") {
+            if(typeof defaultValue === 'object') {
                 matrix[x][y] = shallowCopy(defaultValue);
             } else {
                 matrix[x][y] = defaultValue;
@@ -89,7 +89,7 @@ export function createMatrix(width, height, defaultValue) {
 
 
 export function createCanvas(width, height) {
-    let canvas = document.createElement("canvas");
+    let canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     return canvas;
@@ -97,7 +97,7 @@ export function createCanvas(width, height) {
 
 
 export function getContext(canvas) {
-    return canvas.getContext("2d");
+    return canvas.getContext('2d');
 }
 
 
@@ -171,30 +171,30 @@ export function stopwatch(stopwatchTime, speed, min, max, callbacks) {
     stopwatchTime = clamp(stopwatchTime, min, max);
 
     if(stopwatchTime === min) {
-        if(lastTime > min && callbacks.hasOwnProperty("reachMin")) {
+        if(lastTime > min && callbacks.hasOwnProperty('reachMin')) {
             callbacks.reachMin();
         }
-        if(callbacks.hasOwnProperty("atMin")) {
+        if(callbacks.hasOwnProperty('atMin')) {
             callbacks.atMin();
         }
     }
 
     if(stopwatchTime === max) {
-        if(lastTime < max && callbacks.hasOwnProperty("reachMax")) {
+        if(lastTime < max && callbacks.hasOwnProperty('reachMax')) {
             callbacks.reachMax();
         }
-        if(callbacks.hasOwnProperty("atMax")) {
+        if(callbacks.hasOwnProperty('atMax')) {
             callbacks.atMax();
         }
     }
 
-    if(stopwatchTime < max && callbacks.hasOwnProperty("exceptMax")) {
+    if(stopwatchTime < max && callbacks.hasOwnProperty('exceptMax')) {
         callbacks.exceptMax();
     }
-    if(stopwatchTime > min && callbacks.hasOwnProperty("exceptMin")) {
+    if(stopwatchTime > min && callbacks.hasOwnProperty('exceptMin')) {
         callbacks.exceptMin();
     }
-    if(stopwatchTime > min && stopwatchTime < max && callbacks.hasOwnProperty("exceptMinMax")) {
+    if(stopwatchTime > min && stopwatchTime < max && callbacks.hasOwnProperty('exceptMinMax')) {
         callbacks.exceptMinMax();
     }
 
@@ -224,7 +224,7 @@ export function getArrowControls() {
 
 export function pad(number, length) {
     let numberString = number.toString();
-    let pad = "00000000";
+    let pad = '00000000';
     return pad.substring(0, length - numberString.length) + numberString;
 }
 
@@ -235,7 +235,7 @@ export function toFixedDecimal(number, numberOfDecimals) {
 
 
 export function titleCase(string) {
-    return string.split(" ").map(word => {
+    return string.split(' ').map(word => {
         return word.charAt(0).toUpperCase() + word.substr(1);
-    }).join(" ");
+    }).join(' ');
 }

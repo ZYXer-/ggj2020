@@ -1,7 +1,7 @@
-import { c } from "../core/canvas.js";
-import * as Game from "../core/Game.js";
-import * as Utils from "./Utils.js";
-import Vec2 from "./Vec2.js";
+import { c } from '../core/canvas.js';
+import * as Game from '../core/Game.js';
+import * as Utils from './Utils.js';
+import Vec2 from './Vec2.js';
 
 
 class Shaking {

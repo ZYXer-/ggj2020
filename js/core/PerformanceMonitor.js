@@ -1,4 +1,4 @@
-import * as Settings from "../Settings.js";
+import * as Settings from '../Settings.js';
 
 
 const MEASUREMENT_TICK_INTERVAL = 20;
@@ -13,15 +13,15 @@ const stopwatches = [];
 
 function construct() {
 
-    stopwatches[0] = { name : "total" };
-    stopwatches[1] = { name : "update" };
-    stopwatches[2] = { name : "draw" };
+    stopwatches[0] = { name : 'total' };
+    stopwatches[1] = { name : 'update' };
+    stopwatches[2] = { name : 'draw' };
 
     if(Settings.Game.DEBUG) {
 
         lastTime = now();
 
-        jQuery("#game_box").after("<div id=\"fps\"></div>");
+        jQuery('#game_box').after('<div id="fps"></div>');
 
         measurementCountdown = MEASUREMENT_TICK_INTERVAL;
 
@@ -89,21 +89,21 @@ export function update() {
 
 
 export function printFps() {
-    let fpsContent = "";
+    let fpsContent = '';
     if(Settings.Game.SHOW_PERFORMANCE_DETAILS) {
         let stopwatch = stopwatches[0];
         let totalTime = stopwatch.value;
         if(totalTime > 0) {
-            fpsContent += "<strong>Total: " + totalTime + " ms</strong><br />";
+            fpsContent += '<strong>Total: ' + totalTime + ' ms</strong><br />';
             for(let i = 1; i < stopwatches.length; i++) {
                 stopwatch = stopwatches[i];
-                fpsContent += stopwatch.name + ": " + stopwatch.value + " ms";
-                fpsContent += " (" + Math.round(100 * stopwatch.value / totalTime) + "%)<br />";
+                fpsContent += stopwatch.name + ': ' + stopwatch.value + ' ms';
+                fpsContent += ' (' + Math.round(100 * stopwatch.value / totalTime) + '%)<br />';
             }
         }
     }
-    fpsContent += "<strong>" + fps.toFixed(1) + " FPS</strong>";
-    jQuery("#fps").html(fpsContent);
+    fpsContent += '<strong>' + fps.toFixed(1) + ' FPS</strong>';
+    jQuery('#fps').html(fpsContent);
 }
 
 

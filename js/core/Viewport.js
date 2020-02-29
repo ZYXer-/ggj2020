@@ -1,8 +1,8 @@
-import { c, canvas } from "./canvas.js";
-import * as Settings from "../Settings.js";
-import * as SceneManager from "./SceneManager.js";
-import * as sf from "../libs/screenfull.min.js";
-import { clamp } from "../utils/Utils.js";
+import { c, canvas } from './canvas.js';
+import * as Settings from '../Settings.js';
+import * as SceneManager from './SceneManager.js';
+import * as sf from '../libs/screenfull.min.js';
+import { clamp } from '../utils/Utils.js';
 
 
 export let canvasWidth = 1;
@@ -32,7 +32,7 @@ export function init() {
     centerX = Math.round(width / 2.0);
     centerY = Math.round(height / 2.0);
 
-    jQuery("#game_box, #game").width(width).height(height);
+    jQuery('#game_box, #game').width(width).height(height);
     canvas.width = width;
     canvas.height = height;
 
@@ -51,7 +51,7 @@ export function isFullScreen() {
 
 
 export function makeFullScreen() {
-    screenfull.request(jQuery("html")[0]);
+    screenfull.request(jQuery('html')[0]);
 }
 
 
@@ -61,7 +61,7 @@ export function exitFullScreen() {
 
 
 export function toggleFullScreen() {
-    screenfull.toggle(jQuery("html")[0]);
+    screenfull.toggle(jQuery('html')[0]);
 }
 
 
@@ -75,7 +75,7 @@ export function resize() {
     cssWidth = clamp(cssWidth, Settings.Size.MIN_WIDTH / devicePixelRatio, Settings.Size.MAX_WIDTH / devicePixelRatio);
     cssHeight = clamp(cssHeight, Settings.Size.MIN_HEIGHT / devicePixelRatio, Settings.Size.MAX_HEIGHT / devicePixelRatio);
 
-    jQuery("#game_box, #game").width(cssWidth).height(cssHeight);
+    jQuery('#game_box, #game').width(cssWidth).height(cssHeight);
 
     canvasWidth = cssWidth * devicePixelRatio;
     canvasWidth = clamp(canvasWidth, Settings.Size.MIN_WIDTH, Settings.Size.MAX_WIDTH);
@@ -113,7 +113,7 @@ export function resize() {
     centerX = Math.round(width / 2.0);
     centerY = Math.round(height / 2.0);
 
-    SceneManager.callMethod("resize");
+    SceneManager.callMethod('resize');
 }
 
 
@@ -121,7 +121,7 @@ export function draw() {
 
     applyScaling();
 
-    SceneManager.callMethod("draw");
+    SceneManager.callMethod('draw');
 
     removeScaling();
 

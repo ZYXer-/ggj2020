@@ -2,7 +2,7 @@
 // Tree in low polluted areas get healed
 // Tree in high polluted areas get damaged
 
-import Resources from "./Resources.js";
+import Resources from './Resources.js';
 
 export const TREE_POLLUTION_REDUCTION_FACTOR = 0.012; // Tree's pollution reduction relative to the level of the tree
 export const TREE_POLLUTION_REDUCTION_DISTANCE_FACTOR = 0.30; // Tree's pollution reduction relative to the tree's distance to a polluted tile

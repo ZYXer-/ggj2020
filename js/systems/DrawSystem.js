@@ -1,16 +1,16 @@
-import { c } from "../core/canvas.js";
-import Color from "../utils/Color.js";
-import * as Mouse from "../core/input/Mouse.js";
-import { NUM_TILES_HEIGHT, NUM_TILES_WIDTH } from "../Entities.js";
-import { MAX_POLLUTION_VALUE } from "../gamelogic/MechanicParameters.js";
-import { setTileTooltip } from "../TooltipController.js";
-import { drawBuilding } from "../tilePainters/buildingPainter.js";
-import { drawToolPreview } from "../ToolPreview.js";
-import { drawTree } from "../tilePainters/treePainter.js";
-import { drawItemOnTile } from "../tilePainters/itemPainter.js";
-import { drawTileHighlight } from "../tilePainters/tileHighlightPainter.js";
-import { drawPulleyCrane } from "../tilePainters/pulleyCranePainter.js";
-import { drawWaterAnimation } from "../tilePainters/waterAnimationPainter.js";
+import { c } from '../core/canvas.js';
+import Color from '../utils/Color.js';
+import * as Mouse from '../core/input/Mouse.js';
+import { NUM_TILES_HEIGHT, NUM_TILES_WIDTH } from '../Entities.js';
+import { MAX_POLLUTION_VALUE } from '../gamelogic/MechanicParameters.js';
+import { setTileTooltip } from '../TooltipController.js';
+import { drawBuilding } from '../tilePainters/buildingPainter.js';
+import { drawToolPreview } from '../ToolPreview.js';
+import { drawTree } from '../tilePainters/treePainter.js';
+import { drawItemOnTile } from '../tilePainters/itemPainter.js';
+import { drawTileHighlight } from '../tilePainters/tileHighlightPainter.js';
+import { drawPulleyCrane } from '../tilePainters/pulleyCranePainter.js';
+import { drawWaterAnimation } from '../tilePainters/waterAnimationPainter.js';
 
 
 

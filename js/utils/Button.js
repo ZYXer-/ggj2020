@@ -1,5 +1,5 @@
-import * as Mouse from "../core/input/Mouse.js";
-import * as Tooltip from "../Tooltip.js";
+import * as Mouse from '../core/input/Mouse.js';
+import * as Tooltip from '../Tooltip.js';
 
 
 class Button {
@@ -12,42 +12,42 @@ class Button {
 
     set(options) {
         this.x = 0;
-        if(options.hasOwnProperty("x")) {
+        if(options.hasOwnProperty('x')) {
             this.x = options.x;
         }
 
         this.y = 0;
-        if(options.hasOwnProperty("y")) {
+        if(options.hasOwnProperty('y')) {
             this.y = options.y;
         }
 
         this.w = 0;
-        if(options.hasOwnProperty("w")) {
+        if(options.hasOwnProperty('w')) {
             this.w = options.w;
         }
 
         this.h = 0;
-        if(options.hasOwnProperty("h")) {
+        if(options.hasOwnProperty('h')) {
             this.h = options.h;
         }
 
         this.clickCallback = null;
-        if(options.hasOwnProperty("click")) {
+        if(options.hasOwnProperty('click')) {
             this.clickCallback = options.click;
         }
 
         this.drawCallback = null;
-        if(options.hasOwnProperty("draw")) {
+        if(options.hasOwnProperty('draw')) {
             this.drawCallback = options.draw;
         }
 
         this.active = true;
-        if(options.hasOwnProperty("active")) {
+        if(options.hasOwnProperty('active')) {
             this.active = options.active;
         }
 
         this.tooltip = null;
-        if(options.hasOwnProperty("tooltip")) {
+        if(options.hasOwnProperty('tooltip')) {
             this.tooltip = options.tooltip;
         }
     }
@@ -81,12 +81,12 @@ class Button {
 
 
     draw(optionsOrDrawFunction) {
-        if(typeof optionsOrDrawFunction === "object") {
+        if(typeof optionsOrDrawFunction === 'object') {
             this.set(optionsOrDrawFunction);
         }
         let isOver = Mouse.isOver(this.x, this.y, this.w, this.h);
         let down = isOver && Mouse.left.down;
-        if(typeof optionsOrDrawFunction === "function") {
+        if(typeof optionsOrDrawFunction === 'function') {
             optionsOrDrawFunction(this.x, this.y, this.w, this.h, isOver, down, this.active);
         } else if(this.drawCallback !== null) {
             this.drawCallback(this.x, this.y, this.w, this.h, isOver, down, this.active);
@@ -106,7 +106,7 @@ class Button {
 
 
     static init() {
-        Mouse.left.registerUpCallback("_ButtonHandler", function() {
+        Mouse.left.registerUpCallback('_ButtonHandler', function() {
             Button.processClick();
         });
     }

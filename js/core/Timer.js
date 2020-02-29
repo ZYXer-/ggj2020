@@ -1,6 +1,6 @@
-import * as Settings from "../Settings.js";
-import { clamp } from "../utils/Utils.js";
-import TimerCallback from "../utils/TimerCallback.js";
+import * as Settings from '../Settings.js';
+import { clamp } from '../utils/Utils.js';
+import TimerCallback from '../utils/TimerCallback.js';
 
 
 export let delta = 0.00001;
@@ -52,7 +52,7 @@ export function doForCountdown(time, updateCallback, endCallback) {
 
 export function repeatEvery(interval, callback, skipFirst) {
     const timerCallback = new TimerCallback(interval, null, callback, true);
-    if(typeof skipFirst === "undefined" || !skipFirst) {
+    if(typeof skipFirst === 'undefined' || !skipFirst) {
         timerCallback.life = 0.0;
     }
     callbacks.add(timerCallback);
@@ -63,7 +63,7 @@ export function repeatEvery(interval, callback, skipFirst) {
 export function updateCallbacks() {
     for(let callback of callbacks) {
         if(callback.killed) {
-            callbacks.delete(callback)
+            callbacks.delete(callback);
         } else {
             callback.update();
         }

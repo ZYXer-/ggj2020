@@ -1,6 +1,6 @@
-import * as Img from "../Img.js";
-import * as PixelFontManager from "../../utils/PixelFontManager.js";
-import Preloader from "./Preloader.js";
+import * as Img from '../Img.js';
+import * as PixelFontManager from '../../utils/PixelFontManager.js';
+import Preloader from './Preloader.js';
 
 
 class PixelFontPreloader extends Preloader {
@@ -17,7 +17,7 @@ class PixelFontPreloader extends Preloader {
         }
 
         for(let [name, source] of this.sources) {
-            PixelFontManager.create(name, Img.get(source["file"]), source["minCharSpacingInFile"], source["printCharSpacing"], source["printSpaceWidth"], source["glyphDetectionThresholds"], source["manualSpacing"]);
+            PixelFontManager.create(name, Img.get(source['file']), source['minCharSpacingInFile'], source['printCharSpacing'], source['printSpaceWidth'], source['glyphDetectionThresholds'], source['manualSpacing']);
             this.reportAssetLoaded();
         }
     }

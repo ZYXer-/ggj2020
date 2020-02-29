@@ -1,8 +1,8 @@
-import * as Settings from "../../Settings.js";
-import * as Sound from "../Sound.js";
-import * as sm2 from "../../libs/soundmanager2.js";
-import Preloader from "./Preloader.js";
-import SoundInstance from "../SoundInstance.js";
+import * as Settings from '../../Settings.js';
+import * as Sound from '../Sound.js';
+import * as sm2 from '../../libs/soundmanager2.js';
+import Preloader from './Preloader.js';
+import SoundInstance from '../SoundInstance.js';
 
 
 class SoundPreloader extends Preloader {
@@ -28,7 +28,7 @@ class SoundPreloader extends Preloader {
             };
             for(let i = 0; i < source.instances; i++) {
                 soundManager.createSound({
-                    id : name + "_instance_" + i,
+                    id : name + '_instance_' + i,
                     url : source.source,
                     autoLoad : true,
                     volume : Settings.Game.DEFAULT_SOUND_VOLUME,

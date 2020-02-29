@@ -1,16 +1,16 @@
-import { c, canvas } from "./canvas.js";
-import * as Viewport from "./Viewport.js";
-import * as Settings from "../Settings.js";
-import * as SceneManager from "./SceneManager.js";
-import * as Scenes from "../Scenes.js";
-import * as Keyboard from "./input/Keyboard.js";
-import * as Mouse from "./input/Mouse.js";
-import * as GlobalControls from "../GlobalControls.js";
-import * as PageVisibility from "./PageVisibility.js";
-import * as PerformanceMonitor from "./PerformanceMonitor.js";
-import * as Timer from "./Timer.js";
-import * as Sound from "./Sound.js";
-import Button from "../utils/Button.js";
+import { c, canvas } from './canvas.js';
+import * as Viewport from './Viewport.js';
+import * as Settings from '../Settings.js';
+import * as SceneManager from './SceneManager.js';
+import * as Scenes from '../Scenes.js';
+import * as Keyboard from './input/Keyboard.js';
+import * as Mouse from './input/Mouse.js';
+import * as GlobalControls from '../GlobalControls.js';
+import * as PageVisibility from './PageVisibility.js';
+import * as PerformanceMonitor from './PerformanceMonitor.js';
+import * as Timer from './Timer.js';
+import * as Sound from './Sound.js';
+import Button from '../utils/Button.js';
 
 
 export let paused = false;
@@ -25,28 +25,28 @@ export function start() {
     }
     GlobalControls.loadCustomBehavior();
 
-    Mouse.left.registerUpCallback("_leftClick", () => {
-        SceneManager.callMethod("click");
+    Mouse.left.registerUpCallback('_leftClick', () => {
+        SceneManager.callMethod('click');
     });
-    Mouse.middle.registerUpCallback("_middleClick", () => {
-        SceneManager.callMethod("middleClick");
+    Mouse.middle.registerUpCallback('_middleClick', () => {
+        SceneManager.callMethod('middleClick');
     });
-    Mouse.right.registerUpCallback("_rightClick", () =>{
-        SceneManager.callMethod("rightClick");
+    Mouse.right.registerUpCallback('_rightClick', () =>{
+        SceneManager.callMethod('rightClick');
     });
-    Mouse.registerScrollCallback("_scroll", delta => {
-        SceneManager.callMethodWithParam("scroll", delta);
+    Mouse.registerScrollCallback('_scroll', delta => {
+        SceneManager.callMethodWithParam('scroll', delta);
     });
 
     Button.init();
 
     if(Settings.Game.PAUSE_ON_BLUR) {
-        PageVisibility.registerBlurHandler("pause", () => {
+        PageVisibility.registerBlurHandler('pause', () => {
             pause();
         });
     }
 
-    PageVisibility.registerFocusHandler("resize", () => {
+    PageVisibility.registerFocusHandler('resize', () => {
         Viewport.resize();
     });
 
@@ -108,5 +108,5 @@ function loop() {
 
 
 function update() {
-    SceneManager.callMethod("update");
+    SceneManager.callMethod('update');
 }

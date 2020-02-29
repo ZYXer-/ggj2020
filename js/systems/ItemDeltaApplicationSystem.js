@@ -1,4 +1,4 @@
-import { newItem } from "../components/Item.js";
+import { newItem } from '../components/Item.js';
 
 /*
 Applies changes in item
@@ -16,13 +16,13 @@ export function apply(entity)  {
             return;
         }
         else if (keys.length > 1) {
-            console.warn("Delta for more than 1 item type is not supported!!!")
+            console.warn('Delta for more than 1 item type is not supported!!!');
         }
 
         const key = keys[0];
         if (entity.itemDelta[key] > 0) {
             entity.item = newItem(key, entity);
-            console.log("item added");
+            console.log('item added');
         } else if (key && entity.itemDelta[key] < 0) {
             entity.item = null;
         }

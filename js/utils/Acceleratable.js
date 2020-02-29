@@ -1,7 +1,7 @@
-import Vec2 from "./Vec2.js";
-import Vec3 from "./Vec3.js";
-import * as Utils from "./Utils.js";
-import * as Timer from "../core/Timer.js";
+import Vec2 from './Vec2.js';
+import Vec3 from './Vec3.js';
+import * as Utils from './Utils.js';
+import * as Timer from '../core/Timer.js';
 
 
 class Acceleratable {

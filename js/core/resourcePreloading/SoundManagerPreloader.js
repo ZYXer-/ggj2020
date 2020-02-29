@@ -1,6 +1,6 @@
-import * as Settings from "../../Settings.js";
-import * as sm2 from "../../libs/soundmanager2.js";
-import Preloader from "./Preloader.js";
+import * as Settings from '../../Settings.js';
+import * as sm2 from '../../libs/soundmanager2.js';
+import Preloader from './Preloader.js';
 
 
 class SoundManagerPreloader extends Preloader {
@@ -12,12 +12,12 @@ class SoundManagerPreloader extends Preloader {
 
         soundManager.setup({
             debugMode : Settings.Game.DEBUG,
-            url : "swf/",
+            url : 'swf/',
             onready : () => {
                 this.reportAssetLoaded();
             },
             ontimeout : () => {
-                alert("Error loading SoundManager2: cannot play any sounds.");
+                alert('Error loading SoundManager2: cannot play any sounds.');
                 this.reportAssetLoaded();
             }
         });

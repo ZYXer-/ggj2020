@@ -1,5 +1,5 @@
-import Vec2 from "../../utils/Vec2.js";
-import * as Mouse from "./Mouse.js";
+import Vec2 from '../../utils/Vec2.js';
+import * as Mouse from './Mouse.js';
 
 
 export default class MouseButton {

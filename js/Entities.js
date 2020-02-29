@@ -1,9 +1,9 @@
-import Vec2 from "./utils/Vec2.js";
-import { clamp, rand, randFloat, trueOrFalse } from "./utils/Utils.js";
-import { newWater } from "./components/Water.js";
-import { newDisplay } from "./components/Display.js";
-import { newTree } from "./components/Tree.js";
-import { MAX_POLLUTION_VALUE } from "./gamelogic/MechanicParameters.js";
+import Vec2 from './utils/Vec2.js';
+import { clamp, rand, randFloat, trueOrFalse } from './utils/Utils.js';
+import { newWater } from './components/Water.js';
+import { newDisplay } from './components/Display.js';
+import { newTree } from './components/Tree.js';
+import { MAX_POLLUTION_VALUE } from './gamelogic/MechanicParameters.js';
 
 export const NUM_TILES_WIDTH = 33;
 export const NUM_TILES_HEIGHT = 22;

@@ -1,27 +1,27 @@
-import * as Entities from "./Entities.js";
-import * as Mouse from "./core/input/Mouse.js";
-import Vec2 from "./utils/Vec2.js";
-import * as DrawSystem from "./systems/DrawSystem.js";
-import {newTree} from "./components/Tree.js";
-import {newDisplay} from "./components/Display.js";
-import {newFactory} from "./components/Factory.js";
-import Resources, {addResources, checkResourceAvailability, subtractResources} from "./gamelogic/Resources.js";
-import Color from "./utils/Color.js";
+import * as Entities from './Entities.js';
+import * as Mouse from './core/input/Mouse.js';
+import Vec2 from './utils/Vec2.js';
+import * as DrawSystem from './systems/DrawSystem.js';
+import {newTree} from './components/Tree.js';
+import {newDisplay} from './components/Display.js';
+import {newFactory} from './components/Factory.js';
+import Resources, {addResources, checkResourceAvailability, subtractResources} from './gamelogic/Resources.js';
+import Color from './utils/Color.js';
 import {
     COMPOST_COST,
     LUMBER_HUT_COOL_DOWN,
     SPRINKLER_COST,
     SPRINKLER_WATER_CONSUMPTION,
-} from "./gamelogic/MechanicParameters.js";
-import {newWaterConsumer} from "./components/WaterConsumer.js";
-import * as Actions from "./gamelogic/Actions.js";
-import { newItem } from "./components/Item.js";
+} from './gamelogic/MechanicParameters.js';
+import {newWaterConsumer} from './components/WaterConsumer.js';
+import * as Actions from './gamelogic/Actions.js';
+import { newItem } from './components/Item.js';
 
 
 function toTileCoordinates(position) {
     return new Vec2(
-       Math.floor((position.x - DrawSystem.OFFSET_X) / DrawSystem.TILE_SIZE),
-       Math.floor((position.y - DrawSystem.OFFSET_Y) / DrawSystem.TILE_SIZE),
+        Math.floor((position.x - DrawSystem.OFFSET_X) / DrawSystem.TILE_SIZE),
+        Math.floor((position.y - DrawSystem.OFFSET_Y) / DrawSystem.TILE_SIZE),
     );
 }
 
@@ -48,21 +48,21 @@ export function PlaceTree(gameState, saplingResource) { // saplingResource is a 
                 { [saplingResource]: 1},
             );
             switch(saplingResource) {
-                case Resources.PINE_SAPLING:
-                    tile.tree = newTree(0, 0);
-                    break;
-                case Resources.BEECH_SAPLING:
-                    tile.tree = newTree(1, 0);
-                    break;
-                case Resources.OAK_SAPLING:
-                    tile.tree = newTree(2, 0);
-                    break;
-                default:
-                    console.error("Invalid tree type");
-                    break
+            case Resources.PINE_SAPLING:
+                tile.tree = newTree(0, 0);
+                break;
+            case Resources.BEECH_SAPLING:
+                tile.tree = newTree(1, 0);
+                break;
+            case Resources.OAK_SAPLING:
+                tile.tree = newTree(2, 0);
+                break;
+            default:
+                console.error('Invalid tree type');
+                break;
             }
         } else {
-            console.log("No saplings available", saplingResource);
+            console.log('No saplings available', saplingResource);
         }
     }
 }
@@ -70,7 +70,7 @@ export function PlaceTree(gameState, saplingResource) { // saplingResource is a 
 export function PlaceTreeNursery(gameState) {
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
-        console.warn("TODO: remove resources!");
+        console.warn('TODO: remove resources!');
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_WOOD] = 1;
         tile.factory.productionTime = 5;
@@ -84,7 +84,7 @@ export function PlaceTreeNursery(gameState) {
 export function PlaceCompostHeap() {
     const tile = getCursorTile();
     if (!tile.water && !tile.tree && !tile.factory) {
-        console.warn("TODO: remove resources!");
+        console.warn('TODO: remove resources!');
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_WOOD] = COMPOST_COST;
         tile.factory.productionTime = 5;
@@ -119,8 +119,8 @@ export function UnloadFactory(gameState) {
     const tile = getCursorTile();
     if (tile.factory ) {
         if (!factoryCanBeUnloaded(tile.factory)) {
-            console.log("Factory can't be unloaded");
-            return
+            console.log('Factory can\'t be unloaded');
+            return;
         }
         const resourceDelta = {
             [tile.factory.producedResource]: 1,
@@ -130,7 +130,7 @@ export function UnloadFactory(gameState) {
             subtractResources(
                 tile.factory.outputResources,
                 resourceDelta
-                );
+            );
             addResources(
                 gameState,
                 resourceDelta,
@@ -151,13 +151,13 @@ export function LoadFactory(gameState, resourceType) {
             tile.factory.requiredResources,
             tile.factory.inputResourcesLimit,
         )) {
-            console.log("Input stock is full");
+            console.log('Input stock is full');
             return;
         }
         console.log(tile.factory.inputResources);
         // Check if resources available
         if (!checkResourceAvailability(gameState, tile.factory.requiredResources)) {
-            console.log("Not enough resources");
+            console.log('Not enough resources');
             return;
         }
         subtractResources(gameState, tile.factory.requiredResources);
@@ -165,14 +165,14 @@ export function LoadFactory(gameState, resourceType) {
             tile.factory.inputResources,
             tile.factory.requiredResources,
         );
-        console.log("Factory Loaded");
+        console.log('Factory Loaded');
     }
 }
 
 export function Demolish(gameState) {
     const tile = getCursorTile();
     if (tile.source) {
-        console.debug("Can't delete source");
+        console.debug('Can\'t delete source');
         return;
     }
     if (tile.water) {
@@ -206,7 +206,7 @@ export function PlaceSprinkler(gameState) {
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
         )) {
-            console.log("Not enough resources for sprinkler.");
+            console.log('Not enough resources for sprinkler.');
         }
         tile.waterConsumer = newWaterConsumer();
         tile.waterConsumer.consumption = SPRINKLER_WATER_CONSUMPTION;
@@ -215,7 +215,7 @@ export function PlaceSprinkler(gameState) {
         subtractResources(
             gameState,
             { [Resources.PINE_WOOD]: SPRINKLER_COST },
-        )
+        );
     }
 }
 
@@ -228,13 +228,13 @@ export function notOccupied(tile) {
         || tile.lumberHut
         || tile.sprinkler
         || tile.compostHeap
-    )
+    );
 }
 
 export function PlaceForester(gameState) {
     const tile = getCursorTile();
     if(notOccupied(tile)) {
-        console.warn("TODO: remove resources!");
+        console.warn('TODO: remove resources!');
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_SAPLING] = 1;
         tile.factory.productionTime = 5;
@@ -266,14 +266,14 @@ export function DropResourceToGround(gameState, resourceType) {
         );
 
     } else {
-        console.log("Can't drop resource because not enough in stock ");
+        console.log('Can\'t drop resource because not enough in stock ');
     }
 }
 
 export function PlaceLogCabin(gameState) {
     const tile = getCursorTile();
     if(notOccupied(tile)) {
-        console.warn("TODO: remove resources!");
+        console.warn('TODO: remove resources!');
         tile.display.buildingSprite = 2;
         tile.factory = newFactory();
         tile.factory.requiredResources[Resources.PINE_SAPLING] = 0; // Indicate that nothing is required
@@ -289,11 +289,11 @@ export function FertilizeTile(gameState) {
     const tile = getCursorTile();
     if (true) { // What can be fertelized?
         if (!checkResourceAvailability(gameState, { [Resources.FERTILIZER]: 1})) {
-            console.log("No Compost available");
+            console.log('No Compost available');
             return;
         }
         if (tile.fertilizer && tile.fertilizer > 0) {
-            console.log("Already Fertelized");
+            console.log('Already Fertelized');
             return;
         }
         tile.fertilizer = 1;

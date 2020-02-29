@@ -1,25 +1,25 @@
-import Text from "./utils/Text.js";
-import * as Img from "./core/Img.js";
-import * as PollutionApplicationSystem from "./systems/PollutionApplicationSystem.js";
-import Button from "./utils/Button.js";
-import {c} from "./core/canvas.js";
-import Color from "./utils/Color.js";
-import * as TotalPollutionCounterSystem from "./systems/TotalPollutionCounterSystem.js";
-import Resources from "./gamelogic/Resources.js";
-import { GameState, BUILDING_TYPES, CURSOR_MODES } from "./IngameScene.js";
-import {drawRoundedCornerRect} from "./utils/DrawUtils.js";
+import Text from './utils/Text.js';
+import * as Img from './core/Img.js';
+import * as PollutionApplicationSystem from './systems/PollutionApplicationSystem.js';
+import Button from './utils/Button.js';
+import {c} from './core/canvas.js';
+import Color from './utils/Color.js';
+import * as TotalPollutionCounterSystem from './systems/TotalPollutionCounterSystem.js';
+import Resources from './gamelogic/Resources.js';
+import { GameState, BUILDING_TYPES, CURSOR_MODES } from './IngameScene.js';
+import {drawRoundedCornerRect} from './utils/DrawUtils.js';
 
 
 let progressNumber = new Text({
     x: 165,
     y: 170,
     size : 24,
-    font : "norwester",
-    align : "right",
-    color : "#ccc",
-    verticalAlign: "center",
+    font : 'norwester',
+    align : 'right',
+    color : '#ccc',
+    verticalAlign: 'center',
     borderWidth : 2,
-    borderColor : "rgba(0, 0, 0, 0.2)",
+    borderColor : 'rgba(0, 0, 0, 0.2)',
     monospaced: 12
 });
 
@@ -27,113 +27,113 @@ let progressPercent = new Text({
     x: 164,
     y: 170,
     size : 24,
-    font : "norwester",
-    align : "left",
-    color : "#ccc",
-    verticalAlign: "center",
+    font : 'norwester',
+    align : 'left',
+    color : '#ccc',
+    verticalAlign: 'center',
     borderWidth : 2,
-    borderColor : "rgba(0, 0, 0, 0.2)",
+    borderColor : 'rgba(0, 0, 0, 0.2)',
 });
 
 
 let labelText = new Text({
     size : 16,
-    font : "norwester",
-    color : "#ccc"
+    font : 'norwester',
+    color : '#ccc'
 });
 
 let numberText = new Text({
     x: 165,
     y: 170,
     size : 16,
-    font : "norwester",
-    align : "right",
-    color : "#ccc",
+    font : 'norwester',
+    align : 'right',
+    color : '#ccc',
     monospaced: 8
 });
 
 let centerText = new Text({
     size : 16,
-    font : "norwester",
-    align : "center",
-    color : "#ccc"
+    font : 'norwester',
+    align : 'center',
+    color : '#ccc'
 });
 
 let activeText = new Text({
     size : 16,
-    font : "norwester",
-    align : "center",
-    color : "#222"
+    font : 'norwester',
+    align : 'center',
+    color : '#222'
 });
 
 let items = [
     {
         offset: 0,
         item: 3,
-        label: "Pine Sapling",
+        label: 'Pine Sapling',
         value: Resources.PINE_SAPLING,
     },
     {
         offset: 0,
         item: 4,
-        label: "Beech Sapling",
+        label: 'Beech Sapling',
         value: Resources.BEECH_SAPLING,
     },
     {
         offset: 0,
         item: 5,
-        label: "Oak Sapling",
+        label: 'Oak Sapling',
         value: Resources.OAK_SAPLING,
     },
     {
         offset: 8,
         item: 0,
-        label: "Pine Wood",
+        label: 'Pine Wood',
         value: Resources.PINE_WOOD,
     },
     {
         offset: 8,
         item: 1,
-        label: "Beech Wood",
+        label: 'Beech Wood',
         value: Resources.BEECH_WOOD,
     },
     {
         offset: 8,
         item: 2,
-        label: "Oak Wood",
+        label: 'Oak Wood',
         value: Resources.OAK_WOOD,
     },
     {
         offset: 16,
         item: 6,
-        label: "Fertilizer",
+        label: 'Fertilizer',
         value: Resources.FERTILIZER,
     },
 ];
 
 function resourceTypeToBuildingType(resourceType) {
     switch (resourceType) {
-        case(Resources.PINE_SAPLING):
-            return BUILDING_TYPES.PINE;
-        case(Resources.BEECH_SAPLING):
-            return BUILDING_TYPES.BEECH;
-        case(Resources.OAK_SAPLING):
-            return BUILDING_TYPES.OAK;
-        default:
-            console.error("Not Supported!");
+    case(Resources.PINE_SAPLING):
+        return BUILDING_TYPES.PINE;
+    case(Resources.BEECH_SAPLING):
+        return BUILDING_TYPES.BEECH;
+    case(Resources.OAK_SAPLING):
+        return BUILDING_TYPES.OAK;
+    default:
+        console.error('Not Supported!');
     }
 }
 
 function buildingTypeToResourceType(buildingType) {
     switch (buildingType) {
-        case(BUILDING_TYPES.PINE):
-            return Resources.PINE_SAPLING;
-        case(BUILDING_TYPES.BEECH):
-            return Resources.BEECH_SAPLING;
-        case(BUILDING_TYPES.OAK):
-            return Resources.OAK_SAPLING;
-        default:
-            return null;
+    case(BUILDING_TYPES.PINE):
+        return Resources.PINE_SAPLING;
+    case(BUILDING_TYPES.BEECH):
+        return Resources.BEECH_SAPLING;
+    case(BUILDING_TYPES.OAK):
+        return Resources.OAK_SAPLING;
+    default:
+        return null;
     }
 }
 
@@ -149,18 +149,18 @@ for(let itemIndex in items) {
             GameState.selectedResource = item.value;
         },
         draw(x, y, w, h, isOver, down) {
-            c.fillStyle = "#ccc";
+            c.fillStyle = '#ccc';
             if(isOver) {
-                c.fillStyle = "#fff";
+                c.fillStyle = '#fff';
                 if(down) {
                     y += 2;
                 }
             }
             if(GameState.cursorMode === CURSOR_MODES.DROP && GameState.selectedResource === item.value) {
-                c.fillStyle = "#58b001";
+                c.fillStyle = '#58b001';
             }
             c.fillRect(x, y, w, h);
-            activeText.drawPosText(x + 0.5 * w, y + 16, "dispense");
+            activeText.drawPosText(x + 0.5 * w, y + 16, 'dispense');
         }
     });
     if(itemIndex < 3) {
@@ -174,18 +174,18 @@ for(let itemIndex in items) {
                 GameState.selectedBuildingType = resourceTypeToBuildingType(item.value);
             },
             draw(x, y, w, h, isOver, down) {
-                c.fillStyle = "#ccc";
+                c.fillStyle = '#ccc';
                 if(isOver) {
-                    c.fillStyle = "#fff";
+                    c.fillStyle = '#fff';
                     if(down) {
                         y += 2;
                     }
                 }
                 if(GameState.cursorMode === CURSOR_MODES.BUILD && item.value === buildingTypeToResourceType(GameState.selectedBuildingType)) {
-                    c.fillStyle = "#58b001";
+                    c.fillStyle = '#58b001';
                 }
                 c.fillRect(x, y, w, h);
-                activeText.drawPosText(x + 0.5 * w, y + 16, "plant");
+                activeText.drawPosText(x + 0.5 * w, y + 16, 'plant');
             }
         });
     }
@@ -196,7 +196,7 @@ let buildings = [
     {
         offset: 0,
         icon: 0,
-        label: "Pick up",
+        label: 'Pick up',
         click() {
             GameState.cursorMode = CURSOR_MODES.PICK;
         },
@@ -207,7 +207,7 @@ let buildings = [
     {
         offset: 0,
         icon: 1,
-        label: "Demolish",
+        label: 'Demolish',
         click() {
             GameState.cursorMode = CURSOR_MODES.DESTROY;
         },
@@ -219,7 +219,7 @@ let buildings = [
         offset: 22,
         buildingSprite: 5,
         buildingSpriteOffsetY: 36,
-        label: "Pulley Crane",
+        label: 'Pulley Crane',
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.PULLEY_CRANE;
@@ -231,7 +231,7 @@ let buildings = [
     },
     {
         offset: 22,
-        label: "Canal",
+        label: 'Canal',
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.WATER;
@@ -245,7 +245,7 @@ let buildings = [
         offset: 22,
         buildingSprite: 0,
         buildingSpriteOffsetY: 36,
-        label: "Tree Nursery",
+        label: 'Tree Nursery',
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.TREE_NURSERY;
@@ -259,7 +259,7 @@ let buildings = [
         offset: 22,
         buildingSprite: 1,
         buildingSpriteOffsetY: 48,
-        label: "Forester",
+        label: 'Forester',
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.FORESTER;
@@ -273,7 +273,7 @@ let buildings = [
         offset: 22,
         buildingSprite: 2,
         buildingSpriteOffsetY: 48,
-        label: "Lumber Hut",
+        label: 'Lumber Hut',
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.LUMBER_HUT;
@@ -287,7 +287,7 @@ let buildings = [
         offset: 22,
         buildingSprite: 3,
         buildingSpriteOffsetY: 40,
-        label: "Sprinkler",
+        label: 'Sprinkler',
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.SPRINKLER;
@@ -302,7 +302,7 @@ let buildings = [
         offset: 22,
         buildingSprite: 4,
         buildingSpriteOffsetY: 40,
-        label: "Compost Heap",
+        label: 'Compost Heap',
         click() {
             GameState.cursorMode = CURSOR_MODES.BUILD;
             GameState.selectedBuildingType = BUILDING_TYPES.COMPOST_HEAP;
@@ -325,40 +325,40 @@ for(let buildingIndex in buildings) {
             building.click();
         },
         draw(x, y, w, h, isOver, down) {
-            c.fillStyle = "#ccc";
+            c.fillStyle = '#ccc';
             let iconSpriteY = 0;
             if(isOver) {
-                c.fillStyle = "#fff";
+                c.fillStyle = '#fff';
                 iconSpriteY = 1;
                 if(down) {
                     y += 2;
                 }
             }
             if(building.isActive()) {
-                c.fillStyle = "#fff";
+                c.fillStyle = '#fff';
                 iconSpriteY = 2;
             }
             drawRoundedCornerRect(x, y, w, h, 4);
             c.fill();
             if(iconSpriteY < 2) {
-                c.fillStyle = "#222";
+                c.fillStyle = '#222';
                 drawRoundedCornerRect(x + 2, y + 2, w - 4, h - 4, 2);
                 c.fill();
             }
 
-            if(typeof building.icon !== "undefined") {
+            if(typeof building.icon !== 'undefined') {
                 c.save();
                 c.translate(x + (0.5 * w), y + 36);
                 c.scale(0.5, 0.5);
-                Img.drawSprite("icons", -48, -48, 96, 96, building.icon, iconSpriteY);
+                Img.drawSprite('icons', -48, -48, 96, 96, building.icon, iconSpriteY);
                 c.restore();
             }
 
-            if(typeof building.buildingSprite !== "undefined") {
+            if(typeof building.buildingSprite !== 'undefined') {
                 c.save();
                 c.translate(x + (0.5 * w), y + building.buildingSpriteOffsetY);
                 c.scale(0.5, 0.5);
-                Img.drawSprite("buildings", -96, -96, 192, 192, building.buildingSprite, 0);
+                Img.drawSprite('buildings', -96, -96, 192, 192, building.buildingSprite, 0);
                 c.restore();
             }
 
@@ -403,10 +403,10 @@ export function draw(gameState) {
 
     c.save();
     c.scale(0.5, 0.5);
-    Img.draw("panel", 0, 0);
+    Img.draw('panel', 0, 0);
     c.restore();
 
-    progressPercent.drawText("%");
+    progressPercent.drawText('%');
     progressNumber.drawText(Math.round(progress * 100).toString());
 
     for(let itemIndex in items) {
@@ -416,7 +416,7 @@ export function draw(gameState) {
 
         c.save();
         c.scale(0.5, 0.5);
-        Img.drawSprite("items", 0, 0, 32, 32, item.item, 0);
+        Img.drawSprite('items', 0, 0, 32, 32, item.item, 0);
         c.restore();
 
         labelText.drawPosText(24, 14, item.label);
