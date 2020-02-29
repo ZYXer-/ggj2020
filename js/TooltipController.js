@@ -1,5 +1,5 @@
 import * as Keyboard from './core/input/Keyboard.js';
-import { CURSOR_MODES, GameState } from './IngameScene.js';
+import { CURSOR_MODES } from './IngameScene.js';
 import { ORIENTATION } from './gamelogic/Constants.js';
 import Resources from './gamelogic/Resources.js';
 import * as Tooltip from './Tooltip.js';
@@ -56,7 +56,7 @@ export function setTileTooltip(entity, gameState) {
         if(hasExplanation) {
             tooltip += '===///';
         }
-        tooltip += 'Pollution: ' + Math.round(entity.pollution) + '%///';
+        tooltip += `Pollution: ${  Math.round(entity.pollution)  }%///`;
     }
 
     tooltip += getClickTooltip(entity, gameState, canBeDemolished);
@@ -74,8 +74,8 @@ function getTreeTooltip(entity) {
     } else if(entity.tree.type === 2) {
         tooltip = 'Oak Tree///';
     }
-    tooltip += 'Growth: ' + Math.round(entity.tree.level) + '%///';
-    tooltip += 'Health: ' + Math.round(entity.tree.health) + '%///';
+    tooltip += `Growth: ${  Math.round(entity.tree.level)  }%///`;
+    tooltip += `Health: ${  Math.round(entity.tree.health)  }%///`;
     return tooltip;
 }
 
@@ -103,7 +103,7 @@ function getWaterTooltip(entity) {
     } else {
         tooltip += 'Water Canal///';
         tooltip += 'Can carry water and items///';
-        tooltip += 'Water level: ' + Math.round(entity.water.level) + '%///';
+        tooltip += `Water level: ${  Math.round(entity.water.level)  }%///`;
     }
     return tooltip;
 }
@@ -137,6 +137,7 @@ function getLumberHutTooltip(entity) {
 function getSprinklerTooltip(entity) {
     let tooltip = 'Sprinkler///';
     tooltip += 'Provides water to trees in its vicinity///';
+    tooltip += `Supplied: ${entity.waterConsumer.supplied} ///`;
     return tooltip;
 }
 
@@ -156,7 +157,7 @@ function getInputTooltip(entity, resources) {
     for(let res of resources) {
         tooltip += '###';
         tooltip += entity.factory.inputResources[res] ? entity.factory.inputResources[res] : '0';
-        tooltip += ' ' + resourceNames[res] + '///';
+        tooltip += ` ${  resourceNames[res]  }///`;
     }
     return tooltip;
 }
@@ -167,7 +168,7 @@ function getOutputTooltip(entity, resources) {
     for(let res of resources) {
         tooltip += '###';
         tooltip += entity.factory.outputResources[res] ? entity.factory.outputResources[res] : '0';
-        tooltip += ' ' + resourceNames[res] + '///';
+        tooltip += ` ${  resourceNames[res]  }///`;
     }
     return tooltip;
 }

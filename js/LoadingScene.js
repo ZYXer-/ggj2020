@@ -41,5 +41,5 @@ export function draw() {
     c.fillStyle = '#eee';
     c.fillRect(Viewport.centerX - 100, Viewport.height - 60, 200 * (percentage / 100.0), 10);
 
-    Text.draw(Viewport.centerX, Viewport.height - 70, 16, 'sans-serif', 'center', '#eee', Math.ceil(percentage) + '%');
+    Text.draw(Viewport.centerX, Viewport.height - 70, 16, 'sans-serif', 'center', '#eee', `${Math.ceil(percentage)  }%`);
 }

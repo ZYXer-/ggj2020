@@ -46,7 +46,7 @@ export function play(name, attributes) { // attributes example: { volume : 100, 
         }
         return instance;
     } else {
-        alert('There is no sound named \'' + name + '\'.');
+        alert(`There is no sound named '${  name  }'.`);
         return null;
     }
 }

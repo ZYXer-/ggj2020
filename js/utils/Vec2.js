@@ -124,7 +124,7 @@ export default class Vec2 {
 
 
     toString() {
-        return 'x=' + this.x + ' / y=' + this.y;
+        return `x=${  this.x  } / y=${  this.y}`;
     }
 
 

@@ -45,7 +45,7 @@ class Demo {
             },
             draw : particle => {
                 let opacity = Utils.clamp(particle.life / 2.0, 0.0, 1.0);
-                c.fillStyle = 'rgba(' + particle.color.r + ', ' + particle.color.g + ', ' + particle.color.b + ', ' + opacity + ')';
+                c.fillStyle = `rgba(${  particle.color.r  }, ${  particle.color.g  }, ${  particle.color.b  }, ${  opacity  })`;
                 c.fillRect(particle.pos.x - 20, particle.pos.y - 20, 40, 40);
             }
         });
@@ -59,7 +59,7 @@ class Demo {
             particlesPerTick : 50,
             draw : particle => {
                 let opacity = Utils.clamp(particle.life / 0.7, 0.0, 1.0);
-                c.fillStyle = 'rgba(0, 127, 0, ' + opacity + ')';
+                c.fillStyle = `rgba(0, 127, 0, ${  opacity  })`;
                 c.fillRect(particle.pos.x - 10, particle.pos.y - 10, 20, 20);
             }
         });
@@ -134,7 +134,7 @@ class Demo {
                 this.demoButton.setTooltip('This button is now inactive');
             },
             draw : (x, y, w, h, over, down, active) => {
-                c.fillStyle = 'rgb(' + (over ? 128 : 0) + ', ' + (down ? 128 : 0) + ', ' + (active ? 128 : 0) + ')';
+                c.fillStyle = `rgb(${  over ? 128 : 0  }, ${  down ? 128 : 0  }, ${  active ? 128 : 0  })`;
                 c.fillRect(x, y, w, h);
             },
             active : true,
@@ -172,7 +172,7 @@ class Demo {
         // When you press 'C' you trigger a Countdown
         Keyboard.registerKeyUpHandler(Keyboard.C, () => {
             Timer.doForCountdown(3.0, progress => {
-                this.demoPixelText.text('Progress: ' + progress.toFixed(2));
+                this.demoPixelText.text(`Progress: ${  progress.toFixed(2)}`);
             }, () => {
                 this.demoPixelText.text('Hello World!');
             });
@@ -273,7 +273,7 @@ class Demo {
                     c.fillStyle = '#ddd';
                     c.fillRect(x * 20, y * 20, 20, 20);
                     if(Mouse.isOver(x * 20, y * 20, 20, 20)) {
-                        Tooltip.set('You are now over matrix field: ' + x + '/' + y);
+                        Tooltip.set(`You are now over matrix field: ${  x  }/${  y}`);
                         if(x === 3 && y === 3) {
                             Tooltip.setOverridePosition(new Vec2(20, 20));
                         }

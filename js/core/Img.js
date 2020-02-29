@@ -18,7 +18,7 @@ export function get(name) {
     if(assets.has(name)) {
         return assets.get(name);
     } else {
-        alert('There is no image named \'' + name + '\'.');
+        alert(`There is no image named '${  name  }'.`);
         return null;
     }
 }

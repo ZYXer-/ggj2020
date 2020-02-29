@@ -21,7 +21,7 @@ class ImagePreloader extends Preloader {
                 this.reportAssetLoaded();
             };
             newImage.onerror = () => {
-                alert('Could not load image "' + name + '" from "' + source + '".');
+                alert(`Could not load image "${  name  }" from "${  source  }".`);
             };
             newImage.src = source;
             Img.add(name, newImage);
