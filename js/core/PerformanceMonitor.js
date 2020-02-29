@@ -94,15 +94,15 @@ export function printFps() {
         let stopwatch = stopwatches[0];
         let totalTime = stopwatch.value;
         if(totalTime > 0) {
-            fpsContent += `<strong>Total: ${  totalTime  } ms</strong><br />`;
+            fpsContent += `<strong>Total: ${totalTime} ms</strong><br />`;
             for(let i = 1; i < stopwatches.length; i++) {
                 stopwatch = stopwatches[i];
-                fpsContent += `${stopwatch.name  }: ${  stopwatch.value  } ms`;
-                fpsContent += ` (${  Math.round(100 * stopwatch.value / totalTime)  }%)<br />`;
+                fpsContent += `${stopwatch.name}: ${stopwatch.value} ms`;
+                fpsContent += ` (${Math.round(100 * stopwatch.value / totalTime)}%)<br />`;
             }
         }
     }
-    fpsContent += `<strong>${  fps.toFixed(1)  } FPS</strong>`;
+    fpsContent += `<strong>${fps.toFixed(1)} FPS</strong>`;
     jQuery('#fps').html(fpsContent);
 }
 

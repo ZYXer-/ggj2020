@@ -11,7 +11,7 @@ class SoundInstance {
         this.soundAsset = soundAsset;
         this.id = id;
 
-        this.name = `${this.soundAsset  }_instance_${  id}`;
+        this.name = `${this.soundAsset}_instance_${id}`;
         this.volume = Settings.Game.DEFAULT_SOUND_VOLUME;
 
         this.currentlyFading = false;

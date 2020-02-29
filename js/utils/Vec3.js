@@ -137,7 +137,7 @@ export default class Vec3 {
 
 
     toString() {
-        return `x=${  this.x  } / y=${  this.y  } / z=${  this.z}`;
+        return `x=${this.x} / y=${this.y} / z=${this.z}`;
     }
 
 

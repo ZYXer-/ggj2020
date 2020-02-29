@@ -10,7 +10,7 @@ export function apply(entity) {
 
             grabItem(entity, demand);
             if (entity.pulleyCrane.item) {
-                console.log(`Grabbed: ${  entity.pulleyCrane.item}`);
+                console.log(`Grabbed: ${entity.pulleyCrane.item}`);
                 entity.pulleyCrane.status = PULLEY_CRANE_STATUS.LOADED;
             }
         } else if (entity.pulleyCrane.status === PULLEY_CRANE_STATUS.LOADED) {

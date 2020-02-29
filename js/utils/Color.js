@@ -10,17 +10,17 @@ class Color {
     
     toHex() {
         let hex = ((this.r * 65536) + (this.g * 256) + this.b).toString(16);
-        return `#${  '000000'.substring(0, 6 - hex.length)  }${hex}`;
+        return `#${'000000'.substring(0, 6 - hex.length)}${hex}`;
     }
 
 
     toRGB() {
-        return `rgb(${  this.r.toString(10)  },${  this.g.toString(10)  },${  this.b.toString(10)  })`;
+        return `rgb(${this.r.toString(10)},${this.g.toString(10)},${this.b.toString(10)})`;
     }
 
 
     toRGBA(opacity) {
-        return `rgb(${  this.r.toString(10)  },${  this.g.toString(10)  },${  this.b.toString(10)  },${  opacity.toString(10)  })`;
+        return `rgb(${this.r.toString(10)},${this.g.toString(10)},${this.b.toString(10)},${opacity.toString(10)})`;
     }
 
 

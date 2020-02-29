@@ -149,7 +149,7 @@ class Text {
 
 
     measureWidth(text) {
-        c.font = `${this.size  }px "${  this.font  }"`;
+        c.font = `${this.size}px "${this.font}"`;
         return c.measureText(text).width + (this.letterSpacing * (text.length - 1));
     }
 
@@ -193,7 +193,7 @@ class Text {
 
         } else {
 
-            c.font = `${this.size  }px "${  this.font  }"`;
+            c.font = `${this.size}px "${this.font}"`;
             this.lines = [];
 
             var tempLines = this.text.split('\n');
@@ -279,7 +279,7 @@ class Text {
             this.updateAppear();
         }
         c.fillStyle = this.color;
-        c.font = `${this.size  }px "${  this.font  }"`;
+        c.font = `${this.size}px "${this.font}"`;
         if(this.letterSpacing === 0) {
             c.textAlign = this.align;
         } else {

@@ -28,7 +28,7 @@ class SoundPreloader extends Preloader {
             };
             for(let i = 0; i < source.instances; i++) {
                 soundManager.createSound({
-                    id : `${name  }_instance_${  i}`,
+                    id : `${name}_instance_${i}`,
                     url : source.source,
                     autoLoad : true,
                     volume : Settings.Game.DEFAULT_SOUND_VOLUME,
