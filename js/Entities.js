@@ -1,9 +1,8 @@
 import Vec2 from './utils/Vec2.js';
-import { clamp, rand, randFloat, trueOrFalse } from './utils/Utils.js';
-import { newWater } from './components/Water.js';
-import { newDisplay } from './components/Display.js';
-import { newTree } from './components/Tree.js';
-import { MAX_POLLUTION_VALUE } from './gamelogic/MechanicParameters.js';
+import {newDisplay} from './components/Display.js';
+import {generateWorld} from './worldGenerator/WorldGenerator.js';
+import { Game } from './Settings.js';
+import { generateDebugWorld } from './worldGenerator/DebugWorldGenerator.js';
 
 export const NUM_TILES_WIDTH = 33;
 export const NUM_TILES_HEIGHT = 22;
@@ -18,6 +17,7 @@ export function getTileByCoordinates(coordinates) {
     }
     return null;
 }
+
 
 export function generate() {
 
@@ -43,30 +43,22 @@ export function generate() {
 
     entitiesList = [...entities];
 
-    for (const entity of entities) {
-        entity.hood1 = getHood(1, entity.position, entitiesList);
-        entity.hood2 = getHood(2, entity.position, entitiesList);
-        entity.hood3 = getHood(3, entity.position, entitiesList);
-    }
+    precomputedHood(entities);
 
 
     // Generate world
-    const center = new Vec2(
-        Math.ceil(NUM_TILES_WIDTH / 2),
-        Math.floor(NUM_TILES_HEIGHT / 2),
-    );
+    if (Game.DEBUG) {
+        generateDebugWorld(entities);
+    } else {
+        generateWorld(entities);
+    }
+}
 
-    getTileByCoordinates(center).water = newWater(true);
-    getTileByCoordinates(center).source = true;
-
-    for (const entity of entities) {
-        const distance = entity.position.subtract(center).norm();
-
-        if(distance > 1.5 && distance < 3.5 && trueOrFalse(0.8)) {
-            entity.tree = newTree(0, rand(50, 100));
-        }
-
-        entity.pollution = clamp(Math.round(((5 * distance) - 5) * randFloat(0.5, 1.0)), 0, MAX_POLLUTION_VALUE);
+function precomputedHood(_entities) {
+    for (const entity of _entities) {
+        entity.hood1 = getHood(1, entity.position, entitiesList);
+        entity.hood2 = getHood(2, entity.position, entitiesList);
+        entity.hood3 = getHood(3, entity.position, entitiesList);
     }
 }
 
